@@ -59,15 +59,41 @@ module MeshChat
       notifier: Notifier::Base
     }
     options = defaults.merge(overrides)
-
-    # before doing anything, ensure we have a place to store data
-    Database.setup_storage
-
     # set up the notifier (if there is one)
     const_set(:Notify, options[:notifier])
-
     # set the options / overrides!
     Instance.start(options)
+
+
+    # Check user config, go through initial setup if we haven't done so already.
+    # This should only need to be done once per user.
+    #
+    # This will also generate a whatever-alias-you-choose.json that the user
+    # can pass around to someone gain access to the network.
+    #
+    # Personal settings are stored in settings.json. This should never be
+    # shared with anyone.
+    #
+    # Once configured, the user will need to reboot the app with the --init
+    # parameter.
+    Identity.check_or_create
+
+    # setup the storage - for keeping track of nodes on the network
+    Database.setup_storage
+
+    # if everything is configured correctly, boot the app
+    # this handles all of the asyncronous stuff
+    EventMachine.run do
+      # 1. boot up the http server
+      #    - for listening for incoming requests
+      # 2. boot up the action cable client
+      #    - responsible for the relay server if the http client can't
+      #    - find the recipient
+      # 3. hook up the keyboard / input 'device'
+      #    - tesponsible for parsing input
+      # 4. hook up the display / output 'device'
+      #    - responsible for notifications
+    end
   end
 
   def name; Instance.client_name; end

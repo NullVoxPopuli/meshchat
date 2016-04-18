@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    meshchat (0.6.11)
+    meshchat (0.8.0)
       activerecord
       activesupport
       awesome_print
@@ -14,14 +14,14 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (4.2.5)
-      activesupport (= 4.2.5)
+    activemodel (4.2.6)
+      activesupport (= 4.2.6)
       builder (~> 3.1)
-    activerecord (4.2.5)
-      activemodel (= 4.2.5)
-      activesupport (= 4.2.5)
+    activerecord (4.2.6)
+      activemodel (= 4.2.6)
+      activesupport (= 4.2.6)
       arel (~> 6.0)
-    activesupport (4.2.5)
+    activesupport (4.2.6)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -38,15 +38,15 @@ GEM
       simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.0)
     colorize (0.7.7)
-    curb (0.9.0)
+    curb (0.9.3)
     daemons (1.2.3)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    eventmachine (1.0.8)
+    eventmachine (1.2.0.1)
     i18n (0.7.0)
     json (1.8.3)
     method_source (0.8.2)
-    minitest (5.8.3)
+    minitest (5.8.4)
     parser (2.2.3.0)
       ast (>= 1.1, < 3.0)
     powerpack (0.1.1)
@@ -87,8 +87,8 @@ GEM
       json (~> 1.8)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
-    sinatra (1.4.6)
-      rack (~> 1.4)
+    sinatra (1.4.7)
+      rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
     slop (3.6.0)
@@ -98,7 +98,7 @@ GEM
       eventmachine (~> 1.0, >= 1.0.4)
       rack (~> 1.0)
     thread_safe (0.3.5)
-    tilt (2.0.1)
+    tilt (2.0.2)
     tins (1.6.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -114,4 +114,4 @@ DEPENDENCIES
   rubocop
 
 BUNDLED WITH
-   1.10.6
+   1.11.2

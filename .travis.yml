@@ -5,8 +5,7 @@ rvm:
   - ruby-head
 script: bundle exec rspec
 after_script:
-  - ls
-  - cd $TRAVIS_BUILD_DIR && ls && sh delpoy-gh-pages.sh
+  - cd $TRAVIS_BUILD_DIR && ls && ./delpoy-gh-pages.sh
 addons:
   code_climate:
     repo_token: ebeb5501b6c1565ecae39466e571a52c956796eb6782caa1bfcfd24e9a99ea39

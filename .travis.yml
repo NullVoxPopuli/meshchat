@@ -17,6 +17,3 @@ matrix:
   fast_finish: true
   allow_failures:
     - rvm: ruby-head
-env:
-  global:
-    secure: vIKvFcbzawq6kdypsVR5bQJeL4xKlTA1iacJdfdf+pg+MaJLvpsP5/QmicZ4WduRgIecXST76wBJzR9rGTNgO1Xv5MkDGpN0/Fzsxg65TWWq3vCQvtAO9vS9DR1CvWnHTcAp+V1h/xqIvUx4YlKVsRt8D6idV8LYsopqGt81oVBBNrFfm/6/tp1SuxQskVtFBhFm/WQ2qEgMFh2f0DHiU/qv/mDwQ0JH/Xbk5aMXmN1MHYVVKojPQnPIkkUOCFJ2P+hFSD/Gy+S0YQ/hVFMqBKd8ptGhU7qxWbBeJ9H2gFKcs4mVNkT/qXv5gSIiOD9mIK0XwVvsgNSU6Fjcmh/AIZJQ2mvj88PU2WskTDW9WOCBSprHoi7+fMtyQgecfUrkZ0N7xTp/HiJ231eG2hH4/G8mn+PGgKfi0XvE3x+P1g6w3OLe4b5/3OJM1/EHIOwzizq4hKYZGdHCBIlVNDk12LSTob5Db+8LWfWUdEqaEk7A51QBJIywORUKJ2hjqH6S7l7j1vxsBfFmvgxpokT6dNg7t0bATR0Oi9Z4kShV27MXbG22uVIv8vQaXSRPMosYRAbf92iWNhgQN/pyx/v+rFI/6LJbLMkmZmIIrZppnpW8vnHDNa4cVWMWo/0FTFXhQkzWVGly8VlIcHu22LO4F5vd8W2xYvX3fGnj4ZXDruw=

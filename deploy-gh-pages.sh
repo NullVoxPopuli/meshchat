@@ -12,7 +12,7 @@ cd ./doc/
 git config --global user.email "nobody@nobody.org"
 git config --global user.name "Travis CI"
 git init
-git remote add origin "https://{$GITHUB_TOKEN}@$github.com/NullVoxPopuli/meshchat.git"
+git remote add origin "https://$GITHUB_TOKEN@$github.com/NullVoxPopuli/meshchat.git"
 git checkout --orphan gh-pages
 git add .
 git commit -m"Generate Documentation"

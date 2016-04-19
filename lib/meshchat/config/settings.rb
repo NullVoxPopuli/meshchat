@@ -4,11 +4,11 @@ module MeshChat
       FILENAME = 'settings.json'
 
       DEFAULT_SETTINGS = {
-        'alias' => 'alias',
+        'alias' => '',
         'port' => '2008',
         'ip' => 'localhost',
-        'uid' => '1',
-        'publickey' => 'replace this'
+        'uid' => '',
+        'publickey' => ''
       }
 
       class << self
@@ -17,6 +17,7 @@ module MeshChat
           :location, :identity, :keys_exist?, :public_key,
           :private_key, :generate_keys, :share, :key_pair,
           :uid_exists?, :generate_uid, :debug?, :identity_as_json,
+          :valid?, :is_complete?,
           to: :instance
 
         def instance
@@ -101,11 +102,15 @@ module MeshChat
 
       def errors
         messages = []
-        messages << 'must have an alias' if !self['alias']
-        messages << 'must have ip set' if !self['ip']
-        messages << 'must have port set' if !self['port']
-        messages << 'must have uid set' if !self['uid']
+        messages << 'must have an alias' if !self['alias'].present?
+        messages << 'must have ip set' if !self['ip'].present?
+        messages << 'must have port set' if !self['port'].present?
+        messages << 'must have uid set' if !self['uid'].present?
         messages
+      end
+
+      def is_complete?
+        valid? && self['privatekey'] && self['publickey']
       end
     end
   end

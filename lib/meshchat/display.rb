@@ -26,7 +26,7 @@ module MeshChat
     def error(*args); current.error(*args); end
 
     def current
-      MeshChat::Instance.display
+      MeshChat::Instance.display || MeshChat::CurrentDisplay
     end
 
   end

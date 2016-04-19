@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'activesupport'
   s.add_runtime_dependency 'colorize'
   s.add_runtime_dependency 'awesome_print'
+  s.add_runtime_dependency 'action_cable_client'
 
 
   s.add_development_dependency 'rspec'

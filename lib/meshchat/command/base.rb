@@ -23,7 +23,6 @@ module MeshChat
       PING_ALL = 'pingall'
       IDENTITY = 'identity'
       IRB = 'c'
-      INIT = 'init'
       SHARE = 'share'
       IMPORT = 'import'
       EXPORT = 'export'

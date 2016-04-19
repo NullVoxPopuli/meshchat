@@ -39,7 +39,6 @@ module MeshChat
       MeshChat::Command::Base::LISTEN => MeshChat::Command::Listen,
       MeshChat::Command::Base::IDENTITY => MeshChat::Command::Identity,
       MeshChat::Command::Base::IRB => MeshChat::Command::IRB,
-      MeshChat::Command::Base::INIT => MeshChat::Command::Init,
       MeshChat::Command::Base::SHARE => MeshChat::Command::Share,
       MeshChat::Command::Base::IMPORT => MeshChat::Command::Import,
       MeshChat::Command::Base::EXPORT => MeshChat::Command::Share,

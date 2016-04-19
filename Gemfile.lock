@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     meshchat (0.8.0)
+      action_cable_client
       activerecord
       activesupport
       awesome_print
@@ -14,6 +15,9 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    action_cable_client (1.1.0)
+      activesupport
+      em-websocket-client
     activemodel (4.2.6)
       activesupport (= 4.2.6)
       builder (~> 3.1)
@@ -42,6 +46,9 @@ GEM
     daemons (1.2.3)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    em-websocket-client (0.1.2)
+      eventmachine
+      websocket
     eventmachine (1.2.0.1)
     i18n (0.7.0)
     json (1.8.3)
@@ -102,6 +109,7 @@ GEM
     tins (1.6.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    websocket (1.2.3)
 
 PLATFORMS
   ruby

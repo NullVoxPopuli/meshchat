@@ -36,9 +36,6 @@ module Debug
       alert 'Welcome to Spiced Rumby!'
       puts "\n"
       puts "\n"
-      yield if block_given?
-
-      MeshChat::CLI.listen_for_commands
     end
 
     # TODO: find a more elegant way to handle color

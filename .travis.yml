@@ -1,7 +1,7 @@
 language: ruby
 bundler_args: "--without guard"
 rvm:
-  - '2.3'
+  - '2.3.0'
   - ruby-head
 script: bundle exec rspec
 after_script: delpoy-gh-pages.sh

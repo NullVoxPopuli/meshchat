@@ -9,7 +9,12 @@ after_script:
   - git config --global user.name "Travis CI"
   - cd $TRAVIS_BUILD_DIR && yardoc 'lib/**/*.rb' - README.md LICENSE
   - cd $TRAVIS_BUILD_DIR/doc/ && git init && git remote add origin "https://$GITHUB_TOKEN@github.com/NullVoxPopuli/meshchat.git"
-  - sh deploy-gh-pages.sh
+  - cd $TRAVIS_BUILD_DIR/doc/ && git checkout --orphan gh-pages
+  - cd $TRAVIS_BUILD_DIR/doc/ && git add .
+  - cd $TRAVIS_BUILD_DIR/doc/ && git commit -m"Generate Docs"
+  - cd $TRAVIS_BUILD_DIR/doc/ && git push -u origin gh-pages -f
+
+# - sh deploy-gh-pages.sh
 
 addons:
   code_climate:

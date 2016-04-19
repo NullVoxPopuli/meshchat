@@ -4,7 +4,9 @@ rvm:
   - '2.3.0'
   - ruby-head
 script: bundle exec rspec
-after_script: ./delpoy-gh-pages.sh
+after_script:
+  - ls
+  - ./delpoy-gh-pages.sh
 addons:
   code_climate:
     repo_token: ebeb5501b6c1565ecae39466e571a52c956796eb6782caa1bfcfd24e9a99ea39

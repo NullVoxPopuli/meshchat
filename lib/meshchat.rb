@@ -13,8 +13,9 @@ require 'awesome_print'
 require 'sqlite3'
 require 'active_record'
 require 'curb'
-require 'event_machine'
+require 'eventmachine'
 require 'action_cable_client'
+require 'i18n'
 
 # active support extensions
 require 'active_support/core_ext/module/delegation'
@@ -44,7 +45,6 @@ require 'meshchat/configuration'
 require 'meshchat/mesh_relay'
 
 module MeshChat
-  NAME = 'MeshChat'
   Settings = Config::Settings
   Node = Models::Entry
   Cipher = Encryption
@@ -65,9 +65,6 @@ module MeshChat
     #
     # Personal settings are stored in settings.json. This should never be
     # shared with anyone.
-    #
-    # Once configured, the user will need to reboot the app with the --init
-    # parameter.
     Identity.check_or_create
 
     # setup the storage - for keeping track of nodes on the network
@@ -79,11 +76,11 @@ module MeshChat
       # 1. hook up the display / output 'device'
       #    - responsible for notifications
       display = CurrentDisplay
+
       # 2. boot up the http server
       #    - for listening for incoming requests
-      # TODO: write EM-based http server
       port = Settings['port']
-      server_class = MeshChat::Net::Server
+      server_class = MeshChat::Net::Listener::Server
       EM.start_server '0.0.0.0', port, server_class
 
       # 3. boot up the action cable client
@@ -94,14 +91,8 @@ module MeshChat
 
       # 4. hook up the keyboard / input 'device'
       #    - tesponsible for parsing input
-      # TODO: merge with existing input handler
-      input_receiver = CLI.new(ac_clients, display)
+      input_receiver = CLI.new(relay, display)
       EM.open_keyboard(app_config[:input], input_receiver)
     end
   end
-
-  def name; Instance.client_name; end
-  def version; Instance.client_version; end
-
-
 end

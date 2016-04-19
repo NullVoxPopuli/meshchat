@@ -1,4 +1,5 @@
 require 'meshchat/net/listener/errors'
+require 'em-http-server'
 
 module MeshChat
   module Net

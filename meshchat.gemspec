@@ -31,11 +31,14 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'activesupport'
   s.add_runtime_dependency 'colorize'
   s.add_runtime_dependency 'awesome_print'
-  s.add_runtime_dependency 'event_machine'
+  s.add_runtime_dependency 'eventmachine'
+  s.add_runtime_dependency 'em-http-server'
   s.add_runtime_dependency 'action_cable_client'
+  s.add_runtime_dependency 'i18n'
 
 
   s.add_development_dependency 'rspec'
+  s.add_development_dependency 'yard'
   s.add_development_dependency 'pry-byebug'
   s.add_development_dependency 'codeclimate-test-reporter'
   s.add_development_dependency 'rubocop'

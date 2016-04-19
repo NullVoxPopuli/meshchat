@@ -5,7 +5,7 @@ module MeshChat
 
       DEFAULT_SETTINGS = {
         'alias' => '',
-        'port' => '2008',
+        'port' => '8009',
         'ip' => 'localhost',
         'uid' => '',
         'publickey' => ''

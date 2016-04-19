@@ -1,29 +1,25 @@
 module MeshChat
   module Identity
     module_function
-    # TODO: look in to i18n, cause all these strings are annoying
-    SETTINGS_NOT_DETECTED = 'a settings file was not detected or incomplete, would you like to generate one?'
-    UNKNOWN_ERROR_TRY_AGAIN = 'something went wrong with identity creation. try again?'
-    SETTINGS_ARE_INVALID = 'settings are invalid'
 
     def check_or_create(overwrite = false, auto_confirm = false)
       # if setup is complete, we don't need to do anything.
       # it's likely the user already went through the setup process
       return if setup_is_completed? and not overwrite
 
-      generate! if auto_confirm or confirm? SETTINGS_NOT_DETECTEDs
+      generate! if auto_confirm or confirm? I18n.t('identity.settings_not_detected')
       # if everything is good, the app can boot
-      return if setup_is_completed?
+      return Settings.save if setup_is_completed?
 
       # if something has gone wrong, we'll ask if they want to try again
-      return check_or_create(true, true) if confirm? UNKNOWN_ERROR_TRY_AGAIN
+      return check_or_create(true, true) if confirm? I18n.t('identity.unknown_error_try_again')
 
       # we failed, and don't want to continue
       alert_and_exit
     end
 
     def alert_and_exit
-      Display.alert SETTINGS_ARE_INVALID
+      Display.alert I18n.t('identity.settings_are_invalid')
       exit(1)
     end
 
@@ -40,7 +36,7 @@ module MeshChat
 
     def confirm_uid
       if Settings.uid_exists?
-        Settings.generate_uid if confirm? 'uid exists, are you sure you want a new identity?'
+        Settings.generate_uid if confirm? I18n.t('identity.confirm_uid_replace')
       else
         Settings.generate_uid
       end
@@ -48,7 +44,8 @@ module MeshChat
 
     def confirm_alias
       if Settings['alias'].present?
-        ask_for_alias if confirm? 'alias exists, would you like to overwrite it?'
+        Display.add_line I18.t('idenity.current_alias', name: Settings['alias'])
+        ask_for_alias if confirm? I18n.t('identity.confirm_alias_replace')
       else
         ask_for_alias
       end
@@ -56,22 +53,24 @@ module MeshChat
 
     def confirm_keys
       if Settings.keys_exist?
-        Settings.generate_keys if confirm? 'keys exist, overwrite?'
+        Settings.generate_keys if confirm? I18n.t('identity.confirm_key_replace')
       else
         Settings.generate_keys
       end
     end
 
     def ask_for_alias
-      Display.add_line('Type the name/alias you would like to go by in meshchat: ')
-      Settings['alias'] = CLI.get_input
+      Display.add_line I18n.t('identity.ask_for_alias')
+      response = gets
+      response = response.chomp
+      Settings['alias'] = response
     end
 
     def confirm?(msg)
-      Display.warning(msg + ' (Y/N)')
-      response = CLI.get_input
+      Display.warning msg + I18n.t(:confirm_options)
+      response = gets
       response = response.chomp
-      ['yes', 'y'].include?(response.downcase)
+      [I18n.t(:confirm_yes), I18n.t(:confirm_y)].include?(response.downcase)
     end
   end
 end

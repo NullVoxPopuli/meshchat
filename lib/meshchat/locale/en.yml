@@ -1,0 +1,12 @@
+confirm_options: ' (Y/N)'
+confirm_yes: yes
+confirm_y: y
+identity:
+  settings_not_detected: a settings file was not detected or incomplete, would you like to generate one?
+  unknown_error_try_again: something went wrong with identity creation. try again?
+  settings_are_invalid: settings are invalid
+  confirm_uid_replace: uid exists, are you sure you want a new identity?
+  confirm_alias_replace: alias exists, would you like to overwrite it?
+  confirm_key_replace: keys exist, overwrite?
+  ask_for_alias: 'Type the name/alias you would like to go by in meshchat:'
+  current_alias: 'Your current name/alias is: %{name}'

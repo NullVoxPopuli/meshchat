@@ -18,6 +18,13 @@ module MeshChat
       end
     end
 
+    def send_message(to, message)
+      # Use first relay for now
+      # TODO: figure out logic for which relay to send to
+      # might have to do with relaying
+      @relays.first.perform('chat', to: to, message: message)
+    end
+
     def setup_client_for_url(url)
       path = "#{url}?uid=#{Settings['uid']}"
       client = ActionCableClient.new(path, CHANNEL)
@@ -37,8 +44,7 @@ module MeshChat
         RequestProcessor.process(message[:message])
       end
 
-      # TODO: have one client per relay node
-      [client]
+      client
     end
   end
 end

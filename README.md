@@ -2,6 +2,8 @@
 
 This is the core functionality for implementing a [mesh-chat](https://github.com/neuravion/mesh-chat) compatible client in ruby
 
+[Documentation](http://nullvoxpopuli.github.io/meshchat/)
+
 #Usage
 
 See [Spiced Rumby](https://github.com/NullVoxPopuli/spiced_rumby)

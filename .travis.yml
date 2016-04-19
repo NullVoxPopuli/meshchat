@@ -1,18 +1,18 @@
 language: ruby
 bundler_args: "--without guard"
 rvm:
-  - 2.3.0
-  - ruby-head
+- 2.3.0
+- ruby-head
 script: bundle exec rspec
 after_script:
-  - git config --global user.email "nobody@nobody.org"
-  - git config --global user.name "Travis CI"
-  - cd $TRAVIS_BUILD_DIR && yardoc 'lib/**/*.rb' - README.md LICENSE
-  - cd $TRAVIS_BUILD_DIR/doc/ && git init && git remote add origin "https://$GITHUB_TOKEN@github.com/NullVoxPopuli/meshchat.git" > /dev/null
-  - cd $TRAVIS_BUILD_DIR/doc/ && git checkout --orphan gh-pages
-  - cd $TRAVIS_BUILD_DIR/doc/ && git add .
-  - cd $TRAVIS_BUILD_DIR/doc/ && git commit -m"Generate Docs"
-  - cd $TRAVIS_BUILD_DIR/doc/ && git push -u origin gh-pages -f
+- git config --global user.email "nobody@nobody.org"
+- git config --global user.name "Travis CI"
+- cd $TRAVIS_BUILD_DIR && yardoc 'lib/**/*.rb' - README.md LICENSE
+- cd $TRAVIS_BUILD_DIR/doc/ && git init && git remote add origin "https://$GITHUB_TOKEN@github.com/NullVoxPopuli/meshchat.git" > /dev/null
+- cd $TRAVIS_BUILD_DIR/doc/ && git checkout --orphan gh-pages
+- cd $TRAVIS_BUILD_DIR/doc/ && git add .
+- cd $TRAVIS_BUILD_DIR/doc/ && git commit -m"Generate Docs" -f > /dev/null
+- cd $TRAVIS_BUILD_DIR/doc/ && git push -u origin gh-pages -f > /dev/null
 addons:
   code_climate:
     repo_token: ebeb5501b6c1565ecae39466e571a52c956796eb6782caa1bfcfd24e9a99ea39
@@ -23,7 +23,7 @@ notifications:
 matrix:
   fast_finish: true
   allow_failures:
-    - rvm: ruby-head
+  - rvm: ruby-head
 env:
   global:
-    secure: xfjHVlTYCoW5pN2leRfPRS/j09sYNJvP1xG1uP56NKJIaTDI6HBgSrXvjws5rV2oey9m3D4/2qu0+6dNfSKwiMxfnjBEQbToT3o4Uct4jCv4F0QxGzkrPZHCSh5vrm5eJJwEsxfKS7LacC/efJoduh0q9ho3+MCgsQ9hK0w3MoTrPl5/vUBrC7+RA0IJgxrnmKGF0ZDMuH5Qg71YXdNXMvuSwnzKBG0fr7tnwTT/2MjhzuLA6b7VWPpRmrz4gsJBXC+jD270PWfG6AMaYcwkciSvwo1cQ+hAYsdPH6qTsIaF0NXm9csj6CQlT4vZlMCVukhlyuTo128fSqhAc9ofhQHlSZp9+eNLIMmCccOb0Y7qSXR+ezm3C8Y+N44iL40PO8zZNzouHULv3nG0tp/PUa+zuQY6bVqnwhP/+WJ0hQ+whYSQ7mtHcfoYMubxqrqE4APvsW6UkBuzLm1w+w/w/1OhP7DYHTLv7ER6wL5sEKrFwXa4ve/gmifte/dJBfqoUpHSNuxJ0MDPHSx4YaiEtfPgZvrIR6UiURhDECG+0wuzfC5VE8WsBIhd+BaTy7H+f9yc9MogOpIu3hMuV5qFg0JtyfiS98mq1MTLMyJVsXkQQQvwHbJP7sprralAy9lzK7zcOPZw78Q7Yr3ukc2nHrp7auktC8T9bXkZL+xLua0=
+    secure: nOg5iZp/2kds13kiBpupZr68nJnVtKLgYddcsFWd0HUKWIe9Krkari9XuL5c68Ob+2XPlx238AwwmBu+0VC/a6wL7gKjS9N0V3h+u6LVEiCRT16pWVfnWsfwXAgW9iwr3S3bbg0W6x99stt9DVnwYmSi6YqemjNO9VB9LMFReOBGAmOnrFSV9fyFtNjKrMbKpCLPlnwCIk0My4ac8e4cglxK9YwoIyODEu1Zl8so3uIbLyIcQvaj7sgytb2+4BoLLaECHSxc/k9iZsn4dNKV4EjaJVwDpSfzTCv5QqBsZUq39qF34RGV1Z7qfrY/vaY6GN5mgrv3JNlB3W8rkqzJHQInejMUM10uK3SgbmFgNY9H35WSMSFhSrIIQubccYfkqYGp404VFV6wp4xzpV3YkqJoDOY8/U4aSiAk5PHsSTsFie3yJDziFoh+FeC9U7EHTyt67+a2vorz3nfWjiuBE33gkwHYyOFoAKplpXjlsdm92NkkxC9wwoc4jOHkiEA1YJRtWuV7PlSrwqy5o8QMZcGLtDEV+8KVXuOBAz+oroDc1jsnlplvjG/nN3feBnu5n40mSUUQJfOAQ2XjTdbvkvoj//SuY9+Zl4RTrWtjEH3bEckWAzKvtsuABoArqh78xBdFGLuMVmBEfExG660DJscqQjrFmgA9d9B00/qXNbk=

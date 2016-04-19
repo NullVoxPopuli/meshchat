@@ -17,6 +17,12 @@ module Debug
       puts "\n"
     end
 
+    def fatal(*args); alert(*args); end
+
+    def debug(*args); warning(*args); end
+
+    def error(*args); alert(*args); end
+
     # TODO: find a more elegant way to handle color
     def add_line(line)
       puts line
@@ -27,11 +33,11 @@ module Debug
     end
 
     def warning(msg)
-      puts msg.colorize(:yellow)
+      puts msg.colorize(:yellow) if msg
     end
 
     def alert(msg)
-      puts msg.colorize(:red)
+      puts msg.colorize(:red) if msg
     end
 
     def success(msg)

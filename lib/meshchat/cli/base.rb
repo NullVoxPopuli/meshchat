@@ -3,7 +3,7 @@ module MeshChat
     # this class, and all subclasses are Keyboard Handlers
     # that are used for EventMachine's open_keyboard
     # @see https://github.com/eventmachine/eventmachine/wiki/Code-Snippets#keyboard-input-example
-    class Base
+    class Base < EventMachine::Connection
       # The class used for interpeting the line input
       attr_reader :_input_receiver
       # An array of typed keystrokes
@@ -24,8 +24,12 @@ module MeshChat
       #
       # @note that this method receives raw keystrokes by default
       #        and does not send data to the input receiver
-      def receive_line(data)
+      def receive_data(data)
         _input_buffer.push(data)
+      end
+
+      def receive_line(line)
+        # only used when including EM::Protocols::LineText2
       end
     end
   end

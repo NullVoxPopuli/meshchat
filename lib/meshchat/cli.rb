@@ -48,9 +48,6 @@ module MeshChat
 
     }
 
-
-    attr_accessor :_input_device
-
     class << self
 
       delegate :server_location, :listen_for_commands,
@@ -73,11 +70,11 @@ module MeshChat
       end
     end
 
+    attr_reader :_relay
 
-    def initialize(input_klass = nil)
-      input_klass ||= MeshChat::CLI::Base
-      # instantiate the interface with which we are communicated with
-      self._input_device = input_klass.new
+
+    def initialize(relay, display)
+      @_relay = relay
     end
 
     def create_input(msg)

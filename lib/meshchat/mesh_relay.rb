@@ -1,3 +1,5 @@
+require 'action_cable_client'
+
 module MeshChat
   class MeshRelay
     # This channel is set by the server
@@ -41,10 +43,24 @@ module MeshChat
       # forward the encrypted messages to our RequestProcessor
       # so that they can be decrypted
       client.received do |message|
-        RequestProcessor.process(message[:message])
+        process_message(message)
       end
 
       client
+    end
+
+    def process_message(message)
+      identifier = message['identifier']
+      type = message['type']
+      message = message['message']
+
+      if type == 'confirm_subscription'
+        # do we want to do anything here?
+      end
+
+      if message
+        Net::Listener::RequestProcessor.process(message[:message])
+      end
     end
   end
 end

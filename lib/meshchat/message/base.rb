@@ -1,6 +1,6 @@
 module MeshChat
   module Message
-    #
+
     # NOTE:
     #  #display: shows the message
     #            should be used locally, before *sending* a message
@@ -55,11 +55,11 @@ module MeshChat
       end
 
       def client
-        MeshChat.name
+        APP_CONFIG[:client_name]
       end
 
       def client_version
-        MeshChat.version
+        APP_CONFIG[:client_version]
       end
 
       def sender

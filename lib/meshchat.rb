@@ -14,7 +14,6 @@ require 'sqlite3'
 require 'active_record'
 require 'curb'
 require 'eventmachine'
-require 'action_cable_client'
 require 'i18n'
 
 # active support extensions
@@ -25,7 +24,6 @@ require 'active_support/core_ext/object/try'
 # local files for meshchat
 require 'meshchat/version'
 require 'meshchat/database'
-require 'meshchat/instance'
 require 'meshchat/encryption'
 require 'meshchat/display'
 require 'meshchat/display/manager'

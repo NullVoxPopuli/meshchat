@@ -17,7 +17,7 @@ module MeshChat
           option_numbers << index
         end
 
-        selected = MeshChat::CLI.get_input
+        selected = gets
 
         if option_numbers.include?(selected.to_i)
           Display.success Settings.set('ip', with: options[selected.to_i])

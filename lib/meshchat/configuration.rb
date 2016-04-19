@@ -21,7 +21,13 @@ module MeshChat
 
 
       MeshChat.const_set(:Notify, options[:notifier])
-      MeshChat.const_set(:CurrentDisplay, options[:display].new)
+
+      # The display has to be created right away so that
+      # we can start outputting to it
+      display = options[:display].new
+      manager = Display::Manager.new(options[:display])
+      MeshChat.const_set(:CurrentDisplay, manager)
+
       MeshChat.const_set(:APP_CONFIG, self)
 
       CurrentDisplay.start

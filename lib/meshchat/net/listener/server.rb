@@ -4,8 +4,7 @@ require 'em-http-server'
 module MeshChat
   module Net
     module Listener
-      class Server < EM::Connection
-        include EM::HttpServer
+      class Server < EM::HttpServer::Server
 
         OK = 200
         BAD_REQUEST = 400
@@ -15,16 +14,15 @@ module MeshChat
 
         def process_http_request
           # the http request details are available via the following instance variables:
-          #   @http_protocol
-          #   @http_request_method
-          #   @http_cookie
-          #   @http_if_none_match
-          #   @http_content_type
-          #   @http_path_info
-          #   @http_request_uri
-          #   @http_query_string
-          #   @http_post_content
-          #   @http_headers
+          # puts  @http_request_method
+          # puts  @http_request_uri
+          # puts  @http_query_string
+          # puts  @http_protocol
+          # puts  @http_content
+          # puts  @http[:cookie]
+          # puts  @http[:content_type]
+          # # you have all the http headers in this hash
+          # puts  @http.inspect
           process_request
           build_response
         end
@@ -44,11 +42,11 @@ module MeshChat
         end
 
         def get_message
-          # if received as form data
-          return @http_post_content[:message] if @http_post_content[:message]
+          # form data? - when did this happen?
+          # return @http_content[:message] if @http_content[:message]
 
           # if received as json
-          request_body = @http_post_content # request.body.read
+          request_body = @http_content # request.body.read
           json_body = JSON.parse(request_body)
           json_body['message']
         end

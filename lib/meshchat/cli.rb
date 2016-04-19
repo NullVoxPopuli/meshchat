@@ -75,6 +75,7 @@ module MeshChat
 
     def initialize(relay, display)
       @_relay = relay
+      self.class.instance_variable_set('@instance', self)
     end
 
     def create_input(msg)

@@ -33,13 +33,13 @@ module MeshChat
         case message.class.name
         when Message::Chat.name
           chat result
-          Notify.show(summary: message.sender_name, body: message.message)
+          notify(summary: message.sender_name, body: message.message)
         when Message::Whisper.name
           whisper result
-          Notify.show(summary: message.sender_name, body: message.message)
+          notify(summary: message.sender_name, body: message.message)
         when Message::Emote.name
           emote result
-          Notify.show(summary: message.sender_name, body: message.message)
+          notify(summary: message.sender_name, body: message.message)
         when Message::PingReply.name, Message::Ping.name
           info result
         when Message::NodeList.name,
@@ -48,6 +48,12 @@ module MeshChat
           # display nothing
         else
           add_line result
+        end
+      end
+
+      def notify(*args)
+        if defined? Notify and Notify
+          Notify.show(*args)
         end
       end
     end

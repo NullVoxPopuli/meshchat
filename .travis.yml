@@ -5,7 +5,12 @@ rvm:
   - ruby-head
 script: bundle exec rspec
 after_script:
+  - git config --global user.email "nobody@nobody.org"
+  - git config --global user.name "Travis CI"
+  - cd $TRAVIS_BUILD_DIR && yardoc 'lib/**/*.rb' - README.md LICENSE
+  - cd $TRAVIS_BUILD_DIR/doc/ && git init && git remote add origin "https://$GITHUB_TOKEN@$github.com/NullVoxPopuli/meshchat.git"
   - ./deploy-gh-pages.sh
+
 addons:
   code_climate:
     repo_token: ebeb5501b6c1565ecae39466e571a52c956796eb6782caa1bfcfd24e9a99ea39

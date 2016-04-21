@@ -5,8 +5,8 @@ module MeshChat
         attr_accessor :json, :message
         attr_accessor :_input
 
-        def initialize(input)
-          self._input = try_decrypt(input)
+        def initialize(encoded_message)
+          self._input = try_decrypt(encoded_message)
 
           begin
             self.json = JSON.parse(_input)

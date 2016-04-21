@@ -2,47 +2,16 @@ module MeshChat
   module Net
     module Listener
       module RequestProcessor
-
         module_function
 
-        def process(raw)
-          request = Request.new(raw)
-          message = request.message
-
-          # TODO: wrap in debug if check
-          Display.debug('RECEIVING: ' + message.type)
-          Display.debug('RECEIVING: ' + message.sender.to_s)
-          Display.debug('RECEIVING: ' + message.message.to_s)
-
-          # handle the message
-          Display.present_message message
-
-          # then update the sender info in the db
-          update_sender_info(request.json)
+        def process(http_content)
+          encoded_message = parse_content(http_content)
+          MessageProcessor.process(encoded_message)
         end
 
-        def update_sender_info(json)
-          sender = json['sender']
-
-          # if the sender isn't currently marked as active,
-          # perform the server list exchange
-          node = Node.find_by_uid(sender['uid'])
-          raise Errors::Forbidden.new if node.nil?
-
-          unless node.online?
-            node.update(online: true)
-            payload = Message::NodeListHash.new
-            Client.send(
-              location: sender['location'],
-              message: payload)
-          end
-
-          # update the node's location/alias
-          # as they can change this info willy nilly
-          node.update(
-            location: sender['location'],
-            alias_name: sender['alias']
-          )
+        def parse_content(http_content)
+          json_body = JSON.parse(http_content)
+          json_body['message']
         end
       end
     end

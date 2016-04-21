@@ -23,33 +23,8 @@ module MeshChat
           # puts  @http[:content_type]
           # # you have all the http headers in this hash
           # puts  @http.inspect
-          process_request
+          process(@http_content)
           build_response
-        end
-
-        # TODO: extract all this to a RequestProcessor
-        # rename existing RequestProcessor to MessageProcessor
-        def process_request
-          begin
-            # form params should override
-            # raw body
-            raw = get_message
-            process(raw)
-          rescue => e
-            Display.error e.message
-            Display.error e.backtrace.join("\n")
-            build_response SERVER_ERROR, e.message
-          end
-        end
-
-        def get_message
-          # form data? - when did this happen?
-          # return @http_content[:message] if @http_content[:message]
-
-          # if received as json
-          request_body = @http_content # request.body.read
-          json_body = JSON.parse(request_body)
-          json_body['message']
         end
 
         def process(raw)
@@ -62,6 +37,10 @@ module MeshChat
             build_response FORBIDDEN
           rescue Errors::BadRequest
             build_response BAD_REQUEST
+          rescue => e
+            Display.error e.message
+            Display.error e.backtrace.join("\n")
+            build_response SERVER_ERROR, e.message
           end
         end
 

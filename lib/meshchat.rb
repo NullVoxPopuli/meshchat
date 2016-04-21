@@ -23,6 +23,10 @@ require 'active_support/core_ext/object/try'
 
 # local files for meshchat
 require 'meshchat/version'
+# debug logging....
+# ^ at least util 'all' scenarios are captured via tests
+require 'meshchat/debug'
+# everything else
 require 'meshchat/database'
 require 'meshchat/encryption'
 require 'meshchat/display'
@@ -82,15 +86,15 @@ module MeshChat
       server_class = MeshChat::Net::Listener::Server
       EM.start_server '0.0.0.0', port, server_class
 
-      # 3. boot up the action cable client
-      #    - responsible for the relay server if the http client can't
-      #    - find the recipient
-      relay = MeshRelay.new
-      relay.setup
+
+      # 3. create the message dispatcher
+      #    - sends the messages out to the network
+      #    - tries p2p first, than uses the relays
+      message_dispatcher = Net::MessageDispatcher.new(relay)
 
       # 4. hook up the keyboard / input 'device'
       #    - tesponsible for parsing input
-      input_receiver = CLI.new(relay, display)
+      input_receiver = CLI.new(message_dispatcher, display)
       EM.open_keyboard(app_config[:input], input_receiver)
     end
   end

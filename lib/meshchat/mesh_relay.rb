@@ -20,11 +20,20 @@ module MeshChat
       end
     end
 
-    def send_message(to, message)
+    # @param [String] to - the uid of the person to send to
+    # @param [JSON] encrypted_message - the message intended for the person at the location
+    def send_message(to, encrypted_message)
+      payload = payload_for(to, encrypted_message)
       # Use first relay for now
       # TODO: figure out logic for which relay to send to
-      # might have to do with relaying
-      @relays.first.perform('chat', to: to, message: message)
+      # might have to do with mesh logic
+      @relays.first.perform('chat', payload)
+    end
+
+    # @param [String] to - the uid of the person we are sending to
+    # @param [String] message - the encrypted message
+    def payload_for(to, encrypted_message)
+      { to: to, message: encrypted_message }
     end
 
     def setup_client_for_url(url)

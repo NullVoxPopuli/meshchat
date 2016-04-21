@@ -22,8 +22,8 @@ describe 'Message Coloring' do
       end
 
       it 'is forwarded to the chat colorizer' do
-        expect(MeshChat::Instance.display).to receive(:chat)
-        MeshChat::Display.present_message @msg
+        expect(MeshChat::CurrentDisplay).to receive(:chat)
+        MeshChat::CurrentDisplay.present_message @msg
       end
     end
   end

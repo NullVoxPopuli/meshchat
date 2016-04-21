@@ -19,7 +19,7 @@ describe MeshChat::Message::Chat do
       payload = {
         'type' => 'chat',
          'message' => @message = 'message',
-         'client' => MeshChat::NAME,
+         'client' => MeshChat::APP_CONFIG[:client_name],
          'client_version' => MeshChat::VERSION,
          'time_sent' => @time = Time.now, # not yet sent
          'sender' => {

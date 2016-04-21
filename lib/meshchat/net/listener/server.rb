@@ -27,7 +27,8 @@ module MeshChat
           build_response
         end
 
-
+        # TODO: extract all this to a RequestProcessor
+        # rename existing RequestProcessor to MessageProcessor
         def process_request
           begin
             # form params should override

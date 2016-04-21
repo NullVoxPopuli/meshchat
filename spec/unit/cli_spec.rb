@@ -10,17 +10,8 @@ describe MeshChat::CLI do
   context 'initialize' do
     it 'does not error' do
       expect do
-        klass.new
+        klass.new(nil, nil)
       end.to_not raise_error
-    end
-  end
-
-  describe '#listen_for_commands' do
-    it 'creates an input' do
-      cli = klass.new
-      allow(cli._input_device).to receive(:get_input) { 'chat message' }
-      expect_any_instance_of(MeshChat::CLI::Input).to receive(:handle) {}
-      cli.process_input
     end
   end
 end

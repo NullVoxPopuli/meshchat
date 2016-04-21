@@ -26,7 +26,7 @@ describe MeshChat::CLI::Input do
 
   describe '#handle' do
     it 'has no servers' do
-      i = klass.new('hi there')
+      i = klass.create('hi there')
       expect(i.handle).to eq 'you have no servers'
     end
 
@@ -47,14 +47,14 @@ describe MeshChat::CLI::Input do
       it 'displays the message' do
         msg = 'hi test'
         expect(MeshChat::Display).to receive(:chat)
-        i = klass.new(msg)
+        i = klass.create(msg)
         i.handle
       end
 
       it 'renders the message to json' do
         msg = 'hi test'
         expect_any_instance_of(MeshChat::Message::Chat).to receive(:display)
-        i = klass.new(msg)
+        i = klass.create(msg)
         i.handle
       end
     end

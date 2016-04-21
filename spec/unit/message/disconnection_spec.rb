@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe MeshChat::Message::Disconnection do
-  let(:klass) { MeshChat::Message::Disconnection }
+describe MeshChat::Message::Disconnect do
+  let(:klass) { MeshChat::Message::Disconnect }
 
   before(:each) do
     mock_settings_objects

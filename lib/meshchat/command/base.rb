@@ -9,8 +9,6 @@ module MeshChat
       DISPLAY = 'display'
       EXIT = 'exit'
       QUIT = 'quit'
-      LISTEN = 'listen'
-      STOP_LISTENING = 'stoplistening'
       CONNECT = 'connect'
       CHAT = 'chat'
       ADD = 'add'
@@ -35,7 +33,7 @@ module MeshChat
 
       def handle
         klass = CLI::COMMAND_MAP[command]
-        Display.debug("INPUT: #{klass.name} from #{command} derived from #{_input}")
+        Display.debug("INPUT: #{klass&.name} from #{command} derived from #{_input}")
         if klass
           klass.new(_input).handle
         else

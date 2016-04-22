@@ -25,17 +25,16 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.3.0'
 
-  s.add_runtime_dependency 'sqlite3'
-  # s.add_runtime_dependency 'curb'
-  s.add_runtime_dependency 'activerecord'
-  s.add_runtime_dependency 'activesupport'
-  s.add_runtime_dependency 'colorize'
-  s.add_runtime_dependency 'awesome_print'
-  s.add_runtime_dependency 'eventmachine'
-  s.add_runtime_dependency 'em-http-server'
-  s.add_runtime_dependency 'em-http-request'
-  s.add_runtime_dependency 'action_cable_client'
-  s.add_runtime_dependency 'i18n'
+  s.add_runtime_dependency 'sqlite3',             '>= 1.3.11'
+  s.add_runtime_dependency 'activerecord',        '>= 5.0.0.beta3'
+  s.add_runtime_dependency 'activesupport',       '>= 5.0.0.beta3'
+  s.add_runtime_dependency 'colorize',            '>= 0.7.7'
+  s.add_runtime_dependency 'awesome_print',       '>= 1.6.1'
+  s.add_runtime_dependency 'eventmachine',        '>= 1.2.0.1'
+  s.add_runtime_dependency 'em-http-server',      '>= 0.1.8'
+  s.add_runtime_dependency 'em-http-request',     '>= 1.1.3'
+  s.add_runtime_dependency 'action_cable_client', '>= 1.2.0'
+  s.add_runtime_dependency 'i18n',                '>= 0.7.0'
 
 
   s.add_development_dependency 'rspec'

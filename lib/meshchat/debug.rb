@@ -1,6 +1,31 @@
 module MeshChat
+  # This file is stupid.
+  # But very helpful when debugging problems...
   module Debug
     module_function
+
+    def not_on_local_network(node)
+      Display.debug('SENDING: ' + node.alias_name + ' is not on the local network')
+    end
+
+    def received_message_from_relay(message, relay_url)
+      Display.debug('RECEIVING on RELAY: ' + relay_url)
+      Display.debug('RECEIVING on RELAY: ')
+      Display.debug(message)
+    end
+
+    def sending_message_over_relay(node, relay_url)
+      Display.debug('SENDING on RELAY: ' + relay_url)
+      Display.debug('SENDING on RELAY: ')
+      # Display.debug(message)
+    end
+
+    def receiving_message(message)
+      Display.debug('RECEIVING: ' + message.type)
+      Display.debug('RECEIVING: ' + message.sender.to_s)
+      Display.debug('RECEIVING: ' + message.message.to_s)
+    end
+
 
     def sending_message(message)
       Display.debug('SENDING: ' + message.type)
@@ -21,12 +46,6 @@ module MeshChat
       Display.error e.message
       Display.error e.class.name
       Display.error e.backtrace.join("\n").colorize(:red)
-    end
-
-    def http_client_success_callback_data(h)
-      p h.response_header.status
-      p h.response_header
-      p h.response
     end
 
   end

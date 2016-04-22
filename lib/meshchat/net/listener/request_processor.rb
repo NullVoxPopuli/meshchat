@@ -4,14 +4,17 @@ module MeshChat
       module RequestProcessor
         module_function
 
-        def process(http_content)
+        # @param [String] http_content - the encrypted message as a json string
+        # @param [String] received_from - optional URL to override the sender ip
+        # @param [Boolean] web_socket - signifies that the message came from a web socket
+        def process(http_content, received_from = nil, web_socket = false)
           encoded_message = parse_content(http_content)
-          MessageProcessor.process(encoded_message)
+          MessageProcessor.process(encoded_message, received_from, web_socket)
         end
 
-        def parse_content(http_content)
-          json_body = JSON.parse(http_content)
-          json_body['message']
+        def parse_content(content)
+          content = JSON.parse(content) if content.is_a?(String)
+          content['message']
         end
       end
     end

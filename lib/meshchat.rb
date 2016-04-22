@@ -36,6 +36,7 @@ require 'meshchat/models/entry'
 require 'meshchat/config/hash_file'
 require 'meshchat/config/settings'
 require 'meshchat/net/request'
+require 'meshchat/net/message_dispatcher/relay'
 require 'meshchat/net/message_dispatcher/http_client'
 require 'meshchat/net/message_dispatcher'
 require 'meshchat/net/listener/request'
@@ -46,7 +47,6 @@ require 'meshchat/cli'
 require 'meshchat/message'
 require 'meshchat/identity'
 require 'meshchat/configuration'
-require 'meshchat/mesh_relay'
 
 module MeshChat
   Settings = Config::Settings
@@ -82,16 +82,17 @@ module MeshChat
       #    - created in Configuration
       display = CurrentDisplay
 
-      # 2. boot up the http server
+      # 2. create the message dispatcher
+      #    - sends the messages out to the network
+      #    - tries p2p first, than uses the relays
+      message_dispatcher = Net::MessageDispatcher.new
+      const_set(:Dispatcher, message_dispatcher)
+
+      # 3. boot up the http server
       #    - for listening for incoming requests
       port = Settings['port']
       server_class = MeshChat::Net::Listener::Server
       EM.start_server '0.0.0.0', port, server_class
-
-      # 3. create the message dispatcher
-      #    - sends the messages out to the network
-      #    - tries p2p first, than uses the relays
-      message_dispatcher = Net::MessageDispatcher.new
 
       # 4. hook up the keyboard / input 'device'
       #    - tesponsible for parsing input

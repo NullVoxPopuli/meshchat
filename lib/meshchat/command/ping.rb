@@ -13,7 +13,7 @@ module MeshChat
 
           node =
             if field == 'location'
-              Node.find_by_location(lookup_value)
+              Node.find_by_location_on_network(lookup_value)
             else
               Node.find_by_alias_name(lookup_value)
             end

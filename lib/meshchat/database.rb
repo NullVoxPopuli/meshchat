@@ -14,13 +14,18 @@ module MeshChat
 
       ActiveRecord::Migration.suppress_messages do
         ActiveRecord::Schema.define do
-          unless table_exists? :entries
+          unless data_source_exists? :entries
             create_table :entries do |table|
+
               table.column :alias_name, :string
-              table.column :location, :string
               table.column :uid, :string
               table.column :public_key, :string
-              table.column :online, :boolean, default: true, null: false
+
+              table.column :location_on_network, :string
+              table.column :location_of_relay, :string
+
+              table.column :on_local_network, :boolean, default: true, null: false
+              table.column :on_relay, :boolean, default: false, null: false
             end
           end
         end

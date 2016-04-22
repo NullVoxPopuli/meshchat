@@ -18,12 +18,8 @@ module MeshChat
       end
 
       def respond
-        location = payload['sender']['location']
-
-        node = Node.find_by_location(location)
-
-        MeshChat::Net::Client.send(
-          node: node,
+        MeshChat::Dispatcher.send_message(
+          uid: payload['sender']['uid'],
           message: PingReply.new
         )
       end

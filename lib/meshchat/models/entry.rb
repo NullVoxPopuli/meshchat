@@ -19,10 +19,12 @@ module MeshChat
           IPV4_WITH_PORT
       }
 
-      scope :online, -> { where(online: true) }
-      scope :offline, -> { where(online: false) }
+      scope :on_local_network, -> { where(on_local_network: true) }
+      scope :on_relay, -> { where(on_relay: false) }
+      scope :online, -> { on_local_network.or(on_relay) }
 
       class << self
+
         def sha_preimage
           all.map(&:public_key).sort.join(',')
         end
@@ -44,7 +46,7 @@ module MeshChat
         def from_json(json)
           new(
             alias_name: json['alias'],
-            location: json['location'],
+            location_on_network: json['location'],
             uid: json['uid'],
             public_key: json['publickey']
           )
@@ -87,10 +89,24 @@ module MeshChat
         result || super
       end
 
+      def online
+        on_relay? || on_local_network?
+      end
+      alias_method :online?, :online
+
+      def location
+        return location_of_relay if on_relay?
+        location_on_network
+      end
+
+      def location_is_web_socket?
+        location.match(/wss?/).present?
+      end
+
       def as_json
         {
           'alias' => alias_name,
-          'location' => location,
+          'location' => location_on_network,
           'uid' => uid,
           'publickey' => public_key
         }

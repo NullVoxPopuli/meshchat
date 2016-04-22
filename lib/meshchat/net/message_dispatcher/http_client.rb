@@ -6,16 +6,18 @@ module MeshChat
       module HttpClient
         module_function
 
-        # @param [String] location - the address of the person to send to
+        # @param [Node] node - the node describing the person you're sending a message to
         # @param [JSON] encrypted_message - the message intended for the person at the location
         # @param [Block] error_callback - what to do in case of failure
-        def send_message(location, encrypted_message, error_callback)
+        def send_message(node, encrypted_message, &error_callback)
           payload = payload_for(encrypted_message)
-          create_http_request(location, payload, error_callback)
+          create_http_request(node.location_on_network, payload, &error_callback)
         end
 
-        def create_http_request(location, payload, error_callback)
-          ap location
+        def create_http_request(location, payload, &error_callback)
+          # TODO: what about https?
+          #       maybe do the regex match: /https?:\/\//
+          location = 'http://' + location unless location.include?('http://')
           http = EventMachine::HttpRequest.new(location).post(
             body: payload,
             head: {
@@ -24,7 +26,11 @@ module MeshChat
             })
 
           http.errback &error_callback
-          http.callback { Debug.http_client_success_callback_data(http) }
+          # example things available in the callback
+          # p http.response_header.status
+          # p http.response_header
+          # p http.response
+          http.callback { }
         end
 
         def payload_for(encrypted_message)

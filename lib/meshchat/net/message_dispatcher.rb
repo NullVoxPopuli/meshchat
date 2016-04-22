@@ -66,7 +66,7 @@ module MeshChat
         # Due to the constant-connection nature of web-sockets,
         # The sending via http client will happen if the node's-
         # on_local_network property is true.
-        node.update(on_local_network: true)
+        # node.update(on_local_network: true)
         _action_cable_client.send_message(node, message)
       end
 

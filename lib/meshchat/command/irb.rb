@@ -1,8 +1,7 @@
 module MeshChat
   class Command
 
-    # TODO: only include this and awesome_print when booted with
-    # debug=true in the config
+    # TODO: remove this command before release
     class IRB < Command::Base
       def self.description
         'runs ruby commands (useful for debugging)'

@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
 
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
 
-  s.required_ruby_version = '>= 2.0'
+  s.required_ruby_version = '>= 2.3.0'
 
   s.add_runtime_dependency 'sqlite3'
   s.add_runtime_dependency 'curb'

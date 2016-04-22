@@ -12,7 +12,7 @@ module MeshChat
             Display.success "#{node.alias_name} successfully imported"
 
             # send the server list to this new node
-            Net::Client.send(
+            _message_dispatcher.send_message(
               node: node,
               message: Message::NodeList.new
             )

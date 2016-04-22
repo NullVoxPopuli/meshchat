@@ -1,15 +1,12 @@
 module MeshChat
   class Command
     class Base < CLI::Input
-      attr_accessor :_input
-
       # Commands
       SET = 'set'
       CONFIG = 'config'
       DISPLAY = 'display'
       EXIT = 'exit'
       QUIT = 'quit'
-      CONNECT = 'connect'
       CHAT = 'chat'
       ADD = 'add'
       REMOVE = 'remove'
@@ -35,7 +32,7 @@ module MeshChat
         klass = CLI::COMMAND_MAP[command]
         Display.debug("INPUT: #{klass&.name} from #{command} derived from #{_input}")
         if klass
-          klass.new(_input).handle
+          klass.new(_input, _message_dispatcher).handle
         else
           Display.alert 'not implemented...'
         end

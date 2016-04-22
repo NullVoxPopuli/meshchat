@@ -4,10 +4,7 @@ module MeshChat
       def handle
         servers = Node.online
         if !servers.empty?
-          m = corresponding_message_class.new(
-            message: _input
-          )
-
+          m = corresponding_message_class.new(message: _input)
           show_myself(m)
 
           # if sending to all, iterate thorugh list of
@@ -15,7 +12,7 @@ module MeshChat
           # TODO: do this async so that one server doesn't block
           # the rest of the servers from receiving the messages
           servers.each do |entry|
-            Net::Client.send(node: entry, message: m)
+            _message_dispatcher.send_message(node: entry, message: m)
           end
         else
           Display.warning 'you have no servers'

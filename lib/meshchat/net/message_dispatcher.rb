@@ -10,11 +10,11 @@ module MeshChat
       attr_reader :_action_cable_client
 
       def initialize
-        self._http_client = HttpClient # do we need an instanc? :-\
+        @_http_client = HttpClient # do we need an instanc? :-\
 
         relay = MeshRelay.new
         relay.setup
-        self._action_cable_client = relay
+        @_action_cable_client = relay
       end
 
       # @note Either the location, node, or uid should be present

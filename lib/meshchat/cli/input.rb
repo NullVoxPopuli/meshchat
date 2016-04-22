@@ -3,7 +3,7 @@ module MeshChat
     class Input
       WHISPER = '@'
       COMMAND = '/'
-      attr_accessor :_input
+      attr_accessor :_input, :_message_dispatcher
 
       class << self
         def is_command?(input)
@@ -14,7 +14,7 @@ module MeshChat
           input[0, 1] == WHISPER
         end
 
-        def create(input)
+        def create(input, message_dispatcher)
           klass =
             if is_command?(input)
               Command::Base
@@ -25,12 +25,13 @@ module MeshChat
             end
 
           Display.debug("INPUT: Detected '#{klass.name}' from '#{input}'")
-          klass.new(input)
+          klass.new(input, message_dispatcher)
         end
       end
 
-      def initialize(input)
+      def initialize(input, message_dispatcher)
         self._input = input.chomp
+        self._message_dispatcher = message_dispatcher
       end
     end
   end

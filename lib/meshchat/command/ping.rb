@@ -24,10 +24,7 @@ module MeshChat
             return Display.alert "#{lookup_value} could not be found"
           end
 
-          Net::Client.send(
-            node: node,
-            message: msg
-          )
+          _message_dispatcher.send_message(node: node, message: msg)
         else
           Display.alert usage
         end

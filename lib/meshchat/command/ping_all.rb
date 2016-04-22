@@ -7,7 +7,7 @@ module MeshChat
 
       def handle
         Node.all.each do |n|
-          Net::Client.send(node: n, message: Message::Ping.new)
+          _message_dispatcher.send_message(node: n, message: Message::Ping.new)
         end
       end
     end

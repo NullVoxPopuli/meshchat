@@ -18,17 +18,11 @@ module MeshChat
         node = Node.find_by_alias_name(target)
 
         if node
-          m = Message::Whisper.new(
-            message: message,
-            to: target
-          )
+          m = Message::Whisper.new(message: message, to: target)
 
           Display.whisper m.display
 
-          Net::Client.send(
-            node: node,
-            message: m
-          )
+          _message_dispatcher.send_message(node: node, message: m)
         else
           Display.alert "node for #{target} not found or is not online"
         end

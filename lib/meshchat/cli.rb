@@ -74,13 +74,13 @@ module MeshChat
 
 
     def initialize(message_dispatcher, display)
-      self.message_dispatcher = message_dispatcher
+      @_message_dispatcher = message_dispatcher
       self.class.instance_variable_set('@instance', self)
     end
 
     def create_input(msg)
       Display.debug("input: #{msg}")
-      handler = Input.create(msg)
+      handler = Input.create(msg, _message_dispatcher)
       handler.handle
     rescue => e
       Debug.creating_input_failed(e)
@@ -106,7 +106,7 @@ module MeshChat
     end
 
     def send_disconnect
-      MeshChat::Command::SendDisconnect.new('/senddisconnect')
+      MeshChat::Command::SendDisconnect.new('/senddisconnect', _message_dispatcher)
     end
   end
 end

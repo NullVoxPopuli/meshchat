@@ -36,7 +36,8 @@ require 'meshchat/models/entry'
 require 'meshchat/config/hash_file'
 require 'meshchat/config/settings'
 require 'meshchat/net/request'
-require 'meshchat/net/client'
+require 'meshchat/net/message_dispatcher/http_client'
+require 'meshchat/net/message_dispatcher'
 require 'meshchat/net/listener/request'
 require 'meshchat/net/listener/message_processor'
 require 'meshchat/net/listener/request_processor'
@@ -78,6 +79,7 @@ module MeshChat
     EventMachine.run do
       # 1. hook up the display / output 'device'
       #    - responsible for notifications
+      #    - created in Configuration
       display = CurrentDisplay
 
       # 2. boot up the http server
@@ -86,15 +88,16 @@ module MeshChat
       server_class = MeshChat::Net::Listener::Server
       EM.start_server '0.0.0.0', port, server_class
 
-
       # 3. create the message dispatcher
       #    - sends the messages out to the network
       #    - tries p2p first, than uses the relays
-      message_dispatcher = Net::MessageDispatcher.new(relay)
+      message_dispatcher = Net::MessageDispatcher.new
 
       # 4. hook up the keyboard / input 'device'
       #    - tesponsible for parsing input
       input_receiver = CLI.new(message_dispatcher, display)
+      # by default the app_config[:input] is
+      # MeshChat::Cli::KeyboardLineInput
       EM.open_keyboard(app_config[:input], input_receiver)
     end
   end

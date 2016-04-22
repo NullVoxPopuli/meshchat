@@ -23,5 +23,11 @@ module MeshChat
       Display.error e.backtrace.join("\n").colorize(:red)
     end
 
+    def http_client_success_callback_data(h)
+      p h.response_header.status
+      p h.response_header
+      p h.response
+    end
+
   end
 end

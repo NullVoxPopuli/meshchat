@@ -20,10 +20,12 @@ module MeshChat
       end
     end
 
-    # @param [String] to - the uid of the person to send to
+    # @param [Node] node - the node describing the person you're sending a message to
     # @param [JSON] encrypted_message - the message intended for the person at the location
-    def send_message(to, encrypted_message)
-      payload = payload_for(to, encrypted_message)
+    def send_message(node, encrypted_message)
+      return if RELAYS.empty?
+
+      payload = payload_for(node.uid, encrypted_message)
       # Use first relay for now
       # TODO: figure out logic for which relay to send to
       # might have to do with mesh logic
@@ -43,10 +45,9 @@ module MeshChat
       # don't output anything upon connecting
       client.connected { }
 
-      # but we do want to report errors
-      client.errored do |msg|
-        Display.alert("an error in the #{path} relay has occurred")
-        Display.alert(msg)
+      # If there are errors, report them!
+      client.errored do |message|
+        process_error(message)
       end
 
       # forward the encrypted messages to our RequestProcessor
@@ -70,6 +71,15 @@ module MeshChat
       if message
         Net::Listener::RequestProcessor.process(message[:message])
       end
+    end
+
+    def process_error(message)
+      ap 'socket error'
+      ap message
+
+      Display.alert(message)
+      # Display.info "#{node.alias_name} has ventured offline"
+      # Debug.person_not_online(node, message, e)
     end
   end
 end

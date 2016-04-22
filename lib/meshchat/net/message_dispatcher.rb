@@ -40,21 +40,17 @@ module MeshChat
 
         message = encrypted_message(node, message)
 
-        begin
-          _http_client.send_message(node.location, message)
-          # TODO: eventify this, cause rescue blocks are bad.
-        rescue Curl::Err::ConnectionFailedError => e
-          # now try the sending the mesasge through the relay
-          # TODO: don't do this if there are no relays
-          _action_cable_client.send_message(node.uid, message)
-
-          # TODO: hook in to the error hook on the relay and read if
-          #       the person is not online, then set online to false.
+        error_callback = -> {
           node.update(online: false)
-          Display.info "#{node.alias_name} has ventured offline"
-          Debug.person_not_online(node, message, e)
-        end
+          _action_cable_client.send_message(node message)
+        }
 
+        # TODO: upon failure of connection (errback),
+        #       set an on_local_network property to false
+        #       for the web socket connection, that could set
+        #       a different propertyto false (yet to be created)
+        # TODO: add to node: websocket address, websocket_online?
+        _http_client.send_message(node.location, message, error_callback)
         # Thread.new(node, message) do |node, message|
 
         # end

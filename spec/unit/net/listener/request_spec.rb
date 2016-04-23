@@ -2,9 +2,11 @@ require 'spec_helper'
 
 describe MeshChat::Net::Listener::Request do
   let(:klass) { MeshChat::Net::Listener::Request }
-
+  let(:message_dispatcher){ MeshChat::Net::MessageDispatcher.new }
   before(:each) do
+    start_fake_relay_server
     mock_settings_objects
+    allow(message_dispatcher).to receive(:send_message)
   end
 
   describe '#process_json' do
@@ -26,7 +28,7 @@ describe MeshChat::Net::Listener::Request do
         }
       }'
       json = Base64.encode64(json)
-      s = klass.new(json)
+      s = klass.new(json, message_dispatcher)
       s.send(:process_json)
       expect(s.message.display).to include("nvp")
       expect(s.message.display).to include("yo")

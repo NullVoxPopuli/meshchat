@@ -50,7 +50,7 @@ describe MeshChat::CLI::Input do
         i.handle
       end
 
-      it 'renders the message to json' do
+      skip 'renders the message to json' do
         pending('how to test?')
         msg = 'hi test'
         # expect_any_instance_of(MeshChat::Message::Chat).to receive(:display)

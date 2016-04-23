@@ -8,8 +8,8 @@ module MeshChat
         # @param [String] encoded_message - the encrypted message as a string
         # @param [String] received_from - optional URL to override the sender ip
         # @param [Boolean] web_socket - signifies that the message came from a web socket
-        def process(encoded_message, received_from = nil, web_socket = false)
-          request = Request.new(encoded_message)
+        def process(encoded_message, received_from: nil, web_socket: false, message_dispatcher: nil)
+          request = Request.new(encoded_message, message_dispatcher)
           message = request.message
 
           Debug.receiving_message(message)
@@ -18,13 +18,16 @@ module MeshChat
           Display.present_message message
 
           # then update the sender info in the db
-          update_sender_info(request.json, received_from, web_socket)
+          update_sender_info(request.json,
+            received_from: received_from,
+            web_socket: web_socket,
+            message_dispatcher: message_dispatcher)
         end
 
         # @param [String] encoded_message - the encrypted message as a string
         # @param [String] received_from - optional URL to override the sender ip
         # @param [Boolean] web_socket - signifies that the message came from a web socket
-        def update_sender_info(json, received_from = nil, web_socket = false)
+        def update_sender_info(json, received_from: nil, web_socket: false, message_dispatcher: nil)
           sender = json['sender']
           network_location = sender['location']
 
@@ -34,7 +37,8 @@ module MeshChat
           raise Errors::Forbidden.new if node.nil?
 
           unless node.online?
-            node.update(online: true)
+            node.update(on_local_network: true) unless web_socket
+            node.update(on_relay: true) if web_socket
             payload = Message::NodeListHash.new
             message_dispatcher.send_message(location: network_location, message: payload)
           end

@@ -10,7 +10,8 @@ module MeshChat
         sender_uid: nil,
         time_recieved: nil,
         payload: nil,
-        to: '')
+        to: '',
+        message_dispatcher: nil)
 
         super(
           message: message,

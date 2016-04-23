@@ -4,8 +4,10 @@ module MeshChat
       class Request
         attr_accessor :json, :message
         attr_accessor :_input
+        attr_accessor :_message_dispatcher
 
-        def initialize(encoded_message)
+        def initialize(encoded_message, message_dispatcher)
+          self._message_dispatcher = message_dispatcher
           self._input = try_decrypt(encoded_message)
 
           begin
@@ -40,7 +42,7 @@ module MeshChat
 
           raise Errors::BadRequest.new(type) unless klass
 
-          klass.new(payload: json)
+          klass.new(payload: json, message_dispatcher: _message_dispatcher)
         end
       end
     end

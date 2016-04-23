@@ -11,11 +11,7 @@ describe MeshChat::Net::Listener::MessageProcessor do
 
 
   context 'process' do
-    let(:klass) { MeshChat::Net::Listener::MessageProcessor }
-
     before(:each) do
-      mock_settings_objects
-
       key_pair = OpenSSL::PKey::RSA.new(2048)
       @public_key = key_pair.public_key.export
       @private_key = key_pair.export
@@ -36,28 +32,24 @@ describe MeshChat::Net::Listener::MessageProcessor do
     context 'throws exceptions' do
       context 'not authorized' do
         it 'cannot be decrypted' do
-          pending 'payload not on this class'
           MeshChat::Settings[:privatekey] = @private_key1
           message = MeshChat::Message::Ping.new
-          raw = MeshChat::Net::Client.payload_for(@node_me, message).to_json
+          raw = MeshChat::Net::Request.new(@node_me, message).payload
 
           expect{
-            klass.process(raw)
+            klass.process(raw, message_dispatcher: message_dispatcher )
           }.to raise_error MeshChat::Net::Listener::Errors::NotAuthorized
         end
       end
 
       context 'forbidden' do
         it 'receives a message from a non-existant node' do
-          pending 'payload not on this class'
-
           MeshChat::Settings[:privatekey] = @private_key
           message = MeshChat::Message::Ping.new
-          payload = MeshChat::Net::Client.payload_for(@node_me, message)
-          raw = payload.to_json
+          raw = MeshChat::Net::Request.new(@node_me, message).payload
 
           expect{
-            klass.process(raw)
+            klass.process(raw, message_dispatcher: message_dispatcher)
           }.to raise_error MeshChat::Net::Listener::Errors::Forbidden
         end
       end
@@ -67,10 +59,10 @@ describe MeshChat::Net::Listener::MessageProcessor do
           MeshChat::Settings[:privatekey] = @private_key
           message = MeshChat::Message::Ping.new
           message.instance_variable_set('@type', 'unsupported')
-          raw = MeshChat::Net::Client.payload_for(@node_me, message).to_json
+          raw = MeshChat::Net::Request.new(@node_me, message).payload
 
           expect{
-            klass.process(raw)
+            klass.process(raw, message_dispatcher: message_dispatcher)
           }.to raise_error MeshChat::Net::Listener::Errors::BadRequest
         end
 
@@ -107,8 +99,8 @@ describe MeshChat::Net::Listener::MessageProcessor do
       expect(MeshChat::Message::NodeListHash).to receive(:new)
       expect(message_dispatcher).to receive(:send_message)
       expect{
-        klass.update_sender_info(data)
-      }.to change(MeshChat::Node.online, :count).by(1)
+        klass.update_sender_info(data, message_dispatcher: message_dispatcher)
+      }.to change(MeshChat::Node.on_local_network, :count).by(1)
 
       expect(MeshChat::Node.find(node.id).location).to eq '10.10.10.10:1010'
     end
@@ -117,7 +109,7 @@ describe MeshChat::Net::Listener::MessageProcessor do
       MeshChat::Node.create(
         uid: '100',
         alias_name: 'hi',
-        location: '1.1.1.1:11',
+        location_on_network: '1.1.1.1:11',
         public_key: 'wat'
       )
 
@@ -135,8 +127,8 @@ describe MeshChat::Net::Listener::MessageProcessor do
       data = JSON.parse(json)
 
       expect_any_instance_of(MeshChat::Message::NodeListHash).to_not receive(:render)
-      expect(message_dispatcher).to receive(:send_message)
-      klass.update_sender_info(data)
+      expect(message_dispatcher).to_not receive(:send_message)
+      klass.update_sender_info(data, message_dispatcher: message_dispatcher)
     end
   end
 end

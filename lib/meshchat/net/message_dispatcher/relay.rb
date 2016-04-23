@@ -64,36 +64,45 @@ module MeshChat
           client
         end
 
+        # example messages:
+        # {"identifier"=>"{\"channel\":\"MeshRelayChannel\"}", "message"=>{"message"=>"hi"}}
+        # {"identifier"=>"{\"channel\":\"MeshRelayChannel\"}", "message"=>{"error"=>"hi"}}
+        # {"identifier"=>"{\"channel\":\"MeshRelayChannel\"}", "type"=>"confirm_subscription"}
         def process_message(message, received_from)
           Debug.received_message_from_relay(message, received_from)
 
-          identifier = message['identifier']
-          type = message['type']
-          message = message['message']
+          identifier, type, message = message.values_at('identifier', 'type', 'message')
 
-          if type == 'confirm_subscription'
-            # do we want to do anything here?
-          end
+          # do we want to do anything here?
+          return if type == 'confirm_subscription'
+          # are there any other types of websocket messages?
+          return unless message
 
-          if message
-            # TODO: uddate the node's location?
-            Net::Listener::RequestProcessor.process(message, received_from)
+          if message['message']
+            chat_message_received(message, received_from)
+          elsif error = message['error']
+            error_message_received(error)
           end
         end
 
         # TODO: what does an error message look like?
         # TODO: what are situations in which we receive an error message?
         def process_error(message)
-          ap 'socket error'
-          ap message
-
-          # TODO: find the intended node.
-          #       if on_local_network is true, send to http_client
-
           Display.alert(message)
-          # Display.info "#{node.alias_name} has ventured offline"
-          # Debug.person_not_online(node, message, e)
         end
+      end
+
+      def chat_message_received(message, received_from)
+        Net::Listener::RequestProcessor.process(message, received_from)
+      end
+
+      def error_message_received(message)
+        Display.alert message
+        # TODO: find the intended node.
+        #       if on_local_network is true, send to http_client
+
+        # Display.info "#{node.alias_name} has ventured offline"
+        # Debug.person_not_online(node, message, e)
       end
     end
   end

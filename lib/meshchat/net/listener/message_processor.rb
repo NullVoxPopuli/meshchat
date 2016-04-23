@@ -33,11 +33,10 @@ module MeshChat
           node = Node.find_by_uid(sender['uid'])
           raise Errors::Forbidden.new if node.nil?
 
-
           unless node.online?
             node.update(online: true)
             payload = Message::NodeListHash.new
-            MeshChat::Dispatcher.send(location: network_location, message: payload)
+            message_dispatcher.send_message(location: network_location, message: payload)
           end
 
           # update the node's location/alias

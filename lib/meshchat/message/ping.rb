@@ -18,7 +18,7 @@ module MeshChat
       end
 
       def respond
-        MeshChat::Dispatcher.send_message(
+        message_dispatcher.send_message(
           uid: payload['sender']['uid'],
           message: PingReply.new
         )

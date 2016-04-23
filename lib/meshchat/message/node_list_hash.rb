@@ -16,7 +16,7 @@ module MeshChat
         if message != Node.as_sha512
           Display.debug 'node list hashes do not match'
 
-          MeshChat::Dispatcher.send_message(
+          message_dispatcher.send_message(
             uid: payload['sender']['uid'],
             message: NodeList.new(message: Node.as_json)
           )

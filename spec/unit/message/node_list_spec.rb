@@ -2,9 +2,11 @@ require 'spec_helper'
 
 describe MeshChat::Message::NodeList do
   let(:klass) { MeshChat::Message::NodeList }
-
+  let(:message_dispatcher){ MeshChat::Net::MessageDispatcher.new }
   before(:each) do
+    start_fake_relay_server
     mock_settings_objects
+    allow(message_dispatcher).to receive(:send_message){}
   end
 
   context 'instantiation' do
@@ -24,7 +26,7 @@ describe MeshChat::Message::NodeList do
 
   describe '#respond' do
     it 'sends a message' do
-      expect(MeshChat::Net::Client).to receive(:send)
+      expect(message_dispatcher).to receive(:send_message)
 
       expect(MeshChat::Models::Entry).to receive(:diff) {
         [[  {
@@ -35,14 +37,14 @@ describe MeshChat::Message::NodeList do
           }], []]
       }
 
-      msg = klass.new
+      msg = klass.new(message_dispatcher: message_dispatcher)
       msg.respond
     end
 
     it 'sendsa  node list hash as confirmation that lists are in sync' do
-      expect(MeshChat::Net::Client).to receive(:send)
+      expect(message_dispatcher).to receive(:send_message)
       expect(MeshChat::Message::NodeListHash).to receive(:new)
-      msg = klass.new
+      msg = klass.new(message_dispatcher: message_dispatcher)
       msg.respond
     end
   end

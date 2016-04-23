@@ -32,9 +32,8 @@ describe MeshChat::Message::NodeListHash do
 
   context '#respond' do
     it 'shoots off a ping reply to the sender of the ping' do
-      expect(MeshChat::Net::Client).to receive(:send)
-
       msg = klass.new(message: 'hash')
+      expect(msg).to receive_message_chain(:message_dispatcher, :send_message){}
       msg.respond
     end
   end

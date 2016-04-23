@@ -10,7 +10,8 @@ module MeshChat
     #  #respond: where the actual logic for the response goes
     class Base
       attr_accessor :payload, :time_recieved,
-        :message, :sender_name, :sender_location, :sender_uid
+        :message, :sender_name, :sender_location, :sender_uid,
+        :message_dispatcher
 
       # @param [String] message
       # @param [String] name_of_sender
@@ -22,7 +23,8 @@ module MeshChat
         sender_location: '',
         sender_uid: '',
         time_recieved: nil,
-        payload: nil)
+        payload: nil,
+        message_dispatcher: nil)
 
         @payload = payload.presence
 
@@ -32,7 +34,7 @@ module MeshChat
         self.sender_location = sender_location.presence || @payload.try(:[], 'sender').try(:[], 'location') || Settings.location
         self.sender_uid = sender_uid.presence || @payload.try(:[], 'sender').try(:[], 'uid') || Settings['uid']
         self.time_recieved = time_recieved.presence || Time.now
-
+        self.message_dispatcher = message_dispatcher
       end
 
       def payload

@@ -19,7 +19,6 @@ module MeshChat
       I18n.backend.store_translations(:en ,
         YAML.load(File.read(locale_path + 'en.yml')))
 
-
       MeshChat.const_set(:Notify, options[:notifier])
 
       # The display has to be created right away so that

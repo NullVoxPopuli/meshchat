@@ -2,9 +2,11 @@ require 'spec_helper'
 
 describe MeshChat::Message::Ping do
   let(:klass) { MeshChat::Message::Ping }
-
+  let(:message_dispatcher){ MeshChat::Net::MessageDispatcher.new }
   before(:each) do
+    start_fake_relay_server
     mock_settings_objects
+    allow(message_dispatcher).to receive(:send_message)
   end
 
   context 'instantiation' do
@@ -44,9 +46,7 @@ describe MeshChat::Message::Ping do
 
   context 'respond' do
     it 'shoots off a ping reply to the sender of the ping' do
-      expect(MeshChat::Net::Client).to receive(:send)
-
-      msg = klass.new
+      msg = klass.new(message_dispatcher: message_dispatcher)
       msg.respond
     end
   end

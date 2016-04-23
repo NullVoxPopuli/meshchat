@@ -61,7 +61,7 @@ describe MeshChat::Models::Entry do
       }
       m = klass.new(
         alias_name: 'alias',
-        location: '1.1.1.1:8080',
+        location_on_network: '1.1.1.1:8080',
         uid: '1',
         public_key: '123')
 
@@ -73,7 +73,7 @@ describe MeshChat::Models::Entry do
     it 'converts to a hash / json' do
       m = klass.new(
         alias_name: 'alias',
-        location: '1.1.1.1:8080',
+        location_on_network: '1.1.1.1:8080',
         uid: '1',
         public_key: '123')
 
@@ -97,7 +97,7 @@ describe MeshChat::Models::Entry do
     end
 
     it 'is false without an location' do
-      m = klass.new(location: '')
+      m = klass.new(location_on_network: '')
       expect(m).to_not be_valid
     end
 

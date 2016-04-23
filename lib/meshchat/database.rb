@@ -12,6 +12,10 @@ module MeshChat
           pool: 128
       )
 
+      create_database
+    end
+
+    def create_database
       ActiveRecord::Migration.suppress_messages do
         ActiveRecord::Schema.define do
           unless data_source_exists? :entries
@@ -30,6 +34,7 @@ module MeshChat
           end
         end
       end
+
     end
   end
 end

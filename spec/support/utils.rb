@@ -1,21 +1,18 @@
 def mock_settings_objects
   delete_test_files
-
   setup_database
-
-  allow(MeshChat::Cipher).to receive(:current_encryptor){
-      MeshChat::Encryption::Passthrough
-  }
-
-
-  allow_any_instance_of(MeshChat::Config::Settings).to receive(:filename) { 'test-settings' }
-  s = MeshChat::Config::Settings.new
-  allow(MeshChat::Config::Settings).to receive(:instance) { s }
-
 
   config = MeshChat::Configuration.new(
     display: MeshChatStub::Display::Null::UI
   )
+  
+  allow(MeshChat::Cipher).to receive(:current_encryptor){
+      MeshChat::Encryption::Passthrough
+  }
+
+  allow_any_instance_of(MeshChat::Config::Settings).to receive(:filename) { 'test-settings' }
+  s = MeshChat::Config::Settings.new
+  allow(MeshChat::Config::Settings).to receive(:instance) { s }
 end
 
 def delete_test_files
@@ -30,6 +27,20 @@ def delete_test_files
   end
 end
 
+require 'em-websocket'
+def start_fake_relay_server(options = {})
+  MeshChat::Net::MessageDispatcher.const_set(:RELAYS, [
+    "ws://0.0.0.0:12345"
+  ])
+  Thread.new do
+    EM.run do
+      EM::WebSocket.run({:host => "0.0.0.0", :port => 12345}.merge(options)) { |ws|
+        yield ws if block_given?
+      }
+    end
+  end
+end
+
 def setup_database
   # this method differs from the one defined on meshchat, in that
   # in destroys all nodes and uses an in-memory db
@@ -39,19 +50,7 @@ def setup_database
       :database  => ':memory:'
   )
 
-  ActiveRecord::Migration.suppress_messages do
-    ActiveRecord::Schema.define do
-      unless table_exists? :entries
-        create_table :entries do |table|
-          table.column :alias_name, :string
-          table.column :location, :string
-          table.column :uid, :string
-          table.column :public_key, :string
-          table.column :online, :boolean, default: true, null: false
-        end
-      end
-    end
-  end
+  MeshChat::Database.create_database
 
   # just to be sure
   MeshChat::Models::Entry.destroy_all

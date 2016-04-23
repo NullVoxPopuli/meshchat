@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe MeshChat::Message::Whisper do
   let(:klass) { MeshChat::Message::Whisper }
+  let(:message_dispatcher){ MeshChat::Net::MessageDispatcher.new }
+  before(:each) do
+    start_fake_relay_server
+    mock_settings_objects
+    allow(message_dispatcher).to receive(:send_message){}
+  end
 
   context 'instantiation' do
     it 'sets a default payload' do

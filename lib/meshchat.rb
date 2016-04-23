@@ -12,7 +12,6 @@ require 'logger'
 require 'awesome_print'
 require 'sqlite3'
 require 'active_record'
-require 'curb'
 require 'eventmachine'
 require 'i18n'
 
@@ -86,13 +85,12 @@ module MeshChat
       #    - sends the messages out to the network
       #    - tries p2p first, than uses the relays
       message_dispatcher = Net::MessageDispatcher.new
-      const_set(:Dispatcher, message_dispatcher)
 
       # 3. boot up the http server
       #    - for listening for incoming requests
       port = Settings['port']
       server_class = MeshChat::Net::Listener::Server
-      EM.start_server '0.0.0.0', port, server_class
+      EM.start_server '0.0.0.0', port, server_class, message_dispatcher
 
       # 4. hook up the keyboard / input 'device'
       #    - tesponsible for parsing input

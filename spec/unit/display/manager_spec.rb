@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe MeshChat::Display::Manager do
   let (:klass){ MeshChat::Display::Manager }
-
+  let(:message_dispatcher){ MeshChat::Net::MessageDispatcher.new }
   before(:each) do
-    allow(MeshChat::Net::Client).to receive(:send){}
-
+    start_fake_relay_server
     mock_settings_objects
+    allow(message_dispatcher).to receive(:send_message)
   end
 
   describe '#present_message' do

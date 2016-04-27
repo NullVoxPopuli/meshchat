@@ -8,8 +8,8 @@ module MeshChat
         CHANNEL = 'MeshRelayChannel'
         # TODO: add a way to configure relay nodes
         RELAYS = [
-          # "ws://mesh-relay-in-us-1.herokuapp.com"
-          "ws://localhost:3000"
+          "ws://mesh-relay-in-us-1.herokuapp.com"
+          # "ws://localhost:3000"
         ]
 
         def initialize

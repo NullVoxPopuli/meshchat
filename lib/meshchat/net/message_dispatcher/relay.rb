@@ -12,29 +12,35 @@ module MeshChat
           # "ws://localhost:3000"
         ]
 
+        attr_accessor :_active_relay
+
         def initialize
 
         end
 
+        # TODO: add logic for just selecting the first available relay.
+        #       we only need one connection.
         # @return [Array] an array of action cable clients
         def setup
-          @relays ||= RELAYS.map do |url|
-            setup_client_for_url(url)
-          end
+          url = RELAYS.first
+          @_active_relay = setup_client_for_url(url)
         end
 
         # @param [Node] node - the node describing the person you're sending a message to
         # @param [JSON] encrypted_message - the message intended for the person at the location
         def send_message(node, encrypted_message)
-          return if @relays.empty?
+          return if _active_relay.blank?
 
-          Debug.sending_message_over_relay(node, '@relays.first._url')
+          Debug.sending_message_over_relay(node, '_active_relay._url')
+
+          require 'pry-byebug'
+          binding.pry
 
           payload = payload_for(node.uid, encrypted_message)
           # Use first relay for now
           # TODO: figure out logic for which relay to send to
           # might have to do with mesh logic
-          @relays.first.perform('chat', payload)
+          _active_relay.perform('chat', payload)
         end
 
         # @param [String] to - the uid of the person we are sending to
@@ -90,20 +96,21 @@ module MeshChat
         def process_error(message)
           Display.alert(message)
         end
+
+        def chat_message_received(message, received_from)
+          Net::Listener::RequestProcessor.process(message, received_from)
+        end
+
+        def error_message_received(message)
+          Display.alert message
+          # TODO: find the intended node.
+          #       if on_local_network is true, send to http_client
+
+          # Display.info "#{node.alias_name} has ventured offline"
+          # Debug.person_not_online(node, message, e)
+        end
       end
 
-      def chat_message_received(message, received_from)
-        Net::Listener::RequestProcessor.process(message, received_from)
-      end
-
-      def error_message_received(message)
-        Display.alert message
-        # TODO: find the intended node.
-        #       if on_local_network is true, send to http_client
-
-        # Display.info "#{node.alias_name} has ventured offline"
-        # Debug.person_not_online(node, message, e)
-      end
     end
   end
 end

@@ -6,7 +6,11 @@ module MeshChat
         uid = payload['sender']['uid']
         name = payload['sender']['alias']
         node = Node.find_by_uid(uid)
-        node.update(online: false) if node
+        if node
+          node.update(on_local_network: false)
+          node.update(on_relay: false)
+        end
+
         "#{name}@#{location} has disconnected"
       end
     end

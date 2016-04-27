@@ -102,7 +102,7 @@ module MeshChat
                 true, _message_dispatcher)
           rescue => e
             ap e.message
-            puts e.backtrace.join('\n')
+            puts e.backtrace
           end
         end
 

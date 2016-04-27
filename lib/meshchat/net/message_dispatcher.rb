@@ -12,7 +12,7 @@ module MeshChat
       def initialize
         @_http_client = HttpClient # do we need an instance? :-\
 
-        relay = Relay.new
+        relay = Relay.new(self)
         relay.setup
         @_action_cable_client = relay
       end

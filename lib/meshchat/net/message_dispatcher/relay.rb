@@ -8,14 +8,14 @@ module MeshChat
         CHANNEL = 'MeshRelayChannel'
         # TODO: add a way to configure relay nodes
         RELAYS = [
-          "ws://mesh-relay-in-us-1.herokuapp.com"
-          # "ws://localhost:3000"
+          # "ws://mesh-relay-in-us-1.herokuapp.com"
+          "ws://localhost:3000"
         ]
 
-        attr_accessor :_active_relay
+        attr_accessor :_active_relay, :_message_dispatcher
 
-        def initialize
-
+        def initialize(message_dispatcher)
+          @_message_dispatcher = message_dispatcher
         end
 
         # TODO: add logic for just selecting the first available relay.

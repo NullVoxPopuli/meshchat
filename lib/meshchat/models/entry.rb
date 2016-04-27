@@ -20,7 +20,7 @@ module MeshChat
       }
 
       scope :on_local_network, -> { where(on_local_network: true) }
-      scope :on_relay, -> { where(on_relay: false) }
+      scope :on_relay, -> { where(on_relay: true) }
       scope :online, -> { on_local_network.or(on_relay) }
 
       class << self

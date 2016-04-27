@@ -8,8 +8,8 @@ module MeshChat
         CHANNEL = 'MeshRelayChannel'
         # TODO: add a way to configure relay nodes
         RELAYS = [
-          # "ws://mesh-relay-in-us-1.herokuapp.com"
-          "ws://localhost:3000"
+          "ws://mesh-relay-in-us-1.herokuapp.com"
+          # "ws://localhost:3000"
         ]
 
         attr_accessor :_active_relay, :_message_dispatcher
@@ -95,10 +95,15 @@ module MeshChat
         end
 
         def chat_message_received(message, received_from)
-          Net::Listener::RequestProcessor.process(
-            message,
-            received_from,
-              true, _message_dispatcher)
+          begin
+            Net::Listener::RequestProcessor.process(
+              message,
+              received_from,
+                true, _message_dispatcher)
+          rescue => e
+            ap e.message
+            ap e
+          end
         end
 
         def error_message_received(message)

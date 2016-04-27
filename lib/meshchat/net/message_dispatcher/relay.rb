@@ -95,7 +95,10 @@ module MeshChat
         end
 
         def chat_message_received(message, received_from)
-          Net::Listener::RequestProcessor.process(message, received_from)
+          Net::Listener::RequestProcessor.process(
+            message,
+            received_from,
+              true, _message_dispatcher)
         end
 
         def error_message_received(message)

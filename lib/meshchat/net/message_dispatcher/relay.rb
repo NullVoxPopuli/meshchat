@@ -33,9 +33,6 @@ module MeshChat
 
           Debug.sending_message_over_relay(node, '_active_relay._url')
 
-          require 'pry-byebug'
-          binding.pry
-
           payload = payload_for(node.uid, encrypted_message)
           # Use first relay for now
           # TODO: figure out logic for which relay to send to

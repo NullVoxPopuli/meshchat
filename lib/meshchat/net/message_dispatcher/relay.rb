@@ -13,6 +13,7 @@ module MeshChat
         ]
 
         attr_accessor :_active_relay, :_message_dispatcher
+        attr_accessor :_active_relay_url
 
         def initialize(message_dispatcher)
           @_message_dispatcher = message_dispatcher
@@ -24,6 +25,7 @@ module MeshChat
         def setup
           url = RELAYS.first
           @_active_relay = setup_client_for_url(url)
+          @_active_relay_url = url
         end
 
         # @param [Node] node - the node describing the person you're sending a message to
@@ -31,7 +33,7 @@ module MeshChat
         def send_message(node, encrypted_message)
           return if _active_relay.blank?
 
-          Debug.sending_message_over_relay(node, '_active_relay._url')
+          Debug.sending_message_over_relay(node, encrypted_message, _active_relay_url)
 
           payload = payload_for(node.uid, encrypted_message)
           # Use first relay for now

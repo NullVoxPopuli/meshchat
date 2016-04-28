@@ -43,11 +43,11 @@ module MeshChat
         message = encrypted_message(node, message)
 
         # determine last known sending method
-        if node.on_local_network?
-          try_dispatching_over_local_network_first(node, message)
-        else
+        # if node.on_local_network?
+          # try_dispatching_over_local_network_first(node, message)
+        # else
           try_dispatching_over_the_relay_first(node, message)
-        end
+        # end
       end
 
       # this attempts to send over http to the local network,

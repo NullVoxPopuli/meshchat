@@ -18,7 +18,7 @@ module MeshChat
             self._payload = Cipher.encrypt(_payload, _node.public_key)
           end
 
-          self._payload = Base64.encode64(_payload)
+          self._payload = Base64.strict_encode64(_payload)
         end
 
         _payload

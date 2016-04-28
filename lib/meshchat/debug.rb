@@ -14,10 +14,11 @@ module MeshChat
       Display.debug(message)
     end
 
-    def sending_message_over_relay(node, relay_url)
+    def sending_message_over_relay(node, message, relay_url)
       Display.debug('SENDING on RELAY: ' + relay_url)
-      Display.debug('SENDING on RELAY: ')
-      # Display.debug(message)
+      Display.debug('SENDING on RELAY: ' + node.as_json.to_json)
+      Display.debug('SENDING on RELAY: ' + message.class.name)
+      Display.debug('SENDING on RELAY: ' + message.inspect)
     end
 
     def receiving_message(message)

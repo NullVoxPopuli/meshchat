@@ -11,43 +11,45 @@ module MeshChat
     class Base
       attr_accessor :payload, :time_recieved,
         :message, :sender_name, :sender_location, :sender_uid,
-        :message_dispatcher
+        :_message_dispatcher,
+        :_message_factory
 
       # @param [String] message
-      # @param [String] name_of_sender
-      # @param [String] location the location of the sender
-      # @param [Hash] payload optionally overrides the default payload
+      # @param [Hash] sender
+      # @param [Hash] payload all paramaters for a received message
+      # @param [MeshChat::Network::Dispatcher] message_dispatcher optionally overrides the default payload
+      # @param [MeshChat::Message::Factory] message_factory the message factory
       def initialize(
-        message: '',
-        sender_name: '',
-        sender_location: '',
-        sender_uid: '',
-        time_recieved: nil,
-        payload: nil,
-        message_dispatcher: nil)
+        message:            '',
+        sender:             {},
+        payload:            {},
+        message_dispatcher: nil,
+        message_factory:    nil)
 
-        @payload = payload.presence
+        if payload.present?
+          @payload = payload
+        else
+          @message         = message
+          @sender_name     = sender['alias']
+          @sender_location = sender['location']
+          @sender_uid      = sender['uid']
+        end
 
-        # TODO: find a more elegant way to represent this
-        self.message = message.presence || @payload.try(:[], 'message')
-        self.sender_name = sender_name.presence || @payload.try(:[], 'sender').try(:[], 'alias') || Settings['alias']
-        self.sender_location = sender_location.presence || @payload.try(:[], 'sender').try(:[], 'location') || Settings.location
-        self.sender_uid = sender_uid.presence || @payload.try(:[], 'sender').try(:[], 'uid') || Settings['uid']
-        self.time_recieved = time_recieved.presence || Time.now
-        self.message_dispatcher = message_dispatcher
+        @_message_dispatcher = message_dispatcher
+        @_message_factory    = message_factory
       end
 
       def payload
         @payload ||= {
-          'type' => type,
-          'message' => message,
-          'client' => client,
+          'type'           => type,
+          'message'        => message,
+          'client'         => client,
           'client_version' => client_version,
-          'time_sent' => time_recieved || Time.now.to_s,
-          'sender' => {
-            'alias' => sender_name,
-            'location' => sender_location,
-            'uid' => sender_uid
+          'time_sent'      => time_recieved || Time.now.to_s,
+          'sender'         => {
+            'alias'        => sender_name,
+            'location'     => sender_location,
+            'uid'          => sender_uid
           }
         }
       end
@@ -84,15 +86,22 @@ module MeshChat
 
       # Most message types aren't going to need to have an
       # immediate response.
-      #
       def respond
-        return
       end
 
       # this message should be called immediately
       # before sending to the whomever
       def render
         payload.to_json
+      end
+
+      alias_method :jsonized_payload, :render
+
+      def encrypt_for(node)
+        result     = jsonized_payload
+        public_key = node.public_key
+        result     = Encryption.encrypt(result, public_key) if node.public_key
+        Base64.strict_encode64(result)
       end
     end
   end

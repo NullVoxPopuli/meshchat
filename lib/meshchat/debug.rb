@@ -4,6 +4,10 @@ module MeshChat
   module Debug
     module_function
 
+    def message_type_not_found(type)
+      Display.debug('Type not found: ' + type.to_s)
+    end
+
     def not_on_local_network(node)
       Display.debug('SENDING: ' + node.alias_name + ' is not on the local network')
     end

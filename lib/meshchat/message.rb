@@ -1,39 +1,31 @@
-require 'meshchat/message/base'
-require 'meshchat/message/chat'
-require 'meshchat/message/emote'
-require 'meshchat/message/ping'
-require 'meshchat/message/ping_reply'
-require 'meshchat/message/disconnect'
-require 'meshchat/message/whisper'
-require 'meshchat/message/node_list'
-require 'meshchat/message/node_list_diff'
-require 'meshchat/message/node_list_hash'
-
 module MeshChat
   module Message
-    CHAT = 'chat'
-    EMOTE = 'emote'
-    PING = 'ping'
-    PING_REPLY = 'pingreply'
-    WHISPER = 'whisper'
-    DISCONNECT = 'disconnect'
+    extend ActiveSupport::Autoload
 
-    NODE_LIST = 'nodelist'
-    NODE_LIST_HASH = 'nodelisthash'
-    NODE_LIST_DIFF = 'nodelistdiff'
+    eager_autoload do
+      autoload :Base
+      autoload :Chat
+      autoload :Emote
+      autoload :Ping
+      autoload :PingReply
+      autoload :Disconnect
+      autoload :Whisper
+      autoload :NodeList
+      autoload :NodeListDiff
+      autoload :NodeListHash
+      autoload :Factory
+    end
 
-    TYPES = {
-      CHAT => Chat,
-      EMOTE => Emote,
-      WHISPER => Whisper,
-      DISCONNECT => Disconnect,
-      PING => Ping,
-      PING_REPLY => PingReply,
-      NODE_LIST => NodeList,
-      NODE_LIST_DIFF => NodeListDiff,
-      NODE_LIST_HASH => NodeListHash
-    }
+    # @see https://github.com/neuravion/mesh-chat/blob/master/message-types.md
+    CHAT           = 'chat'.freeze
+    EMOTE          = 'emote'.freeze
+    PING           = 'ping'.freeze
+    PING_REPLY     = 'pingreply'.freeze
+    WHISPER        = 'whisper'.freeze
+    DISCONNECT     = 'disconnect'.freeze
 
-
+    NODE_LIST      = 'nodelist'.freeze
+    NODE_LIST_HASH = 'nodelisthash'.freeze
+    NODE_LIST_DIFF = 'nodelistdiff'.freeze
   end
 end

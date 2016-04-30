@@ -1,6 +1,8 @@
 module MeshChat
-  module Net
-    class MessageDispatcher
+  module Network
+    class Dispatcher
+      # creates messages
+      attr_reader :_message_factory
 
       # standard peer-to-peer message sending
       attr_reader :_http_client

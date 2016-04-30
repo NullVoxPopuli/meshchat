@@ -1,8 +1,9 @@
 module MeshChat
   class CLI
     class Input
-      WHISPER = '@'
-      COMMAND = '/'
+      WHISPER = '@'.freeze
+      COMMAND = '/'.freeze
+
       attr_accessor :_input, :_message_dispatcher
 
       class << self

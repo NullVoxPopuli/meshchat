@@ -49,8 +49,8 @@ require 'meshchat/configuration'
 
 module MeshChat
   Settings = Config::Settings
-  Node = Models::Entry
-  Cipher = Encryption
+  Node     = Models::Entry
+  Cipher   = Encryption
 
   module_function
 
@@ -76,28 +76,34 @@ module MeshChat
     # if everything is configured correctly, boot the app
     # this handles all of the asyncronous stuff
     EventMachine.run do
-      # 1. hook up the display / output 'device'
-      #    - responsible for notifications
-      #    - created in Configuration
-      display = CurrentDisplay
-
-      # 2. create the message dispatcher
-      #    - sends the messages out to the network
-      #    - tries p2p first, than uses the relays
-      message_dispatcher = Net::MessageDispatcher.new
-
-      # 3. boot up the http server
-      #    - for listening for incoming requests
-      port = Settings['port']
-      server_class = MeshChat::Net::Listener::Server
-      EM.start_server '0.0.0.0', port, server_class, message_dispatcher
-
-      # 4. hook up the keyboard / input 'device'
-      #    - tesponsible for parsing input
-      input_receiver = CLI.new(message_dispatcher, display)
-      # by default the app_config[:input] is
-      # MeshChat::Cli::KeyboardLineInput
-      EM.open_keyboard(app_config[:input], input_receiver)
+      bootstrap_runloop
     end
+  end
+
+  def bootstrap_runloop
+    # 1. hook up the display / output 'device'
+    #    - responsible for notifications
+    #    - created in Configuration
+    display = CurrentDisplay
+
+    message_factory = Message::Factory.new(message_dispatcher)
+
+    # 2. create the message dispatcher
+    #    - sends the messages out to the network
+    #    - tries p2p first, than uses the relays
+    message_dispatcher = Net::MessageDispatcher.new
+
+    # 3. boot up the http server
+    #    - for listening for incoming requests
+    port = Settings['port']
+    server_class = MeshChat::Net::Listener::Server
+    EM.start_server '0.0.0.0', port, server_class, message_dispatcher
+
+    # 4. hook up the keyboard / input 'device'
+    #    - tesponsible for parsing input
+    input_receiver = CLI.new(message_dispatcher, display)
+    # by default the app_config[:input] is
+    # MeshChat::Cli::KeyboardLineInput
+    EM.open_keyboard(app_config[:input], input_receiver)
   end
 end

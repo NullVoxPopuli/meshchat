@@ -49,7 +49,6 @@ module Meshchat
 
     def creating_input_failed(e)
       Display.error e.message
-      Display.error e.class.name
       Display.error e.backtrace.join("\n").colorize(:red)
     end
   end

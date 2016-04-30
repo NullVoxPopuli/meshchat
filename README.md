@@ -6,12 +6,15 @@ This is the core functionality for implementing a [mesh-chat](https://github.com
 
 #Usage
 
+
+
 See [Spiced Rumby](https://github.com/NullVoxPopuli/spiced_rumby)
 
 In order to use meshchat with your own interface, you only need to pass in your own implementations of `Display::Base` and `CLI::Base`
 
 Optionally, you may pass in a notifier to have the mesh-chat trigger notifications for your system
 
+TODO: update all this, as it's not correct anymore
 ```ruby
 Meshchat.start(
   client_name: NAME, # name of your client

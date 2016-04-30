@@ -2,7 +2,7 @@
 module Meshchat
   module Ui
     module Command
-      class Base < CLI::Input
+      class Base
         # Commands
         SET = 'set'
         CONFIG = 'config'
@@ -30,19 +30,21 @@ module Meshchat
         SEND_DISCONNECT = 'senddisconnect'
         EMOTE = 'me'
 
-        attr_accessor :_input, :_message_dispatcher, :_message_factory
+        attr_reader :_input, :_message_dispatcher
+        attr_reader :_message_factory, :_input_factory
 
-        def initialize(input, message_dispatcher, message_factory)
-          self._input              = input.chomp
-          self._message_dispatcher = message_dispatcher
-          self._message_factory    = message_factory
+        def initialize(input, message_dispatcher, message_factory, input_factory)
+          @_input              = input.chomp
+          @_message_dispatcher = message_dispatcher
+          @_message_factory    = message_factory
+          @_input_factory      = input_factory
         end
 
         def handle
           klass = COMMAND_MAP[command]
           Display.debug("INPUT: #{klass&.name} from #{command} derived from #{_input}")
           if klass
-            klass.new(_input, _message_dispatcher).handle
+            _input_factory.create(for_input: _input, with_class: klass).handle
           else
             Display.alert 'not implemented...'
           end
@@ -52,11 +54,8 @@ module Meshchat
 
         def corresponding_message_class
           my_kind = self.class.name.demodulize
-          message_root_name = Meshchat::Message.name
+          message_root_name = Meshchat::Network::Message.name
           message_class_name = "#{message_root_name}::#{my_kind}"
-
-          Display.debug("Corresponding: #{message_class_name}")
-
           message_class_name.constantize
         end
 

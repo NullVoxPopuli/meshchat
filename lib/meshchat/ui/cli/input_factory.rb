@@ -2,7 +2,7 @@
 module Meshchat
   module Ui
     class CLI
-      class Input
+      class InputFactory
         WHISPER = '@'
         COMMAND = '/'
 
@@ -21,7 +21,17 @@ module Meshchat
           input[0, 1] == WHISPER
         end
 
-        def create(input)
+        def create(for_input: nil, with_class: nil)
+          return create_with_class(for_input, with_class) if with_class
+
+          create_for_input(for_input)
+        end
+
+        def create_with_class(input, klass)
+          klass.new(input, _message_dispatcher, _message_factory, self)
+        end
+
+        def create_for_input(input)
           klass =
             if is_command?(input)
               Command::Base
@@ -31,8 +41,7 @@ module Meshchat
               Command::Chat
             end
 
-          Display.debug("INPUT: Detected '#{klass.name}' from '#{input}'")
-          klass.new(input, message_dispatcher)
+          create_with_class(input, klass)
         end
       end
     end

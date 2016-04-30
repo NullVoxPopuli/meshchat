@@ -74,7 +74,11 @@ module Meshchat
 
     # 4. hook up the keyboard / input 'device'
     #    - tesponsible for parsing input
-    input_receiver = Ui::CLI.new(message_dispatcher, display)
+    input_receiver = Ui::CLI.new(
+      message_dispatcher,
+      message_dispatcher._message_factory,
+      display)
+
     # by default the app_config[:input] is
     # Meshchat::Cli::KeyboardLineInput
     EM.open_keyboard(app_config[:input], input_receiver)

@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe Meshchat::Ui::Command::Config do
   let (:klass) { Meshchat::Ui::Command::Config }
-  let(:message_dispatcher) { Meshchat::Network::MessageDispatcher.new }
+  let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects
@@ -15,7 +15,7 @@ describe Meshchat::Ui::Command::Config do
       it 'sets the value' do
         c = klass.new('/config set anything toValue', message_dispatcher)
         c.handle
-        expect(Meshchat::Settings['anything']).to eq 'toValue'
+        expect(Meshchat::APP_CONFIG.user['anything']).to eq 'toValue'
       end
 
       it 'does not pass valid params' do

@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe Meshchat::Network::Message::NodeList do
   let(:klass) { Meshchat::Network::Message::NodeList }
-  let(:message_dispatcher) { Meshchat::Net::MessageDispatcher.new }
+  let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects
@@ -29,7 +29,7 @@ describe Meshchat::Network::Message::NodeList do
     it 'sends a message' do
       expect(message_dispatcher).to receive(:send_message)
 
-      expect(Meshchat::Models::Entry).to receive(:diff) {
+      expect(Meshchat::Node).to receive(:diff) {
         [[{
           'alias' => 'hi',
           'location' => '2.2.2.2:222',

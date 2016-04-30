@@ -1,19 +1,16 @@
 # frozen_string_literal: true
 def mock_settings_objects
   delete_test_files
-  setup_database
 
-  config = Meshchat::Configuration.new(
-    display: MeshchatStub::Display::Null::UI
-  )
+  s = Meshchat::Configuration::Settings.new
+  s.instance_variable_set('@filename', 'test-settings')
+  s._hash = Meshchat::Configuration::Settings::DEFAULT_SETTINGS
+  s.save
 
-  allow(Meshchat::Cipher).to receive(:current_encryptor){
+  Meshchat::APP_CONFIG[:user] = s
+  allow(Meshchat::Encryption).to receive(:current_encryptor){
     Meshchat::Encryption::Passthrough
   }
-
-  allow_any_instance_of(Meshchat::Config::Settings).to receive(:filename) { 'test-settings' }
-  s = Meshchat::Config::Settings.new
-  allow(Meshchat::Config::Settings).to receive(:instance) { s }
 end
 
 def delete_test_files
@@ -28,9 +25,9 @@ end
 
 require 'em-websocket'
 def start_fake_relay_server(options = {})
-  Meshchat::Net::MessageDispatcher.const_set(:RELAYS, [
-                                               'ws://0.0.0.0:12345'
-                                             ])
+  Meshchat::Network::Dispatcher.const_set(:RELAYS, [
+                                            'ws://0.0.0.0:12345'
+                                          ])
   Thread.new do
     EM.run do
       EM::WebSocket.run({ host: '0.0.0.0', port: 12_345 }.merge(options)) do |ws|
@@ -49,8 +46,8 @@ def setup_database
     database: ':memory:'
   )
 
-  Meshchat::Database.create_database
+  Meshchat::Configuration::Database.create_database
 
   # just to be sure
-  Meshchat::Models::Entry.destroy_all
+  Meshchat::Node.destroy_all
 end

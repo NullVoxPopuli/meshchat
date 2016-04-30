@@ -8,7 +8,7 @@ module Meshchat
         end
 
         def handle
-          Display.success Settings.identity
+          Display.success APP_CONFIG.user.identity
         end
       end
     end

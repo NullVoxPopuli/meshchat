@@ -12,20 +12,6 @@ module Meshchat
         'publickey' => ''
       }.freeze
 
-      class << self
-        delegate :valid?, :errors,
-          :[], :[]=, :display, :as_hash, :save, :set,
-          :location, :identity, :keys_exist?, :public_key,
-          :private_key, :generate_keys, :share, :key_pair,
-          :uid_exists?, :generate_uid, :debug?, :identity_as_json,
-          :valid?, :is_complete?,
-          to: :instance
-
-        def instance
-          @instance ||= new
-        end
-      end
-
       def debug?
         %w(true 1 yes y t).include?(self['debug'].try(:downcase))
       end

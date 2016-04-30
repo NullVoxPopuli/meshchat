@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe Meshchat::Ui::Command::Identity do
   let (:klass) { Meshchat::Ui::Command::Identity }
-  let(:message_dispatcher) { Meshchat::Network::MessageDispatcher.new }
+  let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects
@@ -15,7 +15,7 @@ describe Meshchat::Ui::Command::Identity do
       c = klass.new('/identity', message_dispatcher)
       # there isn't really a beneficial way to test this,
       # but it does make sure that there are no errors
-      expect(c.handle).to eq Meshchat::Settings.identity
+      expect(c.handle).to eq Meshchat::APP_CONFIG.user.identity
     end
   end
 end

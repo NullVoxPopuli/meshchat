@@ -68,7 +68,7 @@ module Meshchat
 
     # 3. boot up the http server
     #    - for listening for incoming requests
-    port = Settings['port']
+    port = APP_CONFIG.user['port']
     server_class = Network::Local::Listener::Server
     EM.start_server '0.0.0.0', port, server_class, message_dispatcher
 

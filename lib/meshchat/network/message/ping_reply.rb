@@ -4,7 +4,7 @@ module Meshchat
     module Message
       class PingReply < Base
         def display
-          'ping successful' if Settings.debug?
+          'ping successful' if APP_CONFIG.user.debug?
         end
       end
     end

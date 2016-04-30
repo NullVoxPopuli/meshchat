@@ -50,7 +50,7 @@ module Meshchat
         end
 
         def setup_client_for_url(url)
-          path = "#{url}?uid=#{Settings['uid']}"
+          path = "#{url}?uid=#{APP_CONFIG.user['uid']}"
           client = ActionCableClient.new(path, CHANNEL)
 
           # don't output anything upon connecting

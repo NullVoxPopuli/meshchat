@@ -38,7 +38,7 @@ module Meshchat
         # so that we can pass our own public key
         # to those who don't have it
         others = all.map(&:as_json)
-        me = Settings.identity_as_json
+        me = APP_CONFIG.user.identity_as_json
         others << me
       end
 

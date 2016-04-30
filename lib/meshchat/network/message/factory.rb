@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Meshchat
   module Network
     module Message
@@ -40,7 +41,6 @@ module Meshchat
           data = data.with_indifferent_access
 
           parameters = parameters_for(data)
-
           TYPES[type].new(parameters)
         end
 
@@ -64,9 +64,9 @@ module Meshchat
           {
             message: data[:message],
             sender: {
-              alias: Settings['alias'],
-              location: Settings['location'],
-              uid: Settings['uid']
+              'alias'    => APP_CONFIG.user['alias'],
+              'location' => APP_CONFIG.user.location,
+              'uid'      => APP_CONFIG.user['uid']
             }
           }
         end

@@ -28,7 +28,7 @@ describe Meshchat::Network::Message::NodeListDiff do
 
       expect do
         msg.handle
-      end.to change(Meshchat::Models::Entry, :count).by 1
+      end.to change(Meshchat::Node, :count).by 1
     end
   end
 end

@@ -33,7 +33,7 @@ module Meshchat
             Display.debug 'we have nodes that they do not'
 
             # give the sender our list
-            message_dispatcher.send_message(
+            _message_dispatcher.send_message(
               uid: uid,
               message: NodeListDiff.new(message: we_only_have)
             )
@@ -51,7 +51,7 @@ module Meshchat
             Display.debug 'node lists are in sync'
 
             # lists are in sync, confirm with hash
-            message_dispatcher.send_message(uid: uid, message: NodeListHash.new)
+            _message_dispatcher.send_message(uid: uid, message: NodeListHash.new)
           end
         end
       end

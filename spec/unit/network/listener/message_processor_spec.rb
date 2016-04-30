@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe Meshchat::Network::Local::Listener::MessageProcessor do
   let(:klass) { Meshchat::Network::Local::Listener::MessageProcessor }
-  let(:message_dispatcher) { Meshchat::Network::MessageDispatcher.new }
+  let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects
@@ -32,7 +32,7 @@ describe Meshchat::Network::Local::Listener::MessageProcessor do
     context 'throws exceptions' do
       context 'not authorized' do
         it 'cannot be decrypted' do
-          Meshchat::Settings[:privatekey] = @private_key1
+          Meshchat::APP_CONFIG.user[:privatekey] = @private_key1
           message = Meshchat::Message::Ping.new
           raw = Meshchat::Net::Request.new(@node_me, message).payload
 
@@ -44,7 +44,7 @@ describe Meshchat::Network::Local::Listener::MessageProcessor do
 
       context 'forbidden' do
         it 'receives a message from a non-existant node' do
-          Meshchat::Settings[:privatekey] = @private_key
+          Meshchat::APP_CONFIG.user[:privatekey] = @private_key
           message = Meshchat::Message::Ping.new
           raw = Meshchat::Net::Request.new(@node_me, message).payload
 
@@ -56,7 +56,7 @@ describe Meshchat::Network::Local::Listener::MessageProcessor do
 
       context 'bad request' do
         it 'uses an unsupported type' do
-          Meshchat::Settings[:privatekey] = @private_key
+          Meshchat::APP_CONFIG.user[:privatekey] = @private_key
           message = Meshchat::Message::Ping.new
           message.instance_variable_set('@type', 'unsupported')
           raw = Meshchat::Net::Request.new(@node_me, message).payload

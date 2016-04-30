@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 module Meshchat
   module Network
     module Message
-
       # NOTE:
       #  #display: shows the message
       #            should be used locally, before *sending* a message
@@ -10,10 +10,10 @@ module Meshchat
       #           needs to be a response right away
       #  #respond: where the actual logic for the response goes
       class Base
-        attr_accessor :payload, :time_recieved,
-          :message, :sender_name, :sender_location, :sender_uid,
-          :_message_dispatcher,
-          :_message_factory
+        attr_accessor :payload,
+          :_message, :_sender_name, :_sender_location, :_sender_uid,
+          :_time_received,
+          :_message_dispatcher, :_message_factory
 
         # @param [String] message
         # @param [Hash] sender
@@ -30,10 +30,11 @@ module Meshchat
           if payload.present?
             @payload = payload
           else
-            @message         = message
-            @sender_name     = sender['alias']
-            @sender_location = sender['location']
-            @sender_uid      = sender['uid']
+            @_message         = message
+            @_sender_name     = sender['alias']
+            @_sender_location = sender['location']
+            @_sender_uid      = sender['uid']
+            @_time_received   = Time.now.to_s
           end
 
           @_message_dispatcher = message_dispatcher
@@ -43,14 +44,14 @@ module Meshchat
         def payload
           @payload ||= {
             'type'           => type,
-            'message'        => message,
+            'message'        => _message,
             'client'         => client,
             'client_version' => client_version,
-            'time_sent'      => time_recieved || Time.now.to_s,
+            'time_sent'      => _time_received,
             'sender'         => {
-              'alias'        => sender_name,
-              'location'     => sender_location,
-              'uid'          => sender_uid
+              'alias'        => _sender_name,
+              'location'     => _sender_location,
+              'uid'          => _sender_uid
             }
           }
         end
@@ -59,16 +60,36 @@ module Meshchat
           @type ||= Factory::TYPES.invert[self.class]
         end
 
+        def message
+          _message || payload['message']
+        end
+
+        def sender
+          payload['sender']
+        end
+
+        def sender_name
+          _sender_name || sender['alias']
+        end
+
+        def sender_location
+          _sender_location || sender['location']
+        end
+
+        def sender_uid
+          _sender_uid || sender['uid']
+        end
+
+        def time_received
+          _time_received || payload['time_sent']
+        end
+
         def client
           APP_CONFIG[:client_name]
         end
 
         def client_version
           APP_CONFIG[:client_version]
-        end
-
-        def sender
-          payload['sender']
         end
 
         # shows the message

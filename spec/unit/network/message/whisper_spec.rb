@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe Meshchat::Network::Message::Whisper do
   let(:klass) { Meshchat::Network::Message::Whisper }
-  let(:message_dispatcher) { Meshchat::Net::MessageDispatcher.new }
+  let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects
@@ -14,13 +14,6 @@ describe Meshchat::Network::Message::Whisper do
     it 'sets a default payload' do
       msg = klass.new
       expect(msg.payload).to_not be_nil
-    end
-
-    it 'sets the default sender' do
-      m = klass.new
-      expect(m.sender_name).to eq Meshchat::Settings['alias']
-      expect(m.sender_location).to eq Meshchat::Settings.location
-      expect(m.sender_uid).to eq Meshchat::Settings['uid']
     end
   end
 

@@ -23,7 +23,7 @@ module Meshchat
         f = read_file
         begin
           self._hash = JSON.parse(f)
-        rescue Exception => e
+        rescue => e
           Display.alert e.message
           self._hash = default_settings
           Display.warning 'writing defaults...'

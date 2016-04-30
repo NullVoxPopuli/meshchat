@@ -8,7 +8,7 @@ module Meshchat
         end
 
         def handle
-          Settings.share
+          APP_CONFIG.user.share
         end
       end
     end

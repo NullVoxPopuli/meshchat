@@ -14,6 +14,8 @@ module Meshchat
 
       def initialize(options)
         @_options = DEFAULTS.merge(options)
+        @_options[:user] = Configuration::Settings.new
+
 
         locale_path = 'lib/meshchat/locale/'
         # I18n.load_path = Dir[locale_path + '*.yml']
@@ -25,12 +27,10 @@ module Meshchat
         # The display has to be created right away so that
         # we can start outputting to it
         manager = Ui::Display::Manager.new(options[:display])
-        Meshchat.const_set(:CurrentDisplay, manager)
         Meshchat.const_set(:Display, manager)
         Meshchat.const_set(:APP_CONFIG, self)
-        Meshchat.const_set(:Settings, Configuration::Settings)
 
-        CurrentDisplay.start
+        Meshchat::Display.start
       end
 
       def validate
@@ -50,6 +50,14 @@ module Meshchat
 
       def [](key)
         _options[key]
+      end
+
+      def []=(key, value)
+        _options[key] = value
+      end
+
+      def user
+        _options[:user]
       end
     end
   end

@@ -11,7 +11,7 @@ module Meshchat
 
         generate! if auto_confirm || confirm?(I18n.t('identity.settings_not_detected'))
         # if everything is good, the app can boot
-        return Settings.save if setup_is_completed?
+        return APP_CONFIG.user.save if setup_is_completed?
 
         # if something has gone wrong, we'll ask if they want to try again
         return check_or_create(true, true) if confirm? I18n.t('identity.unknown_error_try_again')
@@ -26,7 +26,7 @@ module Meshchat
       end
 
       def setup_is_completed?
-        Meshchat::Configuration::Settings.is_complete?
+        APP_CONFIG.user.is_complete?
       end
 
       def generate!
@@ -37,16 +37,16 @@ module Meshchat
       end
 
       def confirm_uid
-        if Settings.uid_exists?
-          Settings.generate_uid if confirm? I18n.t('identity.confirm_uid_replace')
+        if APP_CONFIG.user.uid_exists?
+          APP_CONFIG.user.generate_uid if confirm? I18n.t('identity.confirm_uid_replace')
         else
-          Settings.generate_uid
+          APP_CONFIG.user.generate_uid
         end
       end
 
       def confirm_alias
-        if Settings['alias'].present?
-          Display.add_line I18.t('idenity.current_alias', name: Settings['alias'])
+        if APP_CONFIG.user['alias'].present?
+          Display.add_line I18.t('idenity.current_alias', name: APP_CONFIG.user['alias'])
           ask_for_alias if confirm? I18n.t('identity.confirm_alias_replace')
         else
           ask_for_alias
@@ -54,10 +54,10 @@ module Meshchat
       end
 
       def confirm_keys
-        if Settings.keys_exist?
-          Settings.generate_keys if confirm? I18n.t('identity.confirm_key_replace')
+        if APP_CONFIG.user.keys_exist?
+          APP_CONFIG.user.generate_keys if confirm? I18n.t('identity.confirm_key_replace')
         else
-          Settings.generate_keys
+          APP_CONFIG.user.generate_keys
         end
       end
 
@@ -65,7 +65,7 @@ module Meshchat
         Display.add_line I18n.t('identity.ask_for_alias')
         response = gets
         response = response.chomp
-        Settings['alias'] = response
+        APP_CONFIG.user['alias'] = response
       end
 
       def confirm?(msg)

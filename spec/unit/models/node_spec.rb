@@ -46,7 +46,7 @@ describe Meshchat::Node do
 
       expect(they_only_have).to eq [theirs]
       # must also include ourselves
-      expect(we_only_have).to eq [ours, Meshchat::Settings.identity_as_json]
+      expect(we_only_have).to eq [ours, Meshchat::APP_CONFIG.user.identity_as_json]
     end
   end
 

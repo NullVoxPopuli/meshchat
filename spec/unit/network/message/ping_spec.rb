@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe Meshchat::Network::Message::Ping do
   let(:klass) { Meshchat::Network::Message::Ping }
-  let(:message_dispatcher) { Meshchat::Net::MessageDispatcher.new }
+  let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects

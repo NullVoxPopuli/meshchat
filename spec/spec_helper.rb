@@ -37,6 +37,12 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
+  config.before(:all) do
+    Meshchat::Configuration::AppConfig.new(
+      display: MeshchatStub::Display::Null::UI
+    )
+  end
+
   config.before(:each) do
     setup_database
   end

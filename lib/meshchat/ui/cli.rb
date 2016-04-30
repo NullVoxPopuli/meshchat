@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Meshchat
   module Ui
     # A user interface is responsible for for creating a client
@@ -30,7 +31,7 @@ module Meshchat
       def shutdown
         # close_server
         Display.info 'saving config...'
-        Settings.save
+        APP_CONFIG.user.save
         Display.info 'notifying of disconnection...'
         send_disconnect
         Display.alert "\n\nGoodbye.  \n\nThank you for using #{Meshchat.name}"

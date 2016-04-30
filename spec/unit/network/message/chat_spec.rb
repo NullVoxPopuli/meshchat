@@ -4,10 +4,10 @@ require 'spec_helper'
 describe Meshchat::Network::Message::Chat do
   let(:klass) { Meshchat::Network::Message::Chat }
 
+  before(:each) do
+    mock_settings_objects
+  end
   context 'instantiation' do
-    before(:each) do
-      mock_settings_objects
-    end
     it 'sets a default payload' do
       msg = klass.new
       expect(msg.payload).to_not be_nil

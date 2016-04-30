@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe Meshchat::Network::Local::Listener::Request do
   let(:klass) { Meshchat::Network::Local::Listener::Request }
-  let(:message_dispatcher) { Meshchat::Net::MessageDispatcher.new }
+  let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects

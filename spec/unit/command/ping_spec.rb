@@ -1,12 +1,13 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Command::Ping do
-  let (:klass){ MeshChat::Command::Ping }
-  let(:message_dispatcher){ MeshChat::Net::MessageDispatcher.new }
+describe Meshchat::Command::Ping do
+  let (:klass) { Meshchat::Command::Ping }
+  let(:message_dispatcher) { Meshchat::Net::MessageDispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects
-    allow(message_dispatcher).to receive(:send_message){}
+    allow(message_dispatcher).to receive(:send_message) {}
   end
 
   describe '#handle' do
@@ -16,7 +17,7 @@ describe MeshChat::Command::Ping do
 
     it 'cannot find the server' do
       c = klass.new('/ping alias noone', message_dispatcher)
-      expect(c.handle).to eq ('noone could not be found')
+      expect(c.handle).to eq 'noone could not be found'
     end
 
     it 'shows usage' do
@@ -68,7 +69,7 @@ describe MeshChat::Command::Ping do
 
     it 'is an alias' do
       c = klass.new('/ping me', message_dispatcher)
-      expect(c.parse_ping_command).to eq ['alias', 'me']
+      expect(c.parse_ping_command).to eq %w(alias me)
     end
   end
 end

@@ -1,16 +1,17 @@
+# frozen_string_literal: true
 require 'action_cable_client'
 
-module MeshChat
+module Meshchat
   module Net
     class MessageDispatcher
-      class Relay
+      class RelayPool
         # This channel is set by the server
         CHANNEL = 'MeshRelayChannel'
         # TODO: add a way to configure relay nodes
         RELAYS = [
-          "ws://mesh-relay-in-us-1.herokuapp.com"
+          'ws://mesh-relay-in-us-1.herokuapp.com'
           # "ws://localhost:3000"
-        ]
+        ].freeze
 
         attr_accessor :_active_relay, :_message_dispatcher
         attr_accessor :_active_relay_url
@@ -53,7 +54,7 @@ module MeshChat
           client = ActionCableClient.new(path, CHANNEL)
 
           # don't output anything upon connecting
-          client.connected { }
+          client.connected {}
 
           # If there are errors, report them!
           client.errored do |message|
@@ -97,15 +98,13 @@ module MeshChat
         end
 
         def chat_message_received(message, received_from)
-          begin
-            Net::Listener::RequestProcessor.process(
-              message,
-              received_from,
-                true, _message_dispatcher)
-          rescue => e
-            ap e.message
-            puts e.backtrace
-          end
+          Net::Listener::RequestProcessor.process(
+            message,
+            received_from,
+            true, _message_dispatcher)
+        rescue => e
+          ap e.message
+          puts e.backtrace
         end
 
         def error_message_received(message)
@@ -117,7 +116,6 @@ module MeshChat
           # Debug.person_not_online(node, message, e)
         end
       end
-
     end
   end
 end

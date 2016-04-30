@@ -1,4 +1,5 @@
-module MeshChat
+# frozen_string_literal: true
+module Meshchat
   module Ui
     module Display
       class Base

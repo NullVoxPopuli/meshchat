@@ -1,4 +1,5 @@
-module MeshChat
+# frozen_string_literal: true
+module Meshchat
   module Encryption
     # Using AES266-CBC with RSA
     #

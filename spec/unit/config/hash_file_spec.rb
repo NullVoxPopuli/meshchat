@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Config::HashFile do
-  let(:klass) { MeshChat::Config::HashFile }
+describe Meshchat::Config::HashFile do
+  let(:klass) { Meshchat::Config::HashFile }
 
   before(:each) do
     mock_settings_objects
@@ -38,17 +39,16 @@ describe MeshChat::Config::HashFile do
 
       describe '#load' do
         context 'json is valid' do
-
         end
 
         context 'json is invalid' do
           before(:each) do
-            allow(instance).to receive(:read_file){ '{'}
+            allow(instance).to receive(:read_file) { '{' }
           end
 
           it 'shows the error message' do
-            expect(MeshChat::Display).to receive(:alert)
-            expect(MeshChat::Display).to receive(:warning)
+            expect(Meshchat::Display).to receive(:alert)
+            expect(Meshchat::Display).to receive(:warning)
             instance.load
           end
 
@@ -63,11 +63,10 @@ describe MeshChat::Config::HashFile do
   end
 
   describe '#filename' do
-
     it 'fails' do
-      expect{
+      expect do
         klass.new.filename
-      }.to raise_error
+      end.to raise_error
     end
   end
 end

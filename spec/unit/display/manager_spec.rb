@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Display::Manager do
-  let (:klass){ MeshChat::Display::Manager }
-  let(:message_dispatcher){ MeshChat::Net::MessageDispatcher.new }
+describe Meshchat::Display::Manager do
+  let (:klass) { Meshchat::Display::Manager }
+  let(:message_dispatcher) { Meshchat::Net::MessageDispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects
@@ -10,31 +11,29 @@ describe MeshChat::Display::Manager do
   end
 
   describe '#present_message' do
-
     it 'invokes chat' do
-      expect(MeshChat::CurrentDisplay).to receive(:chat)
-      m = MeshChat::Message::Chat.new
-      MeshChat::CurrentDisplay.present_message(m)
+      expect(Meshchat::CurrentDisplay).to receive(:chat)
+      m = Meshchat::Message::Chat.new
+      Meshchat::CurrentDisplay.present_message(m)
     end
 
     it 'invokes whisper' do
-      expect(MeshChat::CurrentDisplay).to receive(:whisper)
-      m = MeshChat::Message::Whisper.new
-      MeshChat::CurrentDisplay.present_message(m)
+      expect(Meshchat::CurrentDisplay).to receive(:whisper)
+      m = Meshchat::Message::Whisper.new
+      Meshchat::CurrentDisplay.present_message(m)
     end
 
     it 'invokes info' do
       pending 'output disabled for pingreply'
-      expect(MeshChat::CurrentDisplay).to receive(:info)
-      m = MeshChat::Message::PingReply.new
-      MeshChat::CurrentDisplay.present_message(m)
+      expect(Meshchat::CurrentDisplay).to receive(:info)
+      m = Meshchat::Message::PingReply.new
+      Meshchat::CurrentDisplay.present_message(m)
     end
 
     it 'invokes add_line for other menssages' do
-      expect(MeshChat::CurrentDisplay).to receive(:add_line)
-      m = MeshChat::Message::Disconnect.new
-      MeshChat::CurrentDisplay.present_message(m)
+      expect(Meshchat::CurrentDisplay).to receive(:add_line)
+      m = Meshchat::Message::Disconnect.new
+      Meshchat::CurrentDisplay.present_message(m)
     end
   end
-
 end

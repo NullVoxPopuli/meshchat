@@ -1,4 +1,5 @@
 module MeshChat
+  module Network
   module Message
     class Factory
       # The left side of this map is all the
@@ -71,4 +72,5 @@ module MeshChat
       end
     end
   end
+end
 end

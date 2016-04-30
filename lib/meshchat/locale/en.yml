@@ -10,3 +10,5 @@ identity:
   confirm_key_replace: keys exist, overwrite?
   ask_for_alias: 'Type the name/alias you would like to go by in meshchat:'
   current_alias: 'Your current name/alias is: %{name}'
+node:
+  not_found: "Node not found, or does not have a location. Have you imported %{name}?"

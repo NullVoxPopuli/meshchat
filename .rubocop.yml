@@ -1,14 +1,16 @@
 AllCops:
+  TargetRubyVersion: 2.3
   Exclude:
     - config/initializers/forbidden_yaml.rb
     - !ruby/regexp /(vendor|bundle|bin|db|tmp)\/.*/
   DisplayCopNames: true
   DisplayStyleGuide: true
 
-Lint/NestedMethodDefinition:
-  Enabled: false
-  Exclude:
-    - test/action_controller/serialization_test.rb
+# Lint/NestedMethodDefinition:
+#   Enabled: false
+
+Lint/EndAlignment:
+  AutoCorrect: true
 
 Style/Alias:
   EnforcedStyle: prefer_alias_method

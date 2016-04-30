@@ -1,12 +1,13 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Command::Whisper do
-  let (:klass){ MeshChat::Command::Whisper }
-  let(:message_dispatcher){ MeshChat::Net::MessageDispatcher.new }
+describe Meshchat::Command::Whisper do
+  let (:klass) { Meshchat::Command::Whisper }
+  let(:message_dispatcher) { Meshchat::Net::MessageDispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects
-    allow(message_dispatcher).to receive(:send_message){}
+    allow(message_dispatcher).to receive(:send_message) {}
   end
 
   describe '#target' do
@@ -49,7 +50,7 @@ describe MeshChat::Command::Whisper do
 
     context 'target found' do
       before(:each) do
-        MeshChat::Models::Entry.create(
+        Meshchat::Models::Entry.create(
           alias_name: 'alias',
           location_on_network: '1.1.1.1:1111',
           uid: '1',
@@ -65,5 +66,4 @@ describe MeshChat::Command::Whisper do
       end
     end
   end
-
 end

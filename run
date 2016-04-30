@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 current_dir = File.dirname(__FILE__)
 # set load path (similar to how gems require files (relative to lib))
@@ -9,7 +10,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require current_dir + '/lib/meshchat'
 
 module Debug
-  class CLIOutput < MeshChat::Ui::Display::Base
+  class CLIOutput < Meshchat::Ui::Display::Base
     def start
       puts "\n"
       alert 'Welcome to Spiced Rumby!'
@@ -17,11 +18,17 @@ module Debug
       puts "\n"
     end
 
-    def fatal(*args); alert(*args); end
+    def fatal(*args)
+      alert(*args)
+    end
 
-    def debug(*args); warning(*args); end
+    def debug(*args)
+      warning(*args)
+    end
 
-    def error(*args); alert(*args); end
+    def error(*args)
+      alert(*args)
+    end
 
     # TODO: find a more elegant way to handle color
     def add_line(line)
@@ -68,7 +75,6 @@ module Debug
   end
 end
 
-
-MeshChat.start(
+Meshchat.start(
   display: Debug::CLIOutput, # your class implementing `Display::Base`
 )

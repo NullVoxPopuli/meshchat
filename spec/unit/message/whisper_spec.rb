@@ -1,12 +1,13 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Message::Whisper do
-  let(:klass) { MeshChat::Message::Whisper }
-  let(:message_dispatcher){ MeshChat::Net::MessageDispatcher.new }
+describe Meshchat::Message::Whisper do
+  let(:klass) { Meshchat::Message::Whisper }
+  let(:message_dispatcher) { Meshchat::Net::MessageDispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects
-    allow(message_dispatcher).to receive(:send_message){}
+    allow(message_dispatcher).to receive(:send_message) {}
   end
 
   context 'instantiation' do
@@ -17,9 +18,9 @@ describe MeshChat::Message::Whisper do
 
     it 'sets the default sender' do
       m = klass.new
-      expect(m.sender_name).to eq MeshChat::Settings['alias']
-      expect(m.sender_location).to eq MeshChat::Settings.location
-      expect(m.sender_uid).to eq MeshChat::Settings['uid']
+      expect(m.sender_name).to eq Meshchat::Settings['alias']
+      expect(m.sender_location).to eq Meshchat::Settings.location
+      expect(m.sender_uid).to eq Meshchat::Settings['uid']
     end
   end
 

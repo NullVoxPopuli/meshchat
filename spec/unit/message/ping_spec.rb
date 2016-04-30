@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Message::Ping do
-  let(:klass) { MeshChat::Message::Ping }
-  let(:message_dispatcher){ MeshChat::Net::MessageDispatcher.new }
+describe Meshchat::Message::Ping do
+  let(:klass) { Meshchat::Message::Ping }
+  let(:message_dispatcher) { Meshchat::Net::MessageDispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects

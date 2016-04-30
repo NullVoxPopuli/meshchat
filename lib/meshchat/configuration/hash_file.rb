@@ -1,9 +1,10 @@
-module MeshChat
+# frozen_string_literal: true
+module Meshchat
   module Configuration
     class HashFile
       attr_accessor :_hash
 
-      DEFAULT_SETTINGS = {}
+      DEFAULT_SETTINGS = {}.freeze
 
       def initialize
         self._hash = default_settings
@@ -64,7 +65,7 @@ module MeshChat
 
       def filename
         return @filename if @filename
-        fail 'filename must be set'
+        raise 'filename must be set'
       end
 
       def default_settings

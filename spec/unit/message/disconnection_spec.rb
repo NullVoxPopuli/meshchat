@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Message::Disconnect do
-  let(:klass) { MeshChat::Message::Disconnect }
+describe Meshchat::Message::Disconnect do
+  let(:klass) { Meshchat::Message::Disconnect }
 
   before(:each) do
     mock_settings_objects

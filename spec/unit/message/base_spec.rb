@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Message::Base do
-  let(:klass) { MeshChat::Message::Base }
+describe Meshchat::Message::Base do
+  let(:klass) { Meshchat::Message::Base }
 
   before(:each) do
     mock_settings_objects
@@ -17,10 +18,9 @@ describe MeshChat::Message::Base do
   describe '#new' do
     it 'has my sender defaults' do
       m = klass.new
-      expect(m.sender_name).to eq MeshChat::Settings['alias']
-      expect(m.sender_location).to eq MeshChat::Settings.location
-      expect(m.sender_uid).to eq MeshChat::Settings['uid']
+      expect(m.sender_name).to eq Meshchat::Settings['alias']
+      expect(m.sender_location).to eq Meshchat::Settings.location
+      expect(m.sender_uid).to eq Meshchat::Settings['uid']
     end
   end
-
 end

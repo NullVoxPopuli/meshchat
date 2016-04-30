@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Message::PingReply do
-  let(:klass) { MeshChat::Message::PingReply }
+describe Meshchat::Message::PingReply do
+  let(:klass) { Meshchat::Message::PingReply }
 
   before(:each) do
     mock_settings_objects

@@ -1,10 +1,8 @@
-require 'meshchat/display/base'
-
-module MeshChat
+# frozen_string_literal: true
+module Meshchat
   module Ui
     module Display
       class Manager
-
         attr_accessor :_ui
 
         delegate :start, to: :_ui
@@ -53,9 +51,7 @@ module MeshChat
         end
 
         def notify(*args)
-          if defined? Notify and Notify
-            Notify.show(*args)
-          end
+          Notify.show(*args) if defined? Notify && Notify
         end
       end
     end

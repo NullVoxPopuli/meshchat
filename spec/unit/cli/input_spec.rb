@@ -1,22 +1,23 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::CLI::Input do
-  let(:klass) { MeshChat::CLI::Input }
-  let(:message_dispatcher){ MeshChat::Net::MessageDispatcher.new }
+describe Meshchat::CLI::Input do
+  let(:klass) { Meshchat::CLI::Input }
+  let(:message_dispatcher) { Meshchat::Net::MessageDispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects
-    allow(message_dispatcher).to receive(:send_message){}
+    allow(message_dispatcher).to receive(:send_message) {}
   end
   describe '#create' do
     it 'creates a command' do
       result = klass.create('/anything', message_dispatcher)
-      expect(result).to be_kind_of(MeshChat::Command::Base)
+      expect(result).to be_kind_of(Meshchat::Command::Base)
     end
 
     it 'creates a whisper' do
       result = klass.create('@anybody', message_dispatcher)
-      expect(result).to be_kind_of(MeshChat::Command::Whisper)
+      expect(result).to be_kind_of(Meshchat::Command::Whisper)
     end
 
     it 'creates a generic input' do
@@ -33,19 +34,19 @@ describe MeshChat::CLI::Input do
 
     context 'has servers' do
       before(:each) do
-        MeshChat::Models::Entry.new(
+        Meshchat::Models::Entry.new(
           alias_name: 'test',
           location_on_network: '1.1.1.1:1111',
           uid: '1',
           public_key: '10'
         ).save!
 
-        # expect(MeshChat::Net::Client).to receive(:send_to_and_close)
+        # expect(Meshchat::Net::Client).to receive(:send_to_and_close)
       end
 
       it 'displays the message' do
         msg = 'hi test'
-        expect(MeshChat::Display).to receive(:chat)
+        expect(Meshchat::Display).to receive(:chat)
         i = klass.create(msg, message_dispatcher)
         i.handle
       end
@@ -53,7 +54,7 @@ describe MeshChat::CLI::Input do
       skip 'renders the message to json' do
         pending('how to test?')
         msg = 'hi test'
-        # expect_any_instance_of(MeshChat::Message::Chat).to receive(:display)
+        # expect_any_instance_of(Meshchat::Message::Chat).to receive(:display)
         i = klass.create(msg, message_dispatcher)
         i.handle
       end

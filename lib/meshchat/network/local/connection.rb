@@ -1,11 +1,10 @@
+# frozen_string_literal: true
 require 'em-http-request'
 
-module MeshChat
-  module Net
-    class MessageDispatcher
-      module HttpClient
-        module_function
-
+module Meshchat
+  module Network
+    module Local
+      class Connection
         # @param [Node] node - the node describing the person you're sending a message to
         # @param [JSON] encrypted_message - the message intended for the person at the location
         # @param [Block] error_callback - what to do in case of failure
@@ -30,7 +29,7 @@ module MeshChat
           # p http.response_header.status
           # p http.response_header
           # p http.response
-          http.callback { }
+          http.callback {}
         end
 
         def payload_for(encrypted_message)

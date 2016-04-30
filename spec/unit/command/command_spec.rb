@@ -1,12 +1,13 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Command::Base do
-  let (:klass){ MeshChat::Command::Base }
-  let(:message_dispatcher){ MeshChat::Net::MessageDispatcher.new }
+describe Meshchat::Command::Base do
+  let (:klass) { Meshchat::Command::Base }
+  let(:message_dispatcher) { Meshchat::Net::MessageDispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects
-    allow(message_dispatcher).to receive(:send_message){}
+    allow(message_dispatcher).to receive(:send_message) {}
   end
 
   describe '#handle' do
@@ -24,8 +25,7 @@ describe MeshChat::Command::Base do
   describe '#sub_command_args' do
     it 'returns args of a sub command' do
       i = klass.new('/config set alias something', message_dispatcher)
-      expect(i.send(:sub_command_args)).to eq ['alias', 'something']
+      expect(i.send(:sub_command_args)).to eq %w(alias something)
     end
   end
-
 end

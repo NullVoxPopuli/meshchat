@@ -1,14 +1,14 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Encryption::AES_RSA do
-  let(:klass){ MeshChat::Encryption::AES_RSA }
+describe Meshchat::Encryption::AES_RSA do
+  let(:klass) { Meshchat::Encryption::AES_RSA }
 
   before(:each) do
     key_pair = OpenSSL::PKey::RSA.new(2048)
     @public_key = key_pair.public_key.export
     @private_key = key_pair.export
   end
-
 
   it 'has a message that can be decrypted' do
     message = 'message'
@@ -38,6 +38,4 @@ describe MeshChat::Encryption::AES_RSA do
 
     expect(message).to eq decrypted
   end
-
-
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # required standard libs
 require 'openssl'
 require 'socket'
@@ -5,7 +6,7 @@ require 'json'
 require 'date'
 require 'colorize'
 require 'io/console'
-require "readline"
+require 'readline'
 require 'logger'
 
 # required gems
@@ -20,22 +21,21 @@ require 'active_support/core_ext/module/delegation'
 require 'active_support/core_ext/object/blank'
 require 'active_support/core_ext/object/try'
 
-# local files for meshchat
 require 'meshchat/version'
+
 # debug logging....
 # ^ at least util 'all' scenarios are captured via tests
-# TODO: look in to how AMS does logging
+# TODO: look in to how Active Support does logging
 require 'meshchat/debug'
 
-module MeshChat
+module Meshchat
   extend ActiveSupport::Autoload
 
   eager_autoload do
-    autoload :Database
     autoload :Encryption
     autoload :Ui
-    autoload :Node, 'models/entry'
-    autoload :Message
+    autoload :Node, 'meshchat/models/node'
+    autoload :Network
     autoload :Configuration
   end
 
@@ -51,34 +51,32 @@ module MeshChat
     # if everything is configured correctly, boot the app
     # this handles all of the asyncronous stuff
     EventMachine.run do
-      bootstrap_runloop
+      bootstrap_runloop(app_config)
     end
   end
 
-  def bootstrap_runloop
+  def bootstrap_runloop(app_config)
     # 1. hook up the display / output 'device'
     #    - responsible for notifications
     #    - created in Configuration
     display = CurrentDisplay
 
-    message_factory = Message::Factory.new(message_dispatcher)
-
     # 2. create the message dispatcher
     #    - sends the messages out to the network
     #    - tries p2p first, than uses the relays
-    message_dispatcher = Net::MessageDispatcher.new
+    message_dispatcher = Network::Dispatcher.new
 
     # 3. boot up the http server
     #    - for listening for incoming requests
     port = Settings['port']
-    server_class = MeshChat::Net::Listener::Server
+    server_class = Network::Local::Listener::Server
     EM.start_server '0.0.0.0', port, server_class, message_dispatcher
 
     # 4. hook up the keyboard / input 'device'
     #    - tesponsible for parsing input
-    input_receiver = CLI.new(message_dispatcher, display)
+    input_receiver = Ui::CLI.new(message_dispatcher, display)
     # by default the app_config[:input] is
-    # MeshChat::Cli::KeyboardLineInput
+    # Meshchat::Cli::KeyboardLineInput
     EM.open_keyboard(app_config[:input], input_receiver)
   end
 end

@@ -1,7 +1,8 @@
-module MeshChat
+# frozen_string_literal: true
+module Meshchat
   module Configuration
     class Settings < HashFile
-      FILENAME = 'settings.json'.freeze
+      FILENAME = 'settings.json'
 
       DEFAULT_SETTINGS = {
         'alias' => '',
@@ -26,7 +27,7 @@ module MeshChat
       end
 
       def debug?
-        ['true', '1', 'yes', 'y', 't'].include?(self['debug'].try(:downcase))
+        %w(true 1 yes y t).include?(self['debug'].try(:downcase))
       end
 
       def identity_as_json

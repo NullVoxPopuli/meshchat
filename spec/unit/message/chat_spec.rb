@@ -1,10 +1,10 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Message::Chat do
-  let(:klass) { MeshChat::Message::Chat }
+describe Meshchat::Message::Chat do
+  let(:klass) { Meshchat::Message::Chat }
 
   context 'instantiation' do
-
     before(:each) do
       mock_settings_objects
     end
@@ -18,15 +18,15 @@ describe MeshChat::Message::Chat do
     before(:each) do
       payload = {
         'type' => 'chat',
-         'message' => @message = 'message',
-         'client' => MeshChat::APP_CONFIG[:client_name],
-         'client_version' => MeshChat::VERSION,
-         'time_sent' => @time = Time.now, # not yet sent
-         'sender' => {
-           'alias' => @sender = 'name_of_sender',
-           'location' => 'location',
-           'uid' => 'uid'
-         }
+        'message' => @message = 'message',
+        'client' => Meshchat::APP_CONFIG[:client_name],
+        'client_version' => Meshchat::VERSION,
+        'time_sent' => @time = Time.now, # not yet sent
+        'sender' => {
+          'alias' => @sender = 'name_of_sender',
+          'location' => 'location',
+          'uid' => 'uid'
+        }
       }
       @msg = klass.new(payload: payload)
     end

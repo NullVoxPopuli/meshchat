@@ -1,5 +1,6 @@
 
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Net::Listener::RequestProcessor do
+describe Meshchat::Net::Listener::RequestProcessor do
 end

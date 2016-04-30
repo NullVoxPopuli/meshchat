@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 module Meshchat
-  class CLI
+  module Ui
     module Command
       extend ActiveSupport::Autoload
 
@@ -33,7 +34,7 @@ module Meshchat
         Base::EXIT            => Exit,
         Base::QUIT            => Exit,
         Base::IDENTITY        => Identity,
-        Base::IRB             => IRB,
+        Base::IRB             => Irb,
         Base::SHARE           => Share,
         Base::IMPORT          => Import,
         Base::EXPORT          => Share,

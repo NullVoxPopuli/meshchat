@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Command::Config do
-  let (:klass){ MeshChat::Command::Config }
-  let(:message_dispatcher){ MeshChat::Net::MessageDispatcher.new }
+describe Meshchat::Command::Config do
+  let (:klass) { Meshchat::Command::Config }
+  let(:message_dispatcher) { Meshchat::Net::MessageDispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects
@@ -14,7 +15,7 @@ describe MeshChat::Command::Config do
       it 'sets the value' do
         c = klass.new('/config set anything toValue', message_dispatcher)
         c.handle
-        expect(MeshChat::Settings['anything']).to eq 'toValue'
+        expect(Meshchat::Settings['anything']).to eq 'toValue'
       end
 
       it 'does not pass valid params' do
@@ -26,7 +27,7 @@ describe MeshChat::Command::Config do
     context 'display' do
       it 'displays the settings' do
         c = klass.new('/config display', message_dispatcher)
-        expect(c.handle).to eq MeshChat::Settings.display
+        expect(c.handle).to eq Meshchat::Settings.display
       end
     end
 
@@ -39,7 +40,7 @@ describe MeshChat::Command::Config do
   describe '#config_set_args' do
     it 'returns the last two args' do
       c = klass.new('/config set arg1 arg2', message_dispatcher)
-      expect(c.config_set_args).to eq ['arg1', 'arg2']
+      expect(c.config_set_args).to eq %w(arg1 arg2)
     end
   end
 
@@ -58,7 +59,5 @@ describe MeshChat::Command::Config do
       c = klass.new('/config set hello there', nil)
       expect(c.is_valid_set_command?).to eq true
     end
-
   end
-
 end

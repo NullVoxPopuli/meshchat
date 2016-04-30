@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Message::NodeListHash do
-  let(:klass) { MeshChat::Message::NodeListHash }
+describe Meshchat::Message::NodeListHash do
+  let(:klass) { Meshchat::Message::NodeListHash }
 
   before(:each) do
     mock_settings_objects
@@ -33,7 +34,7 @@ describe MeshChat::Message::NodeListHash do
   context '#respond' do
     it 'shoots off a ping reply to the sender of the ping' do
       msg = klass.new(message: 'hash')
-      expect(msg).to receive_message_chain(:message_dispatcher, :send_message){}
+      expect(msg).to receive_message_chain(:message_dispatcher, :send_message) {}
       msg.respond
     end
   end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rubygems'
 require 'bundler/setup'
 
@@ -10,14 +11,13 @@ CodeClimate::TestReporter.start
 
 # This Gem
 require 'meshchat'
-MeshChat.const_set(:Notify, MeshChat::Notifier::Base)
+Meshchat.const_set(:Notify, Meshchat::Notifier::Base)
 
 SimpleCov.start do
   # add_filter "/lib/meshchat/display/bash/"
   # add_filter "/lib/meshchat/display/null/"
   # add_filter "/lib/meshchat/display/terminal_curses/"
 end
-
 
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |file| require file }
 

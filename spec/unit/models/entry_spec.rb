@@ -1,54 +1,53 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Models::Entry do
-  let(:klass) { MeshChat::Models::Entry }
+describe Meshchat::Models::Entry do
+  let(:klass) { Meshchat::Models::Entry }
 
   before(:each) do
     mock_settings_objects
   end
 
-
   describe 'diff' do
-    let(:shared){
+    let(:shared) do
       {
         'alias' => 'shared',
         'location' => '1.1.1.1:8000',
         'uid' => '1',
         'publickey' => 'a'
       }
-    }
+    end
 
-    let(:ours){
+    let(:ours) do
       {
         'alias' => 'ours',
         'location' => '1.1.1.1:8001',
         'uid' => '2',
         'publickey' => 'b'
       }
-    }
+    end
 
-    let(:theirs){
+    let(:theirs) do
       {
         'alias' => 'theirs',
         'location' => '1.1.1.1:8002',
         'uid' => '3',
         'publickey' => 'c'
       }
-    }
+    end
 
     it 'seperates ours from theirs' do
       us = [shared, ours]
       them = [shared, theirs]
 
-      us.each{|e| klass.from_json(e).save }
+      us.each { |e| klass.from_json(e).save }
 
       we_only_have, they_only_have = klass.diff(them)
 
       expect(they_only_have).to eq [theirs]
       # must also include ourselves
-      expect(we_only_have).to eq [ours, MeshChat::Settings.identity_as_json]
+      expect(we_only_have).to eq [ours, Meshchat::Settings.identity_as_json]
     end
-
   end
 
   describe '#==' do
@@ -77,7 +76,6 @@ describe MeshChat::Models::Entry do
         uid: '1',
         public_key: '123')
 
-
       expected = {
         'alias' => 'alias',
         'location' => '1.1.1.1:8080',
@@ -90,7 +88,6 @@ describe MeshChat::Models::Entry do
   end
 
   describe '#valid?' do
-
     it 'is false without an alias' do
       m = klass.new(alias_name: '')
       expect(m).to_not be_valid
@@ -106,5 +103,4 @@ describe MeshChat::Models::Entry do
       expect(m).to_not be_valid
     end
   end
-
 end

@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Command::Exit do
-  let (:klass){ MeshChat::Command::Exit }
-  let(:message_dispatcher){ MeshChat::Net::MessageDispatcher.new }
+describe Meshchat::Command::Exit do
+  let (:klass) { Meshchat::Command::Exit }
+  let(:message_dispatcher) { Meshchat::Net::MessageDispatcher.new }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects
@@ -12,10 +13,9 @@ describe MeshChat::Command::Exit do
   describe '#handle' do
     it 'alerts the user' do
       # don't actually shut down...
-      expect(MeshChat::CLI).to receive(:shutdown)
+      expect(Meshchat::CLI).to receive(:shutdown)
       c = klass.new('/exit', message_dispatcher)
       c.handle
     end
   end
-
 end

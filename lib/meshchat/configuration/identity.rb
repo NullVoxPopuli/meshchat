@@ -1,4 +1,5 @@
-module MeshChat
+# frozen_string_literal: true
+module Meshchat
   module Configuration
     module Identity
       module_function
@@ -25,7 +26,7 @@ module MeshChat
       end
 
       def setup_is_completed?
-        MeshChat::Config::Settings.is_complete?
+        Meshchat::Configuration::Settings.is_complete?
       end
 
       def generate!

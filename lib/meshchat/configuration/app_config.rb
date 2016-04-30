@@ -1,12 +1,13 @@
-module MeshChat
+# frozen_string_literal: true
+module Meshchat
   module Configuration
     class AppConfig
       DEFAULTS = {
-        display: Display::Base,
-        client_name: MeshChat.name,
-        client_version: VERSION,
-        input: CLI::KeyboardLineInput,
-        notifier: Notifier::Base
+        display: Ui::Display::Base,
+        client_name: Meshchat.name,
+        client_version: Meshchat::VERSION,
+        input: Ui::CLI::KeyboardLineInput,
+        notifier: Ui::Notifier::Base
       }.freeze
 
       attr_reader :_options
@@ -19,16 +20,15 @@ module MeshChat
         I18n.backend.store_translations(:en,
           YAML.load(File.read(locale_path + 'en.yml')))
 
-        MeshChat.const_set(:Notify, options[:notifier])
+        Meshchat.const_set(:Notify, options[:notifier])
 
         # The display has to be created right away so that
         # we can start outputting to it
-        manager = Display::Manager.new(options[:display])
-        MeshChat.const_set(:CurrentDisplay, manager)
-
-        MeshChat.const_set(:APP_CONFIG, self)
-        MeshChat.const_set(:Settings, Configuration::Settings)
-
+        manager = Ui::Display::Manager.new(options[:display])
+        Meshchat.const_set(:CurrentDisplay, manager)
+        Meshchat.const_set(:Display, manager)
+        Meshchat.const_set(:APP_CONFIG, self)
+        Meshchat.const_set(:Settings, Configuration::Settings)
 
         CurrentDisplay.start
       end

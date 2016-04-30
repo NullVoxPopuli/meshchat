@@ -1,4 +1,5 @@
-module MeshChat
+# frozen_string_literal: true
+module Meshchat
   # This file is stupid.
   # But very helpful when debugging problems...
   module Debug
@@ -31,7 +32,6 @@ module MeshChat
       Display.debug('RECEIVING: ' + message.message.to_s)
     end
 
-
     def sending_message(message)
       Display.debug('SENDING: ' + message.type)
       Display.debug('SENDING: ' + message.sender.to_s)
@@ -52,6 +52,5 @@ module MeshChat
       Display.error e.class.name
       Display.error e.backtrace.join("\n").colorize(:red)
     end
-
   end
 end

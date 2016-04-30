@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Message::NodeListDiff do
-  let(:klass) { MeshChat::Message::NodeListDiff }
+describe Meshchat::Message::NodeListDiff do
+  let(:klass) { Meshchat::Message::NodeListDiff }
 
   before(:each) do
     mock_settings_objects
@@ -17,17 +18,17 @@ describe MeshChat::Message::NodeListDiff do
   context '#handle' do
     it 'adds node entries we do not have' do
       msg = klass.new(message: [
-          {
-            'alias' => 'hi',
-            'location' => '2.2.2.2:222',
-            'uid' => '222',
-            'publickey' => '1233333'
-          }
-        ])
+                        {
+                          'alias' => 'hi',
+                          'location' => '2.2.2.2:222',
+                          'uid' => '222',
+                          'publickey' => '1233333'
+                        }
+                      ])
 
-      expect{
+      expect do
         msg.handle
-      }.to change(MeshChat::Models::Entry, :count).by 1
+      end.to change(Meshchat::Models::Entry, :count).by 1
     end
   end
 end

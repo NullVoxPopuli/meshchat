@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::Config::Settings do
-  let(:klass) { MeshChat::Config::Settings }
+describe Meshchat::Config::Settings do
+  let(:klass) { Meshchat::Config::Settings }
 
   before(:each) do
-    allow_any_instance_of(MeshChat::Config::Settings).to receive(:filename) { 'test-settings' }
+    allow_any_instance_of(Meshchat::Config::Settings).to receive(:filename) { 'test-settings' }
   end
 
   it 'sets the default if there is no settings file' do
@@ -18,7 +19,7 @@ describe MeshChat::Config::Settings do
   end
 
   context 'instance' do
-    let(:i){ klass.new }
+    let(:i) { klass.new }
 
     describe '#identity' do
       it 'returns a string' do
@@ -32,7 +33,7 @@ describe MeshChat::Config::Settings do
       end
 
       it 'is valid' do
-        allow(i).to receive(:errors){ [] }
+        allow(i).to receive(:errors) { [] }
         expect(i).to be_valid
       end
 
@@ -42,7 +43,6 @@ describe MeshChat::Config::Settings do
     end
 
     describe '#errors' do
-
       it 'must have an alias' do
         i['alias'] = nil
         expect(i.errors).to include('must have an alias')

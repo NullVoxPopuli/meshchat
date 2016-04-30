@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
-describe MeshChat::CLI do
-  let(:klass) { MeshChat::CLI }
+describe Meshchat::CLI do
+  let(:klass) { Meshchat::CLI }
 
   before(:each) do
     mock_settings_objects

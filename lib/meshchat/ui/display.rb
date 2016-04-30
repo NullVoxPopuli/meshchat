@@ -71,7 +71,7 @@ module Meshchat
       end
 
       def current
-        Meshchat::CurrentDisplay
+        Meshchat::Display
       end
     end
   end

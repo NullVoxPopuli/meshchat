@@ -7,7 +7,7 @@ module Meshchat
       DEFAULT_SETTINGS = {}.freeze
 
       def initialize
-        self._hash = default_settings
+        self._hash = default_settings.dup
         exists? ? load : save
       end
 

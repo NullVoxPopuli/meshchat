@@ -8,7 +8,7 @@ module Meshchat
         end
 
         def handle
-          CLI.shutdown
+          _input_factory._cli.shutdown
         end
       end
     end

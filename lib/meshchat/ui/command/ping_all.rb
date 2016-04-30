@@ -8,8 +8,9 @@ module Meshchat
         end
 
         def handle
+          ping = _message_factory.create(Network::Message::PING)
           Node.all.each do |n|
-            _message_dispatcher.send_message(node: n, message: Message::Ping.new)
+            _message_dispatcher.send_message(node: n, message: ping)
           end
         end
       end

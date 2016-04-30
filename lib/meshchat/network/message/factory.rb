@@ -25,10 +25,10 @@ module Meshchat
         attr_accessor :_common_parameters
 
         def initialize(dispatcher)
-          @_dispatcher = dispatcher
+          @_dispatcher        = dispatcher
           @_common_parameters = {
             message_dispatcher: _dispatcher,
-            message_factory: self
+            message_factory:    self
           }
         end
 

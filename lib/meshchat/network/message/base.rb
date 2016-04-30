@@ -56,7 +56,7 @@ module Meshchat
         end
 
         def type
-          @type ||= TYPES.invert[self.class]
+          @type ||= Factory::TYPES.invert[self.class]
         end
 
         def client

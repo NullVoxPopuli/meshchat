@@ -34,7 +34,7 @@ module Meshchat
         attr_reader :_message_factory, :_input_factory
 
         def initialize(input, message_dispatcher, message_factory, input_factory)
-          @_input              = input.chomp
+          @_input              = input&.chomp
           @_message_dispatcher = message_dispatcher
           @_message_factory    = message_factory
           @_input_factory      = input_factory

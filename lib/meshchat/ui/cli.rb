@@ -16,7 +16,7 @@ module Meshchat
       def initialize(dispatcher, message_factory, _display)
         @_message_dispatcher = dispatcher
         @_message_factory = message_factory
-        @_command_factory = InputFactory.new(dispatcher, message_factory)
+        @_command_factory = InputFactory.new(dispatcher, message_factory, self)
       end
 
       def create_input(msg)
@@ -38,8 +38,8 @@ module Meshchat
       end
 
       def send_disconnect
-        fake_input = InputFactory::Command + BASE::SEND_DISCONNECT
-        command    = _command_factory.create(fake_input)
+        klass   = Command::SendDisconnect
+        command = _command_factory.create(with_class: klass)
         command.handle
       end
     end

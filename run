@@ -52,13 +52,12 @@ module Debug
     end
 
     def chat(msg)
-      words = msg.split(' ')
-      time = words[0..1]
-      name = words[2]
-      message = words[3..words.length]
+      time = msg[:time]
+      name = msg[:sender]
+      message = msg[:message]
 
-      print (time.join(' ') + ' ').colorize(:light_magenta)
-      print (name + ' ').colorize(:cyan)
+      print((time.join(' ') + ' ').colorize(:light_magenta))
+      print((name + ' ').colorize(:cyan))
       print message.join(' ') + "\n"
     end
 

@@ -6,11 +6,12 @@ module Meshchat
         WHISPER = '@'
         COMMAND = '/'
 
-        attr_accessor :_message_dispatcher, :_message_factory
+        attr_accessor :_message_dispatcher, :_message_factory, :_cli
 
-        def initialize(message_dispatcher, message_factory)
+        def initialize(message_dispatcher, message_factory, cli)
           self._message_dispatcher = message_dispatcher
           self._message_factory    = message_factory
+          self._cli                = cli
         end
 
         def is_command?(input)

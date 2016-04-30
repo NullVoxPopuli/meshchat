@@ -3,7 +3,7 @@ module MeshchatStub
   module Display
     # for testing!
     module Null
-      class UI < Meshchat::Display::Base
+      class UI < Meshchat::Ui::Display::Base
         def start(*args)
           args.join
         end

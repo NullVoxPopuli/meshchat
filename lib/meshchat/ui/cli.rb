@@ -8,7 +8,6 @@ module MeshChat
       autoload :Input
       autoload :Base
       autoload :KeyboardLineInput
-      autoload :Command
     end
 
     class << self

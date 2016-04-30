@@ -3,6 +3,11 @@ require 'meshchat/encryption/passthrough'
 
 module MeshChat
   module Encryption
+    extend ActiveSupport::Autoload
+
+    autoload :AES_RSA
+    autoload :Passthrough
+
     module_function
 
     DEFAULT_ENCRYPTOR = AES_RSA

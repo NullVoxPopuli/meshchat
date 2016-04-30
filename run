@@ -9,7 +9,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require current_dir + '/lib/meshchat'
 
 module Debug
-  class CLIOutput < MeshChat::Display::Base
+  class CLIOutput < MeshChat::Ui::Display::Base
     def start
       puts "\n"
       alert 'Welcome to Spiced Rumby!'

@@ -1,5 +1,5 @@
 module MeshChat
-  module Database
+  module Database    
     module_function
 
     # Upon initial startup, instantiated the database

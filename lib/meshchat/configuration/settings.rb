@@ -1,7 +1,7 @@
 module MeshChat
-  module Config
+  module Configuration
     class Settings < HashFile
-      FILENAME = 'settings.json'
+      FILENAME = 'settings.json'.freeze
 
       DEFAULT_SETTINGS = {
         'alias' => '',
@@ -9,7 +9,7 @@ module MeshChat
         'ip' => 'localhost',
         'uid' => '',
         'publickey' => ''
-      }
+      }.freeze
 
       class << self
         delegate :valid?, :errors,
@@ -42,7 +42,7 @@ module MeshChat
         data = identity_as_json.to_json
 
         filename = "#{identity_as_json['alias']}.json"
-        File.open(filename, 'w'){ |f| f.syswrite(data) }
+        File.open(filename, 'w') { |f| f.syswrite(data) }
         Display.info "#{filename} written..."
       end
 
@@ -102,10 +102,10 @@ module MeshChat
 
       def errors
         messages = []
-        messages << 'must have an alias' if !self['alias'].present?
-        messages << 'must have ip set' if !self['ip'].present?
-        messages << 'must have port set' if !self['port'].present?
-        messages << 'must have uid set' if !self['uid'].present?
+        messages << 'must have an alias' unless self['alias'].present?
+        messages << 'must have ip set' unless self['ip'].present?
+        messages << 'must have port set' unless self['port'].present?
+        messages << 'must have uid set' unless self['uid'].present?
         messages
       end
 

@@ -1,5 +1,11 @@
 module MeshChat
   module Display
+    extend ActiveSupport::Autoload
+
+    eager_autoload do
+      autoload :Base
+      autoload :Manager
+    end
 
     module_function
 

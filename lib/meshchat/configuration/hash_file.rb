@@ -1,5 +1,5 @@
 module MeshChat
-  module Config
+  module Configuration
     class HashFile
       attr_accessor :_hash
 

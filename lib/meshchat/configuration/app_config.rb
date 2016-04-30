@@ -1,0 +1,56 @@
+module MeshChat
+  module Configuration
+    class AppConfig
+      DEFAULTS = {
+        display: Display::Base,
+        client_name: MeshChat.name,
+        client_version: VERSION,
+        input: CLI::KeyboardLineInput,
+        notifier: Notifier::Base
+      }.freeze
+
+      attr_reader :_options
+
+      def initialize(options)
+        @_options = DEFAULTS.merge(options)
+
+        locale_path = 'lib/meshchat/locale/'
+        # I18n.load_path = Dir[locale_path + '*.yml']
+        I18n.backend.store_translations(:en,
+          YAML.load(File.read(locale_path + 'en.yml')))
+
+        MeshChat.const_set(:Notify, options[:notifier])
+
+        # The display has to be created right away so that
+        # we can start outputting to it
+        manager = Display::Manager.new(options[:display])
+        MeshChat.const_set(:CurrentDisplay, manager)
+
+        MeshChat.const_set(:APP_CONFIG, self)
+        MeshChat.const_set(:Settings, Configuration::Settings)
+
+
+        CurrentDisplay.start
+      end
+
+      def validate
+        # Check user config, go through initial setup if we haven't done so already.
+        # This should only need to be done once per user.
+        #
+        # This will also generate a whatever-alias-you-choose.json that the user
+        # can pass around to someone gain access to the network.
+        #
+        # Personal settings are stored in settings.json. This should never be
+        # shared with anyone.
+        Identity.check_or_create
+
+        # setup the storage - for keeping track of nodes on the network
+        Database.setup_storage
+      end
+
+      def [](key)
+        _options[key]
+      end
+    end
+  end
+end

@@ -24,33 +24,20 @@ require 'active_support/core_ext/object/try'
 require 'meshchat/version'
 # debug logging....
 # ^ at least util 'all' scenarios are captured via tests
+# TODO: look in to how AMS does logging
 require 'meshchat/debug'
-# everything else
-require 'meshchat/database'
-require 'meshchat/encryption'
-require 'meshchat/display'
-require 'meshchat/display/manager'
-require 'meshchat/notifier/base'
-require 'meshchat/models/entry'
-require 'meshchat/config/hash_file'
-require 'meshchat/config/settings'
-require 'meshchat/net/request'
-require 'meshchat/net/message_dispatcher/relay'
-require 'meshchat/net/message_dispatcher/http_client'
-require 'meshchat/net/message_dispatcher'
-require 'meshchat/net/listener/request'
-require 'meshchat/net/listener/message_processor'
-require 'meshchat/net/listener/request_processor'
-require 'meshchat/net/listener/server'
-require 'meshchat/cli'
-require 'meshchat/message'
-require 'meshchat/identity'
-require 'meshchat/configuration'
 
 module MeshChat
-  Settings = Config::Settings
-  Node     = Models::Entry
-  Cipher   = Encryption
+  extend ActiveSupport::Autoload
+
+  eager_autoload do
+    autoload :Database
+    autoload :Encryption
+    autoload :Ui
+    autoload :Node, 'models/entry'
+    autoload :Message
+    autoload :Configuration
+  end
 
   module_function
 
@@ -58,20 +45,8 @@ module MeshChat
   # @option overrides [Proc] on_display_start what to do upon start of the display manager
   # @option overrides [class] display the display ui to use inherited from Display::Base
   def start(overrides = {})
-    app_config = Configuration.new(overrides)
-
-    # Check user config, go through initial setup if we haven't done so already.
-    # This should only need to be done once per user.
-    #
-    # This will also generate a whatever-alias-you-choose.json that the user
-    # can pass around to someone gain access to the network.
-    #
-    # Personal settings are stored in settings.json. This should never be
-    # shared with anyone.
-    Identity.check_or_create
-
-    # setup the storage - for keeping track of nodes on the network
-    Database.setup_storage
+    app_config = Configuration::AppConfig.new(overrides)
+    app_config.validate
 
     # if everything is configured correctly, boot the app
     # this handles all of the asyncronous stuff

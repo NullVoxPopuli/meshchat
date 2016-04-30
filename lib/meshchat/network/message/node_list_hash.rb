@@ -4,7 +4,7 @@ module Meshchat
     module Message
       class NodeListHash < Base
         def message
-          @message ||= Node.as_sha512
+          @_message ||= Node.as_sha512
         end
 
         # node list hash is received
@@ -18,7 +18,7 @@ module Meshchat
           if message != Node.as_sha512
             Display.debug 'node list hashes do not match'
 
-            message_dispatcher.send_message(
+            _message_dispatcher.send_message(
               uid: payload['sender']['uid'],
               message: NodeList.new(message: Node.as_json)
             )

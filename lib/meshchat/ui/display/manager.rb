@@ -30,20 +30,20 @@ module Meshchat
           return unless result
 
           case message.class.name
-          when Message::Chat.name
+          when Network::Message::Chat.name
             chat result
             notify(summary: message.sender_name, body: message.message)
-          when Message::Whisper.name
+          when Network::Message::Whisper.name
             whisper result
             notify(summary: message.sender_name, body: message.message)
-          when Message::Emote.name
+          when Network::Message::Emote.name
             emote result
             notify(summary: message.sender_name, body: message.message)
-          when Message::PingReply.name, Message::Ping.name
+          when Network::Message::PingReply.name, Network::Message::Ping.name
             info result
-          when Message::NodeList.name,
-               Message::NodeListDiff.name,
-               Message::NodeListHash.name
+          when Network::Message::NodeList.name,
+               Network::Message::NodeListDiff.name,
+               Network::Message::NodeListHash.name
             # display nothing
           else
             add_line result
@@ -51,7 +51,7 @@ module Meshchat
         end
 
         def notify(*args)
-          Notify.show(*args) if defined? Notify && Notify
+          Notify.show(*args) if defined? Notify and Notify
         end
       end
     end

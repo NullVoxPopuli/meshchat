@@ -10,8 +10,9 @@ describe Meshchat::Ui::Command::Online do
 
   describe '#handle' do
     it 'alerts the user' do
-      c = klass.new('/online', nil)
-      # expect(c.handle).to eq Meshchat::ActiveServers.who
+      c = klass.new('/online', nil, nil, nil)
+      expect(Meshchat::Node).to receive(:online).and_call_original
+      c.handle
     end
   end
 end

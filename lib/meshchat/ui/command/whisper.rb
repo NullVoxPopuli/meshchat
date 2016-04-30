@@ -20,7 +20,12 @@ module Meshchat
           node = Node.find_by_alias_name(target)
 
           if node
-            m = Message::Whisper.new(message: message, to: target)
+            m = _message_factory.create(
+              type: Network::Message::WHISPER,
+              data: {
+                message: message,
+                to: target
+              })
 
             Display.whisper m.display
 

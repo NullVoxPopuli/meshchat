@@ -21,7 +21,7 @@ describe Meshchat::Network::Message::Chat do
         'message' => @message = 'message',
         'client' => Meshchat::APP_CONFIG[:client_name],
         'client_version' => Meshchat::VERSION,
-        'time_sent' => @time = Time.now, # not yet sent
+        'time_sent' => @time = Time.now.iso8601, # not yet sent
         'sender' => {
           'alias' => @sender = 'name_of_sender',
           'location' => 'location',
@@ -33,15 +33,15 @@ describe Meshchat::Network::Message::Chat do
 
     it 'has the time' do
       format_of_time = @time.strftime('%e/%m/%y %H:%I:%M')
-      expect(@msg.display).to include(format_of_time)
+      expect(@msg.display[:message]).to include(format_of_time)
     end
 
     it 'has the sender' do
-      expect(@msg.display).to include(@sender)
+      expect(@msg.display[:message]).to include(@sender)
     end
 
     it 'has the message' do
-      expect(@msg.display).to include(@message)
+      expect(@msg.display[:message]).to include(@message)
     end
   end
 end

@@ -3,38 +3,38 @@ require 'spec_helper'
 
 describe Meshchat::Ui::CLI::InputFactory do
   let(:klass) { Meshchat::Ui::CLI::InputFactory }
-  let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
-  before(:each) do
-    start_fake_relay_server
-    mock_settings_objects
-    allow(message_dispatcher).to receive(:send_message) {}
-  end
+  let(:dispatcher) { Meshchat::Network::Dispatcher.new }
+  let(:factory) { klass.new(dispatcher, 'not a message factory', 'not a cli') }
+  # before(:each) do
+  #   mock_settings_objects
+  # end
+
   describe '#create' do
     it 'creates a command' do
-      result = klass.create('/anything', message_dispatcher)
-      expect(result).to be_kind_of(Meshchat::Command::Base)
+      result = factory.create(for_input: '/anything')
+      expect(result).to be_kind_of(Meshchat::Ui::Command::Base)
     end
 
     it 'creates a whisper' do
-      result = klass.create('@anybody', message_dispatcher)
-      expect(result).to be_kind_of(Meshchat::Command::Whisper)
+      result = factory.create(for_input: '@anybody')
+      expect(result).to be_kind_of(Meshchat::Ui::Command::Whisper)
     end
 
     it 'creates a generic input' do
-      result = klass.create('chat', message_dispatcher)
-      expect(result).to be_kind_of(klass)
+      result = factory.create(for_input: 'chat')
+      expect(result).to be_kind_of(Meshchat::Ui::Command::Base)
     end
   end
 
   describe '#handle' do
     it 'has no servers' do
-      i = klass.create('hi there', message_dispatcher)
+      i = factory.create(for_input: 'hi there')
       expect(i.handle).to eq 'you have no servers'
     end
 
     context 'has servers' do
       before(:each) do
-        Meshchat::Models::Entry.new(
+        Meshchat::Node.new(
           alias_name: 'test',
           location_on_network: '1.1.1.1:1111',
           uid: '1',
@@ -47,7 +47,8 @@ describe Meshchat::Ui::CLI::InputFactory do
       it 'displays the message' do
         msg = 'hi test'
         expect(Meshchat::Display).to receive(:chat)
-        i = klass.create(msg, message_dispatcher)
+        i = factory.create(for_input: msg)
+        expect(factory._message_dispatcher).to receive(:send_message)
         i.handle
       end
 
@@ -55,7 +56,7 @@ describe Meshchat::Ui::CLI::InputFactory do
         pending('how to test?')
         msg = 'hi test'
         # expect_any_instance_of(Meshchat::Message::Chat).to receive(:display)
-        i = klass.create(msg, message_dispatcher)
+        i = factory.create(for_input: msg)
         i.handle
       end
     end

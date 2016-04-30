@@ -11,7 +11,8 @@ describe Meshchat::Network::Message::Base do
   describe '#display' do
     it 'shows the message' do
       m = klass.new
-      expect(m.display).to be_blank
+      result = m.display
+      expect(result).to be_a_kind_of(Hash)
     end
   end
 end

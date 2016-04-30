@@ -10,12 +10,12 @@ describe Meshchat::Ui::Command::Server do
 
   describe '#handle' do
     it 'shows who is online' do
-      c = klass.new('/server online', nil)
+      c = klass.new('/server online', nil, nil, nil)
       # expect(c.handle).to eq Meshchat::ActiveServers.display_locations
     end
 
     it 'lists the locations' do
-      c = klass.new('/servers', nil)
+      c = klass.new('/servers', nil, nil, nil)
       # expect(c.handle).to eq Meshchat::ActiveServers.display_locations
     end
   end

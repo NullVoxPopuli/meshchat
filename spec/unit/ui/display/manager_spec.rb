@@ -12,28 +12,28 @@ describe Meshchat::Ui::Display::Manager do
 
   describe '#present_message' do
     it 'invokes chat' do
-      expect(Meshchat::CurrentDisplay).to receive(:chat)
-      m = Meshchat::Message::Chat.new
-      Meshchat::CurrentDisplay.present_message(m)
+      expect(Meshchat::Display).to receive(:chat)
+      m = Meshchat::Network::Message::Chat.new
+      Meshchat::Display.present_message(m)
     end
 
     it 'invokes whisper' do
-      expect(Meshchat::CurrentDisplay).to receive(:whisper)
-      m = Meshchat::Message::Whisper.new
-      Meshchat::CurrentDisplay.present_message(m)
+      expect(Meshchat::Display).to receive(:whisper)
+      m = Meshchat::Network::Message::Whisper.new
+      Meshchat::Display.present_message(m)
     end
 
     it 'invokes info' do
       pending 'output disabled for pingreply'
-      expect(Meshchat::CurrentDisplay).to receive(:info)
-      m = Meshchat::Message::PingReply.new
-      Meshchat::CurrentDisplay.present_message(m)
+      expect(Meshchat::Display).to receive(:info)
+      m = Meshchat::Network::Message::PingReply.new
+      Meshchat::Display.present_message(m)
     end
 
     it 'invokes add_line for other menssages' do
-      expect(Meshchat::CurrentDisplay).to receive(:add_line)
-      m = Meshchat::Message::Disconnect.new
-      Meshchat::CurrentDisplay.present_message(m)
+      expect(Meshchat::Display).to receive(:add_line)
+      m = Meshchat::Network::Message::Disconnect.new
+      Meshchat::Display.present_message(m)
     end
   end
 end

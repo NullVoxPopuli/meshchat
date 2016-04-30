@@ -13,12 +13,12 @@ module Meshchat
             if is_valid_set_command?
               key, value = config_set_args
 
-              Display.info Settings.set(key, with: value)
+              Display.info APP_CONFIG.user.set(key, with: value)
             else
               Display.alert 'set requires a key and a value'
             end
           when DISPLAY
-            Display.info Settings.display
+            Display.info APP_CONFIG.user.display
           else
             Display.alert 'config command not implemented...'
           end

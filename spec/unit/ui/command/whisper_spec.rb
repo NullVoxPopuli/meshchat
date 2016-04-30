@@ -2,40 +2,37 @@
 require 'spec_helper'
 
 describe Meshchat::Ui::Command::Whisper do
-  let (:klass) { Meshchat::Ui::Command::Whisper }
-  let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
+  let(:klass) { Meshchat::Ui::Command::Whisper }
   before(:each) do
-    start_fake_relay_server
     mock_settings_objects
-    allow(message_dispatcher).to receive(:send_message) {}
   end
 
   describe '#target' do
     it 'gets the target' do
-      c = klass.new('@target yo', message_dispatcher)
+      c = klass.new('@target yo', nil, nil, nil)
       expect(c.target).to eq 'target'
     end
 
     it 'returns nil' do
       # TODO: maybe this is what triggers whisper mode
-      c = klass.new('@', message_dispatcher)
+      c = klass.new('@', nil, nil, nil)
       expect(c.target).to eq nil
     end
   end
 
   describe '#message' do
     it 'returns nil' do
-      c = klass.new('@', message_dispatcher)
+      c = klass.new('@', nil, nil, nil)
       expect(c.message).to eq nil
     end
 
     it 'returns empty string with a target' do
-      c = klass.new('@target', message_dispatcher)
+      c = klass.new('@target', nil, nil, nil)
       expect(c.message).to eq ''
     end
 
     it 'returns the message' do
-      c = klass.new('@target hello there', message_dispatcher)
+      c = klass.new('@target hello there', nil, nil, nil)
       expect(c.message).to eq 'hello there'
     end
   end
@@ -43,14 +40,14 @@ describe Meshchat::Ui::Command::Whisper do
   describe '#handle' do
     context 'no target' do
       it 'alerts the user' do
-        c = klass.new('@target something', message_dispatcher)
+        c = klass.new('@target something', nil, nil, nil)
         expect(c.handle).to eq 'node for target not found or is not online'
       end
     end
 
     context 'target found' do
       before(:each) do
-        Meshchat::Models::Entry.create(
+        Meshchat::Node.create(
           alias_name: 'alias',
           location_on_network: '1.1.1.1:1111',
           uid: '1',
@@ -59,9 +56,15 @@ describe Meshchat::Ui::Command::Whisper do
       end
 
       it 'sends the message' do
-        expect(message_dispatcher).to receive(:send_message)
+        dispatcher = Meshchat::Network::Dispatcher.new
+        message_factory = Meshchat::Network::Message::Factory.new(dispatcher)
+        expect(dispatcher).to receive(:send_message)
 
-        c = klass.new('@alias hi, how are ya?', message_dispatcher)
+        c = klass.new('@alias hi, how are ya?',
+          dispatcher,
+          message_factory,
+          nil)
+
         c.handle
       end
     end

@@ -20,17 +20,7 @@ module Meshchat
             message_dispatcher: message_dispatcher,
             message_factory:    message_factory)
 
-          self._to = to
-        end
-
-        def display
-          # TODO: defer to display
-          time_sent     = payload['time_sent'].to_s
-          time          = Date.parse(time_sent)
-          time_recieved = time.strftime('%e/%m/%y %H:%I:%M')
-
-          to = _to.present? ? "->#{_to}" : ''
-          "#{time_recieved} #{sender_name}#{to} > #{message}"
+          @_to = to
         end
       end
     end

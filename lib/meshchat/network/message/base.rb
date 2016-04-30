@@ -34,7 +34,7 @@ module Meshchat
             @_sender_name     = sender['alias']
             @_sender_location = sender['location']
             @_sender_uid      = sender['uid']
-            @_time_received   = Time.now.to_s
+            @_time_received   = Time.now.iso8601
           end
 
           @_message_dispatcher = message_dispatcher
@@ -84,6 +84,10 @@ module Meshchat
           _time_received || payload['time_sent']
         end
 
+        def time_received_as_date
+          DateTime.parse(time_received)
+        end
+
         def client
           APP_CONFIG[:client_name]
         end
@@ -95,7 +99,11 @@ module Meshchat
         # shows the message
         # should be used locally, before *sending* a message
         def display
-          message
+          {
+            time:    time_received_as_date,
+            from:    sender_name,
+            message: message
+          }
         end
 
         # processing logic for the message

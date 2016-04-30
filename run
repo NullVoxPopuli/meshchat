@@ -53,7 +53,7 @@ module Debug
 
     def chat(msg)
       time = msg[:time]
-      name = msg[:sender]
+      name = msg[:from]
       message = msg[:message]
 
       print((time.join(' ') + ' ').colorize(:light_magenta))

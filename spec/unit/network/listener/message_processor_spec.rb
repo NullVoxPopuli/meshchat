@@ -27,14 +27,14 @@ describe Meshchat::Network::Local::Listener::MessageProcessor do
       @public_key1 = key_pair.public_key.export
       @private_key1 = key_pair.export
 
-      allow(Meshchat::Cipher).to receive(:current_encryptor) { Meshchat::Encryption::AES_RSA }
+      allow(Meshchat::Encryption).to receive(:current_encryptor) { Meshchat::Encryption::AES_RSA }
     end
     context 'throws exceptions' do
       context 'not authorized' do
         it 'cannot be decrypted' do
           Meshchat::APP_CONFIG.user[:privatekey] = @private_key1
-          message = Meshchat::Message::Ping.new
-          raw = Meshchat::Net::Request.new(@node_me, message).payload
+          message = Meshchat::Network::Message::Ping.new
+          raw = { message: message.encrypt_for(@node_me) }.to_json
 
           expect do
             klass.process(raw, message_dispatcher: message_dispatcher)
@@ -45,8 +45,8 @@ describe Meshchat::Network::Local::Listener::MessageProcessor do
       context 'forbidden' do
         it 'receives a message from a non-existant node' do
           Meshchat::APP_CONFIG.user[:privatekey] = @private_key
-          message = Meshchat::Message::Ping.new
-          raw = Meshchat::Net::Request.new(@node_me, message).payload
+          message = Meshchat::Network::Message::Ping.new
+          raw = { message: message.encrypt_for(@node_me) }.to_json
 
           expect do
             klass.process(raw, message_dispatcher: message_dispatcher)
@@ -57,9 +57,9 @@ describe Meshchat::Network::Local::Listener::MessageProcessor do
       context 'bad request' do
         it 'uses an unsupported type' do
           Meshchat::APP_CONFIG.user[:privatekey] = @private_key
-          message = Meshchat::Message::Ping.new
+          message = Meshchat::Network::Message::Ping.new
           message.instance_variable_set('@type', 'unsupported')
-          raw = Meshchat::Net::Request.new(@node_me, message).payload
+          raw = { message: message.encrypt_for(@node_me) }.to_json
 
           expect do
             klass.process(raw, message_dispatcher: message_dispatcher)
@@ -94,7 +94,7 @@ describe Meshchat::Network::Local::Listener::MessageProcessor do
         }}'
       data = JSON.parse(json)
 
-      expect(Meshchat::Message::NodeListHash).to receive(:new)
+      expect(Meshchat::Network::Message::NodeListHash).to receive(:new)
       expect(message_dispatcher).to receive(:send_message)
       expect do
         klass.update_sender_info(data, message_dispatcher: message_dispatcher)
@@ -124,7 +124,7 @@ describe Meshchat::Network::Local::Listener::MessageProcessor do
         }}'
       data = JSON.parse(json)
 
-      expect_any_instance_of(Meshchat::Message::NodeListHash).to_not receive(:render)
+      expect_any_instance_of(Meshchat::Network::Message::NodeListHash).to_not receive(:render)
       expect(message_dispatcher).to_not receive(:send_message)
       klass.update_sender_info(data, message_dispatcher: message_dispatcher)
     end

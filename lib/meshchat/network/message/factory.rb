@@ -38,7 +38,7 @@ module Meshchat
         # to send
         def create(type: '', data: {})
           return Debug.message_type_not_found(type + 'not found') if type.blank?
-          data = data.with_indifferent_access
+          data = data.deep_symbolize_keys
 
           parameters = parameters_for(data)
           TYPES[type].new(parameters)
@@ -61,14 +61,14 @@ module Meshchat
         end
 
         def sending_parameters_for(data)
-          {
+          data.merge(
             message: data[:message],
             sender: {
               'alias'    => APP_CONFIG.user['alias'],
               'location' => APP_CONFIG.user.location,
               'uid'      => APP_CONFIG.user['uid']
             }
-          }
+          )
         end
       end
     end

@@ -27,7 +27,7 @@ module Meshchat
           def try_decrypt(input)
             begin
               decoded = Base64.decode64(input)
-              input = Cipher.decrypt(decoded, APP_CONFIG.user[:privatekey])
+              input = Encryption.decrypt(decoded, APP_CONFIG.user[:privatekey])
             rescue => e
               Display.debug e.message
               Display.debug e.backtrace.join("\n")
@@ -40,7 +40,7 @@ module Meshchat
 
           def process_json
             type = json['type']
-            klass = Message::TYPES[type]
+            klass = Network::Message::Factory::TYPES[type]
 
             raise Errors::BadRequest.new(type) unless klass
 

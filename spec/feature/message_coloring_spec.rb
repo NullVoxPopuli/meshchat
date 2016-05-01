@@ -20,13 +20,13 @@ describe 'Message Coloring' do
         s = Meshchat::Network::Local::Listener::Request.new(json, message_dispatcher)
         s.send(:process_json)
         @msg = s.message
-        expect(@msg.display).to include('nvp')
-        expect(@msg.display).to include('hi')
+        expect(@msg.display[:from]).to include('nvp')
+        expect(@msg.display[:message]).to include('hi')
       end
 
       it 'is forwarded to the chat colorizer' do
-        expect(Meshchat::CurrentDisplay).to receive(:chat)
-        Meshchat::CurrentDisplay.present_message @msg
+        expect(Meshchat::Display).to receive(:chat)
+        Meshchat::Display.present_message @msg
       end
     end
   end

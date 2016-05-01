@@ -31,8 +31,8 @@ describe Meshchat::Network::Local::Listener::Request do
       json = Base64.encode64(json)
       s = klass.new(json, message_dispatcher)
       s.send(:process_json)
-      expect(s.message.display).to include('nvp')
-      expect(s.message.display).to include('yo')
+      expect(s.message.display[:from]).to include('nvp')
+      expect(s.message.display[:message]).to include('yo')
     end
   end
 end

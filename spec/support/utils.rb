@@ -4,7 +4,7 @@ def mock_settings_objects
 
   s = Meshchat::Configuration::Settings.new
   s.instance_variable_set('@filename', 'test-settings')
-  s._hash = Meshchat::Configuration::Settings::DEFAULT_SETTINGS
+  s._hash = Meshchat::Configuration::Settings::DEFAULT_SETTINGS.dup
   s.save
 
   Meshchat::APP_CONFIG[:user] = s

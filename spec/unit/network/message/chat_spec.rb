@@ -32,12 +32,12 @@ describe Meshchat::Network::Message::Chat do
     end
 
     it 'has the time' do
-      format_of_time = @time.strftime('%e/%m/%y %H:%I:%M')
-      expect(@msg.display[:message]).to include(format_of_time)
+      time = DateTime.parse(@time)
+      expect(@msg.display[:time]).to eq time
     end
 
     it 'has the sender' do
-      expect(@msg.display[:message]).to include(@sender)
+      expect(@msg.display[:from]).to eq(@sender)
     end
 
     it 'has the message' do

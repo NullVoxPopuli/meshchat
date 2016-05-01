@@ -3,17 +3,26 @@ module Meshchat
   module Network
     module Relay
       class Connection
+        attr_reader :_message_factory, :_message_dispatcher
+        attr_reader :_relay_pool
 
-        def initialize
-
+        def initialize(dispatcher, message_factory)
+          @_message_factory = message_factory
+          @_message_dispatcher = dispatcher
+          @_relay_pool = RelayPool.new(dispatcher)
         end
 
         def send_message(_node, encrypted_message)
-          payload = payload_for(encrypted_message)
+          Debug.sending_message_over_relay(node, encrypted_message, _active_relay_url)
+
+          payload = payload_for(_node.uid, encrypted_message)
+          _relay_pool.send_payload(payload)
         end
 
-        def payload_for(encrypted_message)
-          { message: encrypted_message }.to_json
+        # @param [String] to - the uid of the person we are sending to
+        # @param [String] message - the encrypted message
+        def payload_for(to, encrypted_message)
+          { to: to, message: encrypted_message }
         end
       end
     end

@@ -59,20 +59,15 @@ module Meshchat
     # 1. hook up the display / output 'device'
     #    - responsible for notifications
     #    - created in Configuration
-    display = CurrentDisplay
+    display = Display
 
     # 2. create the message dispatcher
+    #    - boots the local and relay network connections
     #    - sends the messages out to the network
     #    - tries p2p first, than uses the relays
     message_dispatcher = Network::Dispatcher.new
 
-    # 3. boot up the http server
-    #    - for listening for incoming requests
-    port = APP_CONFIG.user['port']
-    server_class = Network::Local::Listener::Server
-    EM.start_server '0.0.0.0', port, server_class, message_dispatcher
-
-    # 4. hook up the keyboard / input 'device'
+    # 3. hook up the keyboard / input 'device'
     #    - tesponsible for parsing input
     input_receiver = Ui::CLI.new(
       message_dispatcher,

@@ -5,6 +5,23 @@ module Meshchat
   module Network
     module Local
       class Connection
+        attr_reader :_message_factory, :_message_dispatcher
+
+        def initialize(dispatcher, message_factory)
+          @_message_factory = message_factory
+          @_message_dispatcher = dispatcher
+
+          # async, won't prevent us from sending
+          start_server
+        end
+
+        def start_server
+          port = APP_CONFIG.user['port']
+          server_class = Network::Local::Listener::Server
+          EM.start_server '0.0.0.0', port, server_class, _message_dispatcher
+        end
+
+
         # @param [Node] node - the node describing the person you're sending a message to
         # @param [JSON] encrypted_message - the message intended for the person at the location
         # @param [Block] error_callback - what to do in case of failure

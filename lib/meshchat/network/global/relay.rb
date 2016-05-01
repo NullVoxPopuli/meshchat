@@ -1,61 +1,45 @@
-# frozen_string_literal: true
 require 'action_cable_client'
 
 module Meshchat
-  module Net
-    class MessageDispatcher
-      class RelayPool
-        # This channel is set by the server
+  module Network
+    module Global
+      class Relay
+        # This channel is determine by the server, see
+        # https://github.com/NullVoxPopuli/mesh-relay/blob/master/app/channels/mesh_relay_channel.rb
         CHANNEL = 'MeshRelayChannel'
 
-        attr_accessor :_message_dispatcher
-        attr_accessor :_active_relay, :_active_relay_url
-        attr_accessor :_known_relays, :_available_relays
+        attr_reader :_url, :_client, :_request_processor
+        delegate :perform, :to => :_client
 
+        def initialize(url, message_dispatcher)
+          @_url = url
+          @_request_processor = RequestProcessor.new(
+            network: NETWORK_RELAY,
+            location: url,
+            message_dispatcher: message_dispatcher)
 
-        def initialize(message_dispatcher)
-          @_message_dispatcher = message_dispatcher
-          @_known_relays = APP_CONFIG.user['relays'] || []
-          @_available_relays = APP_CONFIG.user['relays'] || []
-
-          find_initial_relay
+          setup
         end
 
-        # TODO: add logic for just selecting the first available relay.
-        #       we only need one connection.
-        # @return [Array] an array of action cable clients
-        def find_initial_relay
-          url = _known_relays.first
-          @_active_relay = setup_client_for_url(url)
-          @_active_relay_url = url
-        end
-
-        # @param [Hash] payload - the message payload
-        def send_payload(payload)
-          return if _active_relay.blank?
-          _active_relay.perform('chat', payload)
-        end
-
-
-        def setup_client_for_url(url)
-          path = "#{url}?uid=#{APP_CONFIG.user['uid']}"
-          client = ActionCableClient.new(path, CHANNEL)
+        def setup
+          path = "#{_url}?uid=#{APP_CONFIG.user['uid']}"
+          @_client = ActionCableClient.new(path, CHANNEL)
 
           # don't output anything upon connecting
-          client.connected {}
+          _client.connected {}
 
           # If there are errors, report them!
-          client.errored do |message|
+          _client.errored do |message|
             process_error(message)
           end
 
           # forward the encrypted messages to our RequestProcessor
           # so that they can be decrypted
-          client.received do |message|
+          _client.received do |message|
             process_message(message, url)
           end
 
-          client
+          _client
         end
 
         # example messages:
@@ -80,6 +64,7 @@ module Meshchat
           end
         end
 
+
         # TODO: what does an error message look like?
         # TODO: what are situations in which we receive an error message?
         def process_error(message)
@@ -87,10 +72,7 @@ module Meshchat
         end
 
         def chat_message_received(message, received_from)
-          Net::Listener::RequestProcessor.process(
-            message,
-            received_from,
-            true, _message_dispatcher)
+          _request_processor.process(message)
         rescue => e
           ap e.message
           puts e.backtrace

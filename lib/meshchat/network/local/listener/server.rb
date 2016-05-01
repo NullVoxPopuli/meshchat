@@ -6,7 +6,7 @@ module Meshchat
     module Local
       module Listener
         class Server < EM::HttpServer::Server
-          attr_accessor :message_dispatcher
+          attr_reader :_message_dispatcher, :_request_processor
 
           OK = 200
           BAD_REQUEST = 400
@@ -15,7 +15,10 @@ module Meshchat
           SERVER_ERROR = 500
 
           def initialize(message_dispatcher)
-            self.message_dispatcher = message_dispatcher
+            @_message_dispatcher = message_dispatcher
+            @_request_processor = Decryption::RequestProcessor.new(
+              network: NETWORK_LOCAL
+              message_dispatcher: message_dispatcher)
           end
 
           def process_http_request
@@ -35,8 +38,7 @@ module Meshchat
 
           def process(raw)
             # decode, etc
-
-            RequestProcessor.process(raw)
+            _request_processor.process(raw)
           rescue Errors::NotAuthorized
             build_response NOT_AUTHORIZED
           rescue Errors::Forbidden

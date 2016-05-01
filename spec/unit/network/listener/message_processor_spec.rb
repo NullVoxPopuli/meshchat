@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require 'spec_helper'
 
-describe Meshchat::Network::Local::Listener::MessageProcessor do
-  let(:klass) { Meshchat::Network::Local::Listener::MessageProcessor }
+describe Meshchat::Network::MessageProcessor do
+  let(:klass) { Meshchat::Network::MessageProcessor }
   let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
   before(:each) do
     start_fake_relay_server

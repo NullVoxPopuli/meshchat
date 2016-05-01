@@ -9,7 +9,11 @@ module Meshchat
         'port' => '8009',
         'ip' => 'localhost',
         'uid' => '',
-        'publickey' => ''
+        'publickey' => '',
+        'relays' => [
+          'wss://mesh-relay-in-us-1.herokuapp.com',
+          'wss://mesh-relay-us-2.herokuapp.com'
+        ]
       }.freeze
 
       def debug?

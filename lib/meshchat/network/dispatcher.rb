@@ -13,9 +13,9 @@ module Meshchat
       attr_reader :_relay_client
 
       def initialize
+        @_message_factory = Message::Factory.new(self)
         @_local_client = Local::Connection.new
         @_relay_client = Relay::Connection.new
-        @_message_factory = Message::Factory.new(self)
       end
 
       # @note Either the location, node, or uid should be present

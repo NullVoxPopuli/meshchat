@@ -3,6 +3,11 @@ module Meshchat
   module Network
     module Relay
       class Connection
+
+        def initialize
+
+        end
+
         def send_message(_node, encrypted_message)
           payload = payload_for(encrypted_message)
         end

@@ -7,24 +7,25 @@ module Meshchat
       class RelayPool
         # This channel is set by the server
         CHANNEL = 'MeshRelayChannel'
-        # TODO: add a way to configure relay nodes
-        RELAYS = [
-          'ws://mesh-relay-in-us-1.herokuapp.com'
-          # "ws://localhost:3000"
-        ].freeze
 
-        attr_accessor :_active_relay, :_message_dispatcher
-        attr_accessor :_active_relay_url
+        attr_accessor :_message_dispatcher
+        attr_accessor :_active_relay, :_active_relay_url
+        attr_accessor :_known_relays, :_available_relays
+
 
         def initialize(message_dispatcher)
           @_message_dispatcher = message_dispatcher
+          @_known_relays = APP_CONFIG.user['relays'] || []
+          @_available_relays = APP_CONFIG.user['relays'] || []
+
+          find_initial_relay
         end
 
         # TODO: add logic for just selecting the first available relay.
         #       we only need one connection.
         # @return [Array] an array of action cable clients
-        def setup
-          url = RELAYS.first
+        def find_initial_relay
+          url = _known_relays.first
           @_active_relay = setup_client_for_url(url)
           @_active_relay_url = url
         end
@@ -74,6 +75,7 @@ module Meshchat
         # {"identifier"=>"{\"channel\":\"MeshRelayChannel\"}", "message"=>{"message"=>"hi"}}
         # {"identifier"=>"{\"channel\":\"MeshRelayChannel\"}", "message"=>{"error"=>"hi"}}
         # {"identifier"=>"{\"channel\":\"MeshRelayChannel\"}", "type"=>"confirm_subscription"}
+        # {"identifier"=>"{\"channel\":\"MeshRelayChannel\"}", "message"=>{"error"=>"Member with UID user2 could not be found"}}
         def process_message(message, received_from)
           Debug.received_message_from_relay(message, received_from)
 

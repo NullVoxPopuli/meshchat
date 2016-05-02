@@ -23,13 +23,6 @@ describe Meshchat::Ui::Display::Manager do
       Meshchat::Display.present_message(m)
     end
 
-    it 'invokes info' do
-      pending 'output disabled for pingreply'
-      expect(Meshchat::Display).to receive(:info)
-      m = Meshchat::Network::Message::PingReply.new
-      Meshchat::Display.present_message(m)
-    end
-
     it 'invokes add_line for other menssages' do
       expect(Meshchat::Display).to receive(:add_line)
       m = Meshchat::Network::Message::Disconnect.new

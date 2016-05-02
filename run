@@ -36,7 +36,21 @@ module Debug
     end
 
     def info(msg)
-      puts msg.colorize(:light_black)
+      message_parts_for(msg) do |time, from, message|
+        puts message.colorize(:light_black)
+      end
+
+
+    end
+
+    def message_parts_for(msg)
+      return yield(nil, nil, msg) if msg.is_a?(String)
+
+      time = msg[:time].strftime('%H:%M:%S')
+      name = msg[:from].to_s
+      message = msg[:message]
+
+      yield(time, name, message)
     end
 
     def warning(msg)
@@ -52,13 +66,14 @@ module Debug
     end
 
     def chat(msg)
-      time = msg[:time]
-      name = msg[:from]
-      message = msg[:message]
+      message_parts_for(msg) do |time, name, message|
+        colored_time = (time.to_s + ' ').colorize(:light_magenta)
+        colored_name = (name + ' ').colorize(:cyan)
 
-      print((time.join(' ') + ' ').colorize(:light_magenta))
-      print((name + ' ').colorize(:cyan))
-      print message.join(' ') + "\n"
+        print colored_time
+        print colored_name
+        print message + "\n"
+      end
     end
 
     def whisper(msg)

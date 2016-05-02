@@ -36,7 +36,7 @@ module Meshchat
           # forward the encrypted messages to our RequestProcessor
           # so that they can be decrypted
           _client.received do |message|
-            process_message(message, url)
+            process_message(message)
           end
 
           _client
@@ -47,8 +47,8 @@ module Meshchat
         # {"identifier"=>"{\"channel\":\"MeshRelayChannel\"}", "message"=>{"error"=>"hi"}}
         # {"identifier"=>"{\"channel\":\"MeshRelayChannel\"}", "type"=>"confirm_subscription"}
         # {"identifier"=>"{\"channel\":\"MeshRelayChannel\"}", "message"=>{"error"=>"Member with UID user2 could not be found"}}
-        def process_message(message, received_from)
-          Debug.received_message_from_relay(message, received_from)
+        def process_message(message)
+          Debug.received_message_from_relay(message, _url)
 
           identifier, type, message = message.values_at('identifier', 'type', 'message')
 
@@ -58,9 +58,9 @@ module Meshchat
           return unless message
 
           if message['message']
-            chat_message_received(message, received_from)
-          elsif error = message['error']
-            error_message_received(error)
+            chat_message_received(message)
+          elsif message['error']
+            error_message_received(message)
           end
         end
 
@@ -71,7 +71,7 @@ module Meshchat
           Display.alert(message)
         end
 
-        def chat_message_received(message, received_from)
+        def chat_message_received(message)
           _request_processor.process(message)
         rescue => e
           ap e.message
@@ -79,12 +79,15 @@ module Meshchat
         end
 
         def error_message_received(message)
-          Display.alert message
-          # TODO: find the intended node.
-          #       if on_local_network is true, send to http_client
+          Display.info message['error']
+          if message['status'] == 404
+            # mark the node as offline via relay
+            # TODO: find the intended node.
+            #       if on_local_network is true, send to http_client
+            # Display.info "#{node.alias_name} has ventured offline"
+            # Debug.person_not_online(node, message, e)
+          end
 
-          # Display.info "#{node.alias_name} has ventured offline"
-          # Debug.person_not_online(node, message, e)
         end
       end
     end

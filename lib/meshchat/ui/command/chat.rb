@@ -6,7 +6,8 @@ module Meshchat
         def handle
           servers = Node.online
           if !servers.empty?
-            m = corresponding_message_class.new(message: _input)
+            type = self.class.name.demodulize.downcase
+            m = _message_factory.create(type: type, data: { message: _input })
             show_myself(m)
 
             # if sending to all, iterate thorugh list of

@@ -72,9 +72,10 @@ module Meshchat
       end
 
       def encrypted_message(node, message)
-        request = Meshchat::Net::Request.new(node, message)
-        return request.payload
-      rescue
+        message.encrypt_for(node)
+      rescue => e
+        Display.debug e.message
+        Display.debug e.backtrace
         Debug.encryption_failed(node)
       end
     end

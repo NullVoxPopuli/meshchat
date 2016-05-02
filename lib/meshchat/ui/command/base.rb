@@ -52,13 +52,6 @@ module Meshchat
 
         protected
 
-        def corresponding_message_class
-          my_kind = self.class.name.demodulize
-          message_root_name = Meshchat::Network::Message.name
-          message_class_name = "#{message_root_name}::#{my_kind}"
-          message_class_name.constantize
-        end
-
         def command_string
           @command_string ||= _input[1, _input.length]
         end

@@ -7,11 +7,11 @@ module Meshchat
           'send an emote to the current chat'
         end
 
-        def initialize(input, message_dispatcher)
+        def initialize(input, message_dispatcher, message_factory, input_factory)
           super
           input = input.chomp
           emote_message = input.gsub(/\A\/me /, '').chomp
-          self._input = emote_message
+          @_input = emote_message
         end
 
         def show_myself(message)

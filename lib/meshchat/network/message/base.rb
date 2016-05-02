@@ -28,7 +28,7 @@ module Meshchat
           message_factory:    nil)
 
           if payload.present?
-            @payload = payload
+            @payload = payload.deep_stringify_keys
           else
             @_message         = message
             @_sender_name     = sender['alias']
@@ -85,7 +85,7 @@ module Meshchat
         end
 
         def time_received_as_date
-          DateTime.parse(time_received)
+          DateTime.parse(time_received) if time_received
         end
 
         def client

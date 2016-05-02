@@ -41,7 +41,9 @@ module Meshchat
           data = data.deep_symbolize_keys
 
           parameters = parameters_for(data)
-          TYPES[type].new(parameters)
+          klass = TYPES[type]
+          raise Errors::MessageTypeNotRecognized.new unless klass
+          klass.new(parameters)
         end
 
         def parameters_for(data)

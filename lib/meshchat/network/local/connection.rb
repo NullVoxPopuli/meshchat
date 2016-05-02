@@ -17,7 +17,7 @@ module Meshchat
 
         def start_server
           port = APP_CONFIG.user['port']
-          server_class = Network::Local::Listener::Server
+          server_class = Network::Local::Server
           EM.start_server '0.0.0.0', port, server_class, _message_dispatcher
         end
 

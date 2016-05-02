@@ -5,9 +5,9 @@ describe Meshchat::Network::Message::Ping do
   let(:klass) { Meshchat::Network::Message::Ping }
   let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
   before(:each) do
-    start_fake_relay_server
     mock_settings_objects
     allow(message_dispatcher).to receive(:send_message)
+    allow(message_dispatcher._local_client).to receive(:start_server)
   end
 
   context 'instantiation' do

@@ -7,20 +7,24 @@ module Meshchat
         attr_reader :_message_factory
 
         def initialize(encoded_message, message_factory)
-          @_message_factory = _message_factory
+          @_message_factory = message_factory
           @_input = try_decrypt(encoded_message)
-          @_json = parse_Json(@_input)
+          @_json = parse_json(@_input)
           @_message = process_json
+        end
+
+        def message
+          _message
         end
 
         private
 
         def parse_json(input)
-            return JSON.parse(input)
+          return JSON.parse(input)
         rescue => e
           Display.debug e.message
           Display.debug e.backtrace.join("\n")
-          raise Errors::BadRequest.new
+          raise Errors::BadRequest.new('could not parse json')
         end
 
         def try_decrypt(input)
@@ -41,6 +45,7 @@ module Meshchat
           type = _json['type']
           _message_factory.create(type: type, data: { payload: _json })
         end
+
       end
     end
   end

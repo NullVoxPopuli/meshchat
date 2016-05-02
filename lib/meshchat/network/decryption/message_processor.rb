@@ -18,7 +18,7 @@ module Meshchat
 
         # @param [String] encoded_message - the encrypted message as a string
         def process(encoded_message)
-          request = Request.new(encoded_message, _message_factory)
+          request = MessageDecryptor.new(encoded_message, _message_factory)
           message = request.message
 
           Debug.receiving_message(message)
@@ -26,8 +26,8 @@ module Meshchat
           # show the message to the user, and update the information
           # we have on the sender, so that we may reply to the
           # correct location
+          update_sender_info(request._json)
           Display.present_message message
-          update_sender_info(request.json)
         end
 
         # @param [String] encoded_message - the encrypted message as a string
@@ -40,7 +40,7 @@ module Meshchat
           # if the sender isn't currently marked as active,
           # perform the server list exchange
           node = Node.find_by_uid(sender['uid'])
-          raise Errors::Forbidden.new if node.nil?
+          raise Errors::Forbidden.new('node not found') if node.nil?
 
           # if we are receiving a message from a node we had previously
           # known to be offline, we need to do the node list hash dance

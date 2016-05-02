@@ -4,8 +4,8 @@ module Meshchat
     module Local
       extend ActiveSupport::Autoload
       eager_autoload do
+        autoload :Server
         autoload :Connection
-        autoload :Listener
       end
     end
   end

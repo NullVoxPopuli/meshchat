@@ -6,6 +6,7 @@ module Meshchat
     NETWORK_RELAY = :relay
 
     eager_autoload do
+      autoload :Errors
       autoload :Message
       autoload :Dispatcher
       autoload :Decryption

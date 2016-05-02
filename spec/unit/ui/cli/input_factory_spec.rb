@@ -4,7 +4,7 @@ require 'spec_helper'
 describe Meshchat::Ui::CLI::InputFactory do
   let(:klass) { Meshchat::Ui::CLI::InputFactory }
   let(:dispatcher) { Meshchat::Network::Dispatcher.new }
-  let(:factory) { klass.new(dispatcher, 'not a message factory', 'not a cli') }
+  let(:factory) { klass.new(dispatcher, dispatcher._message_factory, 'not a cli') }
   # before(:each) do
   #   mock_settings_objects
   # end

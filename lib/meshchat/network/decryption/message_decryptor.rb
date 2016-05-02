@@ -45,7 +45,6 @@ module Meshchat
           type = _json['type']
           _message_factory.create(type: type, data: { payload: _json })
         end
-
       end
     end
   end

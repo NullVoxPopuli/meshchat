@@ -25,3 +25,24 @@ Meshchat.start(
   on_display_start: ->{ Meshchat::CLI.check_startup_settings } # optional
 )
 ```
+
+
+# Development
+
+### Running
+
+```bash
+./run
+```
+
+### Tests
+
+```bash
+rspec
+```
+
+### Line Count
+
+```bash
+loco
+```

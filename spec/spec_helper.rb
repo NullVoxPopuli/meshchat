@@ -8,16 +8,9 @@ require 'em-rspec'
 ENV['CODECLIMATE_REPO_TOKEN'] = 'ebeb5501b6c1565ecae39466e571a52c956796eb6782caa1bfcfd24e9a99ea39'
 require 'codeclimate-test-reporter'
 CodeClimate::TestReporter.start
-
+SimpleCov.start {}
 # This Gem
 require 'meshchat'
-Meshchat.const_set(:Notify, Meshchat::Ui::Notifier::Base)
-
-SimpleCov.start do
-  # add_filter "/lib/meshchat/display/bash/"
-  # add_filter "/lib/meshchat/display/null/"
-  # add_filter "/lib/meshchat/display/terminal_curses/"
-end
 
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |file| require file }
 

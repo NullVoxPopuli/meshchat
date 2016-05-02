@@ -8,6 +8,7 @@ module Meshchat
     eager_autoload do
       autoload :Message
       autoload :Dispatcher
+      autoload :Decryption
       autoload :Local
       autoload :Global
       autoload :MessageProcessor

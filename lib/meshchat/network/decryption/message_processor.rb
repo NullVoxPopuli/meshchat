@@ -6,7 +6,7 @@ module Meshchat
       # also update's the info of the sender
       class MessageProcessor
 
-        attr_reader :_network, :_location,
+        attr_reader :_network, :_location
         attr_reader :_message_factory, :_message_dispatcher
 
         def initialize(network: NETWORK_LOCAL, message_dispatcher: nil, location: nil)

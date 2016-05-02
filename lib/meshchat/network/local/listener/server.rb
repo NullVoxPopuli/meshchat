@@ -17,7 +17,7 @@ module Meshchat
           def initialize(message_dispatcher)
             @_message_dispatcher = message_dispatcher
             @_request_processor = Decryption::RequestProcessor.new(
-              network: NETWORK_LOCAL
+              network: NETWORK_LOCAL,
               message_dispatcher: message_dispatcher)
           end
 

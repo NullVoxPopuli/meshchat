@@ -12,10 +12,8 @@ module Meshchat
           @_relay_pool = RelayPool.new(dispatcher)
         end
 
-        def send_message(_node, encrypted_message)
-          Debug.sending_message_over_relay(node, encrypted_message, _active_relay_url)
-
-          payload = payload_for(_node.uid, encrypted_message)
+        def send_message(node, encrypted_message)
+          payload = payload_for(node.uid, encrypted_message)
           _relay_pool.send_payload(payload)
         end
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Meshchat
   module Network
-    class Global
+    module Global
       class RelayPool
         # This channel is determine by the server, see
         # https://github.com/NullVoxPopuli/mesh-relay/blob/master/app/channels/mesh_relay_channel.rb
@@ -16,7 +16,7 @@ module Meshchat
           @_known_relays = APP_CONFIG.user['relays'] || []
           @_available_relays = APP_CONFIG.user['relays'] || []
 
-          find_initial_relay
+          find_initial_relay if @_known_relays.present?
         end
 
         # TODO: add logic for just selecting the first available relay.

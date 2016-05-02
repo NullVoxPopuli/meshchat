@@ -5,6 +5,20 @@ module Meshchat
   module Debug
     module_function
 
+    # TODO: extract this idea to a gem
+    #       - automatic logging of method calls
+    def log(method_list)
+      method_list = Array[method_list]
+      method_list.each do |method|
+        backup_name = "#{method}_bak".to_sym
+        alias backup_name method
+        define_method(method) do |*args|
+          Display.debug("##{method}: ")
+          Display.debug(args.inspect)
+        end
+      end
+    end
+
     def message_type_not_found(type)
       Display.debug('Type not found: ' + type.to_s)
     end

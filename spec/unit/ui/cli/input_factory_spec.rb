@@ -51,14 +51,6 @@ describe Meshchat::Ui::CLI::InputFactory do
         expect(factory._message_dispatcher).to receive(:send_message)
         i.handle
       end
-
-      skip 'renders the message to json' do
-        pending('how to test?')
-        msg = 'hi test'
-        # expect_any_instance_of(Meshchat::Message::Chat).to receive(:display)
-        i = factory.create(for_input: msg)
-        i.handle
-      end
     end
   end
 end

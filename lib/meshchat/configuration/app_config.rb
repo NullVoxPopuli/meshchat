@@ -16,7 +16,6 @@ module Meshchat
         @_options = DEFAULTS.merge(options)
         @_options[:user] = Configuration::Settings.new
 
-
         locale_path = 'lib/meshchat/locale/'
         # I18n.load_path = Dir[locale_path + '*.yml']
         I18n.backend.store_translations(:en,

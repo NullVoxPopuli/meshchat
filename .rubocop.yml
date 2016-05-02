@@ -18,6 +18,9 @@ Style/Alias:
 Style/StringLiterals:
   EnforcedStyle: single_quotes
 
+Style/AndOr:
+  Enabled: false
+
 Metrics/AbcSize:
   Max: 35 # TODO: Lower to 15
 

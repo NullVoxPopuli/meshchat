@@ -21,7 +21,6 @@ module Meshchat
           EM.start_server '0.0.0.0', port, server_class, _message_dispatcher
         end
 
-
         # @param [Node] node - the node describing the person you're sending a message to
         # @param [JSON] encrypted_message - the message intended for the person at the location
         # @param [Block] error_callback - what to do in case of failure

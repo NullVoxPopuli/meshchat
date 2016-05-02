@@ -5,7 +5,6 @@ module Meshchat
       # decodes an encrypted message and handles it.
       # also update's the info of the sender
       class MessageProcessor
-
         attr_reader :_network, :_location
         attr_reader :_message_factory, :_message_dispatcher
 
@@ -40,7 +39,7 @@ module Meshchat
           # if the sender isn't currently marked as active,
           # perform the server list exchange
           node = Node.find_by_uid(sender['uid'])
-          raise Errors::Forbidden.new('node not found') if node.nil?
+          raise Errors::Forbidden, 'node not found' if node.nil?
 
           # if we are receiving a message from a node we had previously
           # known to be offline, we need to do the node list hash dance

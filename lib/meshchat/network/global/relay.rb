@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'action_cable_client'
 
 module Meshchat
@@ -9,7 +10,7 @@ module Meshchat
         CHANNEL = 'MeshRelayChannel'
 
         attr_reader :_url, :_client, :_request_processor
-        delegate :perform, :to => :_client
+        delegate :perform, to: :_client
 
         def initialize(url, message_dispatcher)
           @_url = url
@@ -64,7 +65,6 @@ module Meshchat
           end
         end
 
-
         # TODO: what does an error message look like?
         # TODO: what are situations in which we receive an error message?
         def process_error(message)
@@ -87,7 +87,6 @@ module Meshchat
             # Display.info "#{node.alias_name} has ventured offline"
             # Debug.person_not_online(node, message, e)
           end
-
         end
       end
     end

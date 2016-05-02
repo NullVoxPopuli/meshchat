@@ -3,5 +3,4 @@ require 'spec_helper'
 
 describe Meshchat::Network::Message::Whisper do
   let(:klass) { Meshchat::Network::Message::Whisper }
-
 end

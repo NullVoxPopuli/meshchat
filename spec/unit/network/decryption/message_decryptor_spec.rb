@@ -8,7 +8,6 @@ describe Meshchat::Network::Decryption::MessageDecryptor do
   end
 
   describe '#process_json' do
-
     it 'whisper' do
       message_dispatcher = Meshchat::Network::Dispatcher.new
       allow(message_dispatcher).to receive(:send_message)

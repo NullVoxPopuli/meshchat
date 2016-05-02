@@ -5,7 +5,6 @@ module Meshchat
       # all this does is pull the encrypted message out of
       # the received request
       class RequestProcessor
-
         attr_reader :_message_processor
 
         def initialize(network: NETWORK_LOCAL, message_dispatcher: nil, location: nil)

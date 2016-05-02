@@ -42,7 +42,7 @@ module Meshchat
 
           parameters = parameters_for(data)
           klass = TYPES[type]
-          raise Errors::MessageTypeNotRecognized.new unless klass
+          raise Errors::MessageTypeNotRecognized unless klass
           klass.new(parameters)
         end
 

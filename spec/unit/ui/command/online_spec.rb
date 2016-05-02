@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe Meshchat::Ui::Command::Online do
-  let (:klass) { Meshchat::Ui::Command::Online }
+  let(:klass) { Meshchat::Ui::Command::Online }
 
   before(:each) do
     mock_settings_objects

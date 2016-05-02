@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'Message Coloring' do
   let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
-  let(:message_factory){ message_dispatcher._message_factory }
+  let(:message_factory) { message_dispatcher._message_factory }
   before(:each) do
     start_fake_relay_server
     mock_settings_objects

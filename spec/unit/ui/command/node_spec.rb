@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe Meshchat::Ui::Command::Irb do
-  let (:klass) { Meshchat::Ui::Command::Irb }
+  let(:klass) { Meshchat::Ui::Command::Irb }
 
   before(:each) do
     mock_settings_objects

@@ -7,7 +7,6 @@ def mock_settings_objects
   s._hash = Meshchat::Configuration::Settings::DEFAULT_SETTINGS.dup
   s.save
 
-
   Meshchat::APP_CONFIG[:user] = s
   Meshchat::APP_CONFIG.user['port'] = 0
   allow(Meshchat::Encryption).to receive(:current_encryptor){

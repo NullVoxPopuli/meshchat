@@ -11,7 +11,7 @@ describe Meshchat::Ui::Command::Base do
     end
 
     it 'is implemented' do
-      input_factory = Meshchat::Ui::CLI::InputFactory.new(nil,nil,nil)
+      input_factory = Meshchat::Ui::CLI::InputFactory.new(nil, nil, nil)
       i = klass.new('/config set', nil, nil, input_factory)
       expect(i.handle).to_not eq 'not implemented...'
     end

@@ -2,13 +2,12 @@
 require 'spec_helper'
 
 describe Meshchat::Ui::Command::Ping do
-  let (:klass) { Meshchat::Ui::Command::Ping }
+  let(:klass) { Meshchat::Ui::Command::Ping }
   before(:each) do
     mock_settings_objects
   end
 
   describe '#handle' do
-
     it 'cannot find the server' do
       c = klass.new('/ping alias noone', nil, nil, nil)
       expect(c.handle).to eq 'noone could not be found'

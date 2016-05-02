@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe Meshchat::Ui::Command::Config do
-  let (:klass) { Meshchat::Ui::Command::Config }
+  let(:klass) { Meshchat::Ui::Command::Config }
 
   describe '#handle' do
     context 'set' do

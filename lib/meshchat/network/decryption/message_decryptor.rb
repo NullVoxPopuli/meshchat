@@ -24,7 +24,7 @@ module Meshchat
         rescue => e
           Display.debug e.message
           Display.debug e.backtrace.join("\n")
-          raise Errors::BadRequest.new('could not parse json')
+          raise Errors::BadRequest, 'could not parse json'
         end
 
         def try_decrypt(input)
@@ -35,7 +35,7 @@ module Meshchat
             Display.debug e.message
             Display.debug e.backtrace.join("\n")
             Display.debug input
-            raise Errors::NotAuthorized.new(e.message)
+            raise Errors::NotAuthorized, e.message
           end
 
           input

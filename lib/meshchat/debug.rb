@@ -11,7 +11,7 @@ module Meshchat
       method_list = Array[method_list]
       method_list.each do |method|
         backup_name = "#{method}_bak".to_sym
-        alias backup_name method
+        alias_method :backup_name, :method
         define_method(method) do |*args|
           Display.debug("##{method}: ")
           Display.debug(args.inspect)

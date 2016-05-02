@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe Meshchat::Ui::Display::Manager do
-  let (:klass) { Meshchat::Ui::Display::Manager }
+  let(:klass) { Meshchat::Ui::Display::Manager }
   let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
   before(:each) do
     start_fake_relay_server

@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe Meshchat::Ui::Command::Exit do
-  let (:klass) { Meshchat::Ui::Command::Exit }
+  let(:klass) { Meshchat::Ui::Command::Exit }
 
   describe '#handle' do
     it 'alerts the user' do

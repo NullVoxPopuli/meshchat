@@ -36,11 +36,9 @@ module Debug
     end
 
     def info(msg)
-      message_parts_for(msg) do |time, from, message|
+      message_parts_for(msg) do |_time, _from, message|
         puts message.colorize(:light_black)
       end
-
-
     end
 
     def message_parts_for(msg)
@@ -77,14 +75,14 @@ module Debug
     end
 
     def whisper(msg)
-      words = msg.split(' ')
-      time = words[0..1]
-      name = words[2]
-      message = words[3..words.length]
+      message_parts_for(msg) do |time, name, message|
+        colored_time = (time.to_s + ' ').colorize(:magenta)
+        colored_name = (name + ' ').colorize(:light_black)
 
-      print (time.join(' ') + ' ').colorize(:magenta)
-      print (name + ' ').colorize(:light_black)
-      print message.join(' ') + "\n"
+        print colored_time
+        print colored_name
+        print message + "\n"
+      end
     end
   end
 end

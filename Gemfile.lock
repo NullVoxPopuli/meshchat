@@ -39,7 +39,7 @@ GEM
       simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.1)
     colorize (0.7.7)
-    concurrent-ruby (1.0.1)
+    concurrent-ruby (1.0.2)
     cookiejar (0.3.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
@@ -108,7 +108,7 @@ GEM
     thread_safe (0.3.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    unicode-display_width (1.0.3)
+    unicode-display_width (1.0.5)
     websocket (1.2.3)
     yard (0.8.7.6)
 

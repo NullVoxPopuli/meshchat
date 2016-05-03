@@ -23,7 +23,7 @@ describe Meshchat::Network::Message::Factory do
       describe '#display' do
         it 'includes the "to" name' do
           m = factory.create(
-            type: Meshchat::Network::Message::WHISPER,
+            Meshchat::Network::Message::WHISPER,
             data: {
               message: 'message',
               to: 'target'
@@ -34,7 +34,7 @@ describe Meshchat::Network::Message::Factory do
 
         it 'includes the "from" name' do
           m = factory.create(
-            type: Meshchat::Network::Message::WHISPER,
+            Meshchat::Network::Message::WHISPER,
             data: {
               message: 'message',
               to: 'target'

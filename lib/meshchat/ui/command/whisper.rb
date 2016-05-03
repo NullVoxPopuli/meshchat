@@ -21,7 +21,7 @@ module Meshchat
 
           if node
             m = _message_factory.create(
-              type: Network::Message::WHISPER,
+              Network::Message::WHISPER,
               data: {
                 message: message,
                 to: target

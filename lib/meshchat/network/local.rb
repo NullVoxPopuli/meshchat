@@ -5,7 +5,7 @@ module Meshchat
       extend ActiveSupport::Autoload
       eager_autoload do
         autoload :Server
-        autoload :ConnectionFacade
+        autoload :Connection
       end
     end
   end

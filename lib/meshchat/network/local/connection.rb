@@ -4,7 +4,7 @@ require 'em-http-request'
 module Meshchat
   module Network
     module Local
-      class ConnectionFacade
+      class Connection
         attr_reader :_message_factory, :_message_dispatcher
 
         def initialize(dispatcher, message_factory)

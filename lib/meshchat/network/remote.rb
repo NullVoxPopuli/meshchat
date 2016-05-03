@@ -4,7 +4,7 @@ module Meshchat
     module Remote
       extend ActiveSupport::Autoload
       eager_autoload do
-        autoload :ConnectionFacade
+        autoload :Connection
         autoload :RelayPool
         autoload :Relay
       end

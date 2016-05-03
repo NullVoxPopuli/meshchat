@@ -14,8 +14,8 @@ module Meshchat
 
       def initialize
         @_message_factory = Message::Factory.new(self)
-        @_local_client = Local::ConnectionFacade.new(self, @_message_factory)
-        @_relay_client = Remote::ConnectionFacade.new(self, @_message_factory)
+        @_local_client = Local::Connection.new(self, @_message_factory)
+        @_relay_client = Remote::Connection.new(self, @_message_factory)
       end
 
       # @note Either the location, node, or uid should be present

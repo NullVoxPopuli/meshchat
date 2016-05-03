@@ -30,28 +30,39 @@ module Meshchat
           uid = payload['sender']['uid']
 
           if we_only_have.present?
-            Display.debug 'we have nodes that they do not'
-
-            # give the sender our list
-            _message_dispatcher.send_message(
-              uid: uid,
-              message: NodeListDiff.new(message: we_only_have)
-            )
-
-            # give people we know about
-            # (but the sender of the Node List may not know about)
-            # our node list diff
-            Node.online.each do |entry|
-              message_dispatcher.send_message(
-                node: entry,
-                message: NodeListDiff.new(message: they_only_have)
-              )
-            end
+            respond_with_what_we_have(we_only_have, they_only_have, uid)
           else
             Display.debug 'node lists are in sync'
-
+            nlh_message = _message_factory.create(Network::Message::NODE_LIST_HASH)
             # lists are in sync, confirm with hash
-            _message_dispatcher.send_message(uid: uid, message: NodeListHash.new)
+            _message_dispatcher.send_message(uid: uid, message: nlh_message)
+          end
+        end
+
+        def respond_with_what_we_have(we_only_have, they_only_have, uid)
+          Display.debug 'we have nodes that they do not'
+
+          we_only_have_message = _message_factory.create(
+            Network::Message::NODE_LIST_DIFF,
+            data: { message: we_only_have })
+
+          they_only_have_message = _message_factory.create(
+            Network::Message::NODE_LIST_DIFF,
+            data: { message: they_only_have })
+
+          # give the sender our list
+          _message_dispatcher.send_message(
+            uid: uid,
+            message: we_only_have_message
+          )
+
+          # give people we know about
+          # (but the sender of the Node List may not know about)
+          # our node list diff
+          Node.online.each do |node|
+            _message_dispatcher.send_message(
+              node: node,
+              message: they_only_have_message)
           end
         end
       end

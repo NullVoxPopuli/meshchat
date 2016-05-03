@@ -9,7 +9,7 @@ module Meshchat
 
         def handle
           if command_valid?
-            msg = Network::Message::Ping.new
+            msg = _message_factory.create(Network::Message::PING)
 
             field, value = parse_ping_command
 

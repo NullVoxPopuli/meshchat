@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Meshchat
   module Network
-    module Decryption
+    module Incoming
       # all this does is pull the encrypted message out of
       # the received request
       class RequestProcessor

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require 'spec_helper'
 
-describe Meshchat::Network::Decryption::MessageProcessor do
-  let(:klass) { Meshchat::Network::Decryption::MessageProcessor }
+describe Meshchat::Network::Incoming::MessageProcessor do
+  let(:klass) { Meshchat::Network::Incoming::MessageProcessor }
   let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
   let(:message_processor) { klass.new(message_dispatcher: message_dispatcher) }
   before(:each) do

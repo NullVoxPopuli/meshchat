@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require 'spec_helper'
 
-describe Meshchat::Network::Decryption::MessageDecryptor do
-  let(:klass) { Meshchat::Network::Decryption::MessageDecryptor }
+describe Meshchat::Network::Incoming::MessageDecryptor do
+  let(:klass) { Meshchat::Network::Incoming::MessageDecryptor }
   before(:each) do
     mock_settings_objects
   end

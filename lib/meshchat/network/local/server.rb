@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# require 'em-http-server'
 require 'evma_httpserver'
 
 module Meshchat
@@ -18,7 +17,7 @@ module Meshchat
 
         def initialize(message_dispatcher)
           @_message_dispatcher = message_dispatcher
-          @_request_processor = Decryption::RequestProcessor.new(
+          @_request_processor = Incoming::RequestProcessor.new(
             network: NETWORK_LOCAL,
             message_dispatcher: message_dispatcher)
         end

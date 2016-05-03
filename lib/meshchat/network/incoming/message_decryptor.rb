@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Meshchat
   module Network
-    module Decryption
+    module Incoming
       class MessageDecryptor
         attr_reader :_json, :_message, :_input
         attr_reader :_message_factory

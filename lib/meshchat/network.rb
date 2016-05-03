@@ -9,7 +9,7 @@ module Meshchat
       autoload :Errors
       autoload :Message
       autoload :Dispatcher
-      autoload :Decryption
+      autoload :Incoming
       autoload :Local
       autoload :Remote
       autoload :MessageProcessor

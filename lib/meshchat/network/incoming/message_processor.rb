@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Meshchat
   module Network
-    module Decryption
+    module Incoming
       # decodes an encrypted message and handles it.
       # also update's the info of the sender
       class MessageProcessor

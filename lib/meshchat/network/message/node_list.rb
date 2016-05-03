@@ -32,22 +32,26 @@ module Meshchat
           if we_only_have.present?
             respond_with_what_we_have(we_only_have, they_only_have, uid)
           else
-            Display.debug 'node lists are in sync'
-            nlh_message = _message_factory.create(Network::Message::NODE_LIST_HASH)
-            # lists are in sync, confirm with hash
-            _message_dispatcher.send_message(uid: uid, message: nlh_message)
+            respond_with_confirmation_of_in_sync(uid)
           end
+        end
+
+        def respond_with_confirmation_of_in_sync(uid)
+          Display.debug 'node lists are in sync'
+          nlh_message = _message_factory.create(NODE_LIST_HASH)
+          # lists are in sync, confirm with hash
+          _message_dispatcher.send_message(uid: uid, message: nlh_message)
         end
 
         def respond_with_what_we_have(we_only_have, they_only_have, uid)
           Display.debug 'we have nodes that they do not'
 
           we_only_have_message = _message_factory.create(
-            Network::Message::NODE_LIST_DIFF,
+            NODE_LIST_DIFF,
             data: { message: we_only_have })
 
           they_only_have_message = _message_factory.create(
-            Network::Message::NODE_LIST_DIFF,
+            NODE_LIST_DIFF,
             data: { message: they_only_have })
 
           # give the sender our list

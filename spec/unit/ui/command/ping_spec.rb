@@ -3,23 +3,28 @@ require 'spec_helper'
 
 describe Meshchat::Ui::Command::Ping do
   let(:klass) { Meshchat::Ui::Command::Ping }
+  let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
+  let(:message_factory){ message_dispatcher._message_factory }
+
   before(:each) do
     mock_settings_objects
+    allow(message_dispatcher).to receive(:send_message) {}
+    allow(message_dispatcher._local_client).to receive(:start_server)
   end
 
   describe '#handle' do
     it 'cannot find the server' do
-      c = klass.new('/ping alias noone', nil, nil, nil)
+      c = klass.new('/ping alias noone', message_dispatcher, message_factory, nil)
       expect(c.handle).to eq 'noone could not be found'
     end
 
     it 'shows usage' do
-      c = klass.new('/ping', nil, nil, nil)
+      c = klass.new('/ping', message_dispatcher, message_factory, nil)
       expect(c.handle).to eq c.usage
     end
 
     it 'tries to send' do
-      c = klass.new('/ping location noone', nil, nil, nil)
+      c = klass.new('/ping location noone', message_dispatcher, message_factory, nil)
       # does not return when sending
       expect(c.handle).to eq 'noone could not be found'
     end

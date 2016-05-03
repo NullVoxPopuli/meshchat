@@ -19,9 +19,10 @@ module Meshchat
         end
 
         def respond
+          reply = _message_factory.create(PING_REPLY)
           _message_dispatcher.send_message(
             uid: payload['sender']['uid'],
-            message: PingReply.new
+            message: reply
           )
         end
       end

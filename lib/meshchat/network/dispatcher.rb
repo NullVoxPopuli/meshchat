@@ -30,7 +30,7 @@ module Meshchat
         # don't proceed if we don't have a node
         return unless node
         # don't send to ourselves
-        # return if APP_CONFIG.user['uid'] == node.uid
+        return if APP_CONFIG.user['uid'] == node.uid
 
         # everything is valid so far... DISPATCH!
         dispatch!(node, message)

@@ -4,6 +4,7 @@ require 'spec_helper'
 describe Meshchat::Network::Message::NodeList do
   let(:klass) { Meshchat::Network::Message::NodeList }
   let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
+  let(:message_factory) { message_dispatcher._message_factory }
   before(:each) do
     mock_settings_objects
     allow(message_dispatcher).to receive(:send_message) {}
@@ -38,14 +39,14 @@ describe Meshchat::Network::Message::NodeList do
         }], []]
       }
 
-      msg = klass.new(message_dispatcher: message_dispatcher)
+      msg = klass.new(message_dispatcher: message_dispatcher, message_factory: message_factory)
       msg.respond
     end
 
     it 'sendsa  node list hash as confirmation that lists are in sync' do
       expect(message_dispatcher).to receive(:send_message)
       expect(Meshchat::Network::Message::NodeListHash).to receive(:new)
-      msg = klass.new(message_dispatcher: message_dispatcher)
+      msg = klass.new(message_dispatcher: message_dispatcher,  message_factory: message_factory)
       msg.respond
     end
   end

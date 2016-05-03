@@ -4,6 +4,7 @@ require 'spec_helper'
 describe Meshchat::Network::Message::Ping do
   let(:klass) { Meshchat::Network::Message::Ping }
   let(:message_dispatcher) { Meshchat::Network::Dispatcher.new }
+  let(:message_factory) { message_dispatcher._message_factory }
   before(:each) do
     mock_settings_objects
     allow(message_dispatcher).to receive(:send_message)
@@ -19,7 +20,7 @@ describe Meshchat::Network::Message::Ping do
 
   context 'display' do
     it 'displays who pinged' do
-      msg = klass.new
+      msg = klass.new(message_dispatcher: message_dispatcher)
       msg.payload = {
         'sender' => {
           'alias' => 'me',
@@ -47,7 +48,7 @@ describe Meshchat::Network::Message::Ping do
 
   context 'respond' do
     it 'shoots off a ping reply to the sender of the ping' do
-      msg = klass.new(message_dispatcher: message_dispatcher)
+      msg = klass.new(message_dispatcher: message_dispatcher, message_factory: message_factory)
       msg.respond
     end
   end

@@ -30,7 +30,7 @@ module Meshchat
         # don't proceed if we don't have a node
         return unless node
         # don't send to ourselves
-        # return if APP_CONFIG.user['uid'] == node.uid
+        return if APP_CONFIG.user['uid'] == node.uid
 
         # everything is valid so far... DISPATCH!
         dispatch!(node, message)
@@ -44,11 +44,11 @@ module Meshchat
         message = encrypted_message(node, message)
 
         # determine last known sending method
-        # if node.on_local_network?
+        if node.on_local_network?
           try_dispatching_over_local_network_first(node, message)
-        # else
-          # try_dispatching_over_the_relay_first(node, message)
-        # end
+        else
+          try_dispatching_over_the_relay_first(node, message)
+        end
       end
 
       # this attempts to send over http to the local network,

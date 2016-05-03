@@ -3,12 +3,37 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'pry-byebug' # binding.pry to debug!
-require 'em-rspec'
+# require 'em-rspec'
+
+RSpec::Core::Example.class_eval do
+  alias ignorant_run run
+
+  def run(example_group_instance, reporter)
+    # Fiber.new do
+      EM.run do
+        df = EM::DefaultDeferrable.new
+        df.callback { |x| EM.stop }
+        ignorant_run example_group_instance, reporter
+        df.succeed
+
+      end
+    # end.resume
+  end
+end
+
 # Coverage
 ENV['CODECLIMATE_REPO_TOKEN'] = 'ebeb5501b6c1565ecae39466e571a52c956796eb6782caa1bfcfd24e9a99ea39'
 require 'codeclimate-test-reporter'
+# require 'simplecov'
 CodeClimate::TestReporter.start
-SimpleCov.start {}
+
+# SimpleCov.minimum_coverage 80
+SimpleCov.start do
+  # add_group 'encryption', 'lib/meshchat/encryption'
+  # add_group 'models', 'lib/meshchat/models'
+  # add_group 'network', 'lib/meshchat/network'
+  # add_gorup 'ui', 'lib/meshchat/ui'
+end
 # This Gem
 require 'meshchat'
 

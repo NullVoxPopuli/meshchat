@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Meshchat
   module Network
-    module Global
+    module Remote
       class Connection
         attr_reader :_message_factory, :_message_dispatcher
         attr_reader :_relay_pool

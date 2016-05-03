@@ -11,7 +11,7 @@ module Meshchat
       autoload :Dispatcher
       autoload :Decryption
       autoload :Local
-      autoload :Global
+      autoload :Remote
       autoload :MessageProcessor
       autoload :RequestProcessor
     end

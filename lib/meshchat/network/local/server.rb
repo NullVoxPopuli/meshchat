@@ -14,10 +14,13 @@ module Meshchat
         SERVER_ERROR = 500
 
         def initialize(message_dispatcher)
+          raise 'wat'
           @_message_dispatcher = message_dispatcher
           @_request_processor = Decryption::RequestProcessor.new(
             network: NETWORK_LOCAL,
             message_dispatcher: message_dispatcher)
+
+          ap 'test?'
         end
 
         def process_http_request

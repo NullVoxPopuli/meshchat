@@ -17,8 +17,10 @@ module Meshchat
 
         def start_server
           port = APP_CONFIG.user['port']
-          server_class = Network::Local::Server
-          EM.start_server '0.0.0.0', port, server_class, _message_dispatcher
+          Display.info "listening on port #{port}"
+          EM.start_server(
+            '0.0.0.0', port,
+            Network::Local::Server, _message_dispatcher)
         end
 
         # @param [Node] node - the node describing the person you're sending a message to

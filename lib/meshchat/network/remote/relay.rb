@@ -3,7 +3,7 @@ require 'action_cable_client'
 
 module Meshchat
   module Network
-    module Global
+    module Remote
       class Relay
         # This channel is determine by the server, see
         # https://github.com/NullVoxPopuli/mesh-relay/blob/master/app/channels/mesh_relay_channel.rb

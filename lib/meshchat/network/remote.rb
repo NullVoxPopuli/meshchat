@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Meshchat
   module Network
-    module Global
+    module Remote
       extend ActiveSupport::Autoload
       eager_autoload do
         autoload :Connection

@@ -36,7 +36,7 @@ module Meshchat
         # If data contains the payload key, we are receiving the message.
         # If data does not caine the payload key, we are buliding the message
         # to send
-        def create(type: '', data: {})
+        def create(type = '', data: {})
           return Debug.message_type_not_found(type + 'not found') if type.blank?
           data = data.deep_symbolize_keys
 
@@ -58,8 +58,10 @@ module Meshchat
           data[:payload].present?
         end
 
+        # ensures a payload exists, as well as assigns the
+        # message dispatcher and message factory
         def receiving_parameters_for(data)
-          { payload: data[:payload] }
+          { payload: data[:payload] }.merge(_common_parameters)
         end
 
         def sending_parameters_for(data)

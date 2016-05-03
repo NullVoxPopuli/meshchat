@@ -8,7 +8,7 @@ module Meshchat
         end
 
         def handle
-          message = _message_factory.create(type: Network::Message::DISCONNECT)
+          message = _message_factory.create(Network::Message::DISCONNECT)
 
           Node.all.each do |n|
             _message_dispatcher.send_message(node: n, message: message)

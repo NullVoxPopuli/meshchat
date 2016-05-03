@@ -14,7 +14,7 @@ module Meshchat
               Display.success "#{node.alias_name} successfully imported"
 
               # send the server list to this new node
-              node_list = _message_factory.create(type: Network::Message::NODE_LIST)
+              node_list = _message_factory.create(Network::Message::NODE_LIST)
               _message_dispatcher.send_message(node: node, message: node_list)
             else
               Display.alert "#{node.alias_name} is invalid"

@@ -51,7 +51,7 @@ module Meshchat
         def process_message(message)
           Debug.received_message_from_relay(message, _url)
 
-          identifier, type, message = message.values_at('identifier', 'type', 'message')
+          _, type, message = message.values_at('identifier', 'type', 'message')
 
           # do we want to do anything here?
           return if type == 'confirm_subscription'

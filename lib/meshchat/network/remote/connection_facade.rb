@@ -2,7 +2,7 @@
 module Meshchat
   module Network
     module Remote
-      class Connection
+      class ConnectionFacade
         attr_reader :_message_factory, :_message_dispatcher
         attr_reader :_relay_pool
 

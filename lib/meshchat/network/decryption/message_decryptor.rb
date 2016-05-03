@@ -43,7 +43,7 @@ module Meshchat
 
         def process_json
           type = _json['type']
-          _message_factory.create(type: type, data: { payload: _json })
+          _message_factory.create(type, data: { payload: _json })
         end
       end
     end

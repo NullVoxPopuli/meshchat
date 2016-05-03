@@ -14,8 +14,8 @@ module Meshchat
 
       def initialize
         @_message_factory = Message::Factory.new(self)
-        @_local_client = Local::Connection.new(self, @_message_factory)
-        @_relay_client = Remote::Connection.new(self, @_message_factory)
+        @_local_client = Local::ConnectionFacade.new(self, @_message_factory)
+        @_relay_client = Remote::ConnectionFacade.new(self, @_message_factory)
       end
 
       # @note Either the location, node, or uid should be present
@@ -30,7 +30,7 @@ module Meshchat
         # don't proceed if we don't have a node
         return unless node
         # don't send to ourselves
-        return if APP_CONFIG.user['uid'] == node.uid
+        # return if APP_CONFIG.user['uid'] == node.uid
 
         # everything is valid so far... DISPATCH!
         dispatch!(node, message)
@@ -45,9 +45,9 @@ module Meshchat
 
         # determine last known sending method
         # if node.on_local_network?
-        # try_dispatching_over_local_network_first(node, message)
+          try_dispatching_over_local_network_first(node, message)
         # else
-        try_dispatching_over_the_relay_first(node, message)
+          # try_dispatching_over_the_relay_first(node, message)
         # end
       end
 

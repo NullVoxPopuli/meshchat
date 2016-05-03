@@ -1,10 +1,13 @@
 # frozen_string_literal: true
-require 'em-http-server'
+# require 'em-http-server'
+require 'evma_httpserver'
 
 module Meshchat
   module Network
     module Local
-      class Server < EM::HttpServer::Server
+      # This is created every request
+      class Server < EM::Connection
+        include EM::HttpServer
         attr_reader :_message_dispatcher, :_request_processor
 
         OK = 200
@@ -14,27 +17,28 @@ module Meshchat
         SERVER_ERROR = 500
 
         def initialize(message_dispatcher)
-          raise 'wat'
           @_message_dispatcher = message_dispatcher
           @_request_processor = Decryption::RequestProcessor.new(
             network: NETWORK_LOCAL,
             message_dispatcher: message_dispatcher)
-
-          ap 'test?'
         end
 
         def process_http_request
           # the http request details are available via the following instance variables:
-          # puts  @http_request_method
-          # puts  @http_request_uri
-          # puts  @http_query_string
-          # puts  @http_protocol
-          # puts  @http_content
-          # puts  @http[:cookie]
-          # puts  @http[:content_type]
-          # # you have all the http headers in this hash
-          # puts  @http.inspect
-          process(@http_content)
+          #   @http_protocol
+          #   @http_request_method
+          #   @http_cookie
+          #   @http_if_none_match
+          #   @http_content_type
+          #   @http_path_info
+          #   @http_request_uri
+          #   @http_query_string
+          #   @http_post_content
+          #   @http_headers
+          # view what instance variables are available thorugh the
+          # instance_variables method
+
+          process(@http_post_content)
           build_response
         end
 

@@ -4,7 +4,7 @@ require 'em-http-request'
 module Meshchat
   module Network
     module Local
-      class Connection
+      class ConnectionFacade
         attr_reader :_message_factory, :_message_dispatcher
 
         def initialize(dispatcher, message_factory)
@@ -18,8 +18,7 @@ module Meshchat
         def start_server
           port = APP_CONFIG.user['port']
           Display.info "listening on port #{port}"
-          EM.start_server(
-            '0.0.0.0', port,
+          EM.start_server('0.0.0.0', port,
             Network::Local::Server, _message_dispatcher)
         end
 

@@ -48,7 +48,7 @@ module Meshchat
             node.update(on_local_network: true) if is_processing_for_local?
             node.update(on_relay: true) if is_processing_for_relay?
 
-            nlh = _message_factory.create(type: Message::NODE_LIST_HASH)
+            nlh = _message_factory.create(Message::NODE_LIST_HASH)
             _message_dispatcher.send_message(node: node, message: nlh)
           end
 

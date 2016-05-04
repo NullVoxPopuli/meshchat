@@ -12,24 +12,26 @@ module Meshchat
         attr_reader :_url, :_client, :_request_processor
         attr_accessible :_connected
         delegate :perform, to: :_client
+        delegate :connected?, to: :_client
 
-        def initialize(url, message_dispatcher)
+        def initialize(url, message_dispatcher, connected: nil)
           @_url = url
           @_request_processor = Incoming::RequestProcessor.new(
             network: NETWORK_RELAY,
             location: url,
             message_dispatcher: message_dispatcher)
 
-          setup
+          setup(connected: connected)
         end
 
-        def setup
+        def setup(connected: nil)
           path = "#{_url}?uid=#{APP_CONFIG.user['uid']}"
           @_client = ActionCableClient.new(path, CHANNEL)
 
           # don't output anything upon connecting
           _client.connected {
             self._connected = true
+            connected.call if connected
           }
 
           # If there are errors, report them!

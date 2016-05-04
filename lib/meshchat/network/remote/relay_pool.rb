@@ -22,15 +22,29 @@ module Meshchat
         # TODO: add logic for just selecting the first available relay.
         #       we only need one connection.
         # @return [Array] an array of action cable clients
-        def find_initial_relay
+        def find_initial_relay(connected: nil)
           url = _known_relays.first
-          @_active_relay = Relay.new(url, _message_dispatcher)
+          @_active_relay = Relay.new(
+            url, _message_dispatcher,
+            connected: connected)
         end
 
         # @param [Hash] payload - the message payload
         def send_payload(payload)
           return if _active_relay.blank?
-          _active_relay.perform('chat', payload)
+
+          ensure_active_connection! do
+            _active_relay.perform('chat', payload)
+          end
+        end
+
+        def ensure_active_connection!(&block)
+          # TODO: make action_cable_client return a boolean
+          # if _active_relay.connected? == -1
+            # find_initial_relay(connected: block)
+          # else
+            yield
+          # end
         end
       end
     end

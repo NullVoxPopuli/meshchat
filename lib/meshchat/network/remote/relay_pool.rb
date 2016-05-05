@@ -40,11 +40,11 @@ module Meshchat
 
         def ensure_active_connection!(&block)
           # TODO: make action_cable_client return a boolean
-          # if _active_relay.connected? == -1
-            # find_initial_relay(connected: block)
-          # else
+          if !_active_relay.connected?
+            find_initial_relay(connected: block)
+          else
             yield
-          # end
+          end
         end
       end
     end

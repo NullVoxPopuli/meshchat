@@ -10,9 +10,8 @@ module Meshchat
         CHANNEL = 'MeshRelayChannel'
 
         attr_reader :_url, :_client, :_request_processor
-        attr_accessible :_connected
+        attr_accessor :_connected
         delegate :perform, to: :_client
-        delegate :connected?, to: :_client
 
         def initialize(url, message_dispatcher, connected: nil)
           @_url = url
@@ -31,12 +30,15 @@ module Meshchat
           # don't output anything upon connecting
           _client.connected {
             self._connected = true
-            connected.call if connected
           }
 
           # If there are errors, report them!
           _client.errored do |message|
             process_error(message)
+          end
+
+          _client.subscribed do
+            connected.call if connected
           end
 
           # forward the encrypted messages to our RequestProcessor

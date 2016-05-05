@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'eventmachine',            '>= 1.2.0.1'
   s.add_runtime_dependency 'eventmachine_httpserver', '>= 0.2.1'
   s.add_runtime_dependency 'em-http-request',         '>= 1.1.3'
-  s.add_runtime_dependency 'action_cable_client',     '>= 1.2.0'
+  s.add_runtime_dependency 'action_cable_client',     '>= 1.2.6'
   s.add_runtime_dependency 'i18n',                    '>= 0.7.0'
 
   s.add_development_dependency 'rspec'
